@@ -30,7 +30,7 @@
             background-color: #ff5e5e;
             color: white;
             text-align: center;
-            font-size: 1.3rem; /* Default font size */
+            font-size: 1.2rem; /* Default font size */
             z-index: 1000;
             transform: translateY(-100%);
             transition: transform 0.5s ease;
@@ -127,11 +127,11 @@
 
             const windowWidth = window.innerWidth;
             if (windowWidth <= 320) {
-                warningMessage.style.fontSize = '1rem';
+                warningMessage.style.fontSize = '0.8rem';
             } else if (windowWidth <= 480) {
-                warningMessage.style.fontSize = '1.2rem';
+                warningMessage.style.fontSize = '1rem';
             } else {
-                warningMessage.style.fontSize = '1.5rem';
+                warningMessage.style.fontSize = '1.2rem';
             }
         }
 
