@@ -122,6 +122,9 @@
 
         // Adjust font size based on window width (for zooming in/out)
         function adjustFontSize() {
+
+            setRendererSize();
+
             const windowWidth = window.innerWidth;
             if (windowWidth <= 320) {
                 warningMessage.style.fontSize = '1rem';
@@ -143,7 +146,14 @@
         const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
         camera.position.z = 5;
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(700, 700);
+        
+        function setRendererSize() {
+            const canvasDiv = document.getElementById('canvas');
+            renderer.setSize(canvasDiv.clientWidth, canvasDiv.clientWidth);  // Maintain a square aspect ratio
+        }
+
+        setRendererSize();
+
         renderer.setClearColor(0x333333);
         document.getElementById('canvas').appendChild(renderer.domElement);
         
@@ -385,6 +395,8 @@ button:hover, button:active {
 
 /* Canvas and Output Styles */
 #canvas {
+    max-width: 90vw; /* Adjusts to 90% of viewport width */
+    height: auto;    /* Maintains aspect ratio */
     margin: 20px auto;
     border: 2px solid #ffa500; /* Orange border */
     border-radius: 4px;
