@@ -21,19 +21,19 @@
         }
 
         .warning-message {
-            display: none; /* Initially hidden */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            padding: 20px;
-            background-color: #ff5e5e; /* Red color */
+            width: 100vw; /* Use viewport width units to ensure it spans the entire width */
+            padding: 2vw; /* Use viewport width units for consistent padding */
+            background-color: #ff5e5e;
             color: white;
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 4vw; /* Use viewport width units for scalable font size */
             z-index: 1000;
-            transform: translateY(-100%); /* Start from outside the view */
-            transition: transform 0.5s ease; /* Smooth animation */
+            transform: translateY(-100%);
+            transition: transform 0.5s ease;
         }
 
         .warning-message.active {
@@ -111,11 +111,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
 
-        window.onload = function() {
-            if (window.innerWidth <= 768) {
-                document.getElementById('warningMessage').classList.add('active');
-            }
-        };
+    window.onload = function() {
+        var warningMessage = document.getElementById('warningMessage');
+
+        // Check if the device is a mobile device
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // Show the warning message with animation
+            warningMessage.classList.add('active');
+        }
+
+        // Listen to window resize
+        window.addEventListener('resize', function() {
+            // Reset the position of the warning message based on the new viewport size
+            warningMessage.style.width = window.innerWidth + 'px';
+        });
+    }
 
         let isAnimating = false;
         let phaseIncrement = parseFloat(document.getElementById('phaseIncrement').value) * (Math.PI / 180);
