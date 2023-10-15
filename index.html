@@ -25,12 +25,12 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw; /* Use viewport width units to ensure it spans the entire width */
-            padding: 2vw; /* Use viewport width units for consistent padding */
+            width: 100%; /* Adjust width to always span the full viewport width */
+            padding: 10px; /* Adjust padding to be consistent */
             background-color: #ff5e5e;
             color: white;
             text-align: center;
-            font-size: 4vw; /* Use viewport width units for scalable font size */
+            font-size: 1.5rem; /* Default font size */
             z-index: 1000;
             transform: translateY(-100%);
             transition: transform 0.5s ease;
@@ -120,11 +120,21 @@
             warningMessage.classList.add('active');
         }
 
-        // Listen to window resize
-        window.addEventListener('resize', function() {
-            // Reset the position of the warning message based on the new viewport size
-            warningMessage.style.width = window.innerWidth + 'px';
-        });
+        // Adjust font size based on window width (for zooming in/out)
+        function adjustFontSize() {
+            const windowWidth = window.innerWidth;
+            if (windowWidth <= 320) {
+                warningMessage.style.fontSize = '1rem';
+            } else if (windowWidth <= 480) {
+                warningMessage.style.fontSize = '1.2rem';
+            } else {
+                warningMessage.style.fontSize = '1.5rem';
+            }
+        }
+
+        // Call adjustFontSize on load and on resize
+        adjustFontSize();
+        window.addEventListener('resize', adjustFontSize);
     }
 
         let isAnimating = false;
