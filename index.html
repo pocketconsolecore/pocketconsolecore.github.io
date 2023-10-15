@@ -19,10 +19,35 @@
             margin: 20px auto;
             border: 1px solid #ddd;
         }
+
+        .warning-message {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background-color: #ff5e5e; /* Red color */
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            z-index: 1000;
+            transform: translateY(-100%); /* Start from outside the view */
+            transition: transform 0.5s ease; /* Smooth animation */
+        }
+
+        .warning-message.active {
+            display: block;
+            transform: translateY(0);
+        }
     </style>
 </head>
 
 <body>
+
+    <div class="warning-message" id="warningMessage">
+        Please use a laptop or desktop if possible for the best experience.
+    </div>
 
     <nav class="navbar">
         <ul>
