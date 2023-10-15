@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phasor Converter with 2D Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #output {
+            font-weight: bold;
+        }
+        #canvas {
+            width: 700px;
+            height: 700px;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="page1.html">Page 1</a></li>
+            <li><a href="page2.html">Page 2</a></li>
+            <li><a href="page3.html">Page 3</a></li>
+            <!-- Add more links as needed -->
+        </ul>
+    </nav>
+
+
+    <h2>Phasor Converter with 2D Visualization</h2>
+    <h3>By: The platypus</h3>
+    <p>Select input type:</p>
+    <select id="inputType">
+        <option value="complex">Complex (a+bi)</option>
+        <option value="magPhase">Magnitude and Phase</option>
+    </select>
+    <div id="inputFields" style="display: flex; justify-content: center; gap: 20px;">
+        <div class="sinusoid-group">
+            <h4>Sinusoid 1:</h4>
+            <input type="number" id="input1_1" placeholder="a or magnitude">
+            <input type="number" id="input2_1" placeholder="b or phase (in degrees)">
+            <input type="color" id="color_1" value="#FF0000">
+        </div>
+    
+        <div class="sinusoid-group">
+            <h4>Sinusoid 2:</h4>
+            <input type="number" id="input1_2" placeholder="a or magnitude">
+            <input type="number" id="input2_2" placeholder="b or phase (in degrees)">
+            <input type="color" id="color_2" value="#00FF00">
+        </div>
+    
+        <div class="sinusoid-group">
+            <h4>Sinusoid 3:</h4>
+            <input type="number" id="input1_3" placeholder="a or magnitude">
+            <input type="number" id="input2_3" placeholder="b or phase (in degrees)">
+            <input type="color" id="color_3" value="#0000FF">
+        </div>
+    </div>
+    
+
+    <h4>View Settings:</h4>
+    <label for="xmin">X-Min:</label><input type="number" id="xmin" value="-7">
+    <br>
+    <label for="xmax">X-Max:</label><input type="number" id="xmax" value="7">
+    <br>
+    <label for="ymin">Y-Min:</label><input type="number" id="ymin" value="-7">
+    <br>
+    <label for="ymax">Y-Max:</label><input type="number" id="ymax" value="7">
+    <br>
+    <button onclick="updateView()">Update View</button>
+    
+
+    <button onclick="convertPhasor()">Convert</button>
+    <center><p id="output"></p></center>
+    <div id="canvas"></div>
+    <input type="number" id="phaseIncrement" placeholder="Phase Increment (in degrees)">
+    <button id="animateBtn" onclick="toggleAnimation()">Start Animation</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let isAnimating = false;
+        let phaseIncrement = parseFloat(document.getElementById('phaseIncrement').value) * (Math.PI / 180);
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        camera.position.z = 5;
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(700, 700);
+        renderer.setClearColor(0x333333);
+        document.getElementById('canvas').appendChild(renderer.domElement);
+        
+        function addAxisLabels(xmin, xmax, divisions) {
+    const tickSize = (xmax - xmin) / divisions;
+    const loader = new THREE.FontLoader();
+    loader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/fonts/helvetiker_regular.typeface.json', font => {
+        for (let i = 0; i <= divisions; i++) {
+            const value = xmin + i * tickSize;
+            const labelGeometry = new THREE.TextGeometry(String(value.toFixed(2)), {
+                font: font,
+                size: 0.2,
+                height: 0.01
+            });
+
+            const labelMaterial = new THREE.MeshBasicMaterial({ color: 'white' });
+            const label = new THREE.Mesh(labelGeometry, labelMaterial);
+
+            // Positioning the label on the X and Y axis
+            label.position.x = value;
+            label.position.y = -0.5;
+
+            scene.add(label);
+        }
+    });
+}
+
+        function createSinusoid(amplitude, phase, color) {
+            const curve = new THREE.Curve();
+            const samples = 700;
+            const xmin = parseFloat(document.getElementById('xmin').value) || -7;  // Default to -7 if NaN
+            const xmax = parseFloat(document.getElementById('xmax').value) || 7;   // Default to 7 if NaN
+
+            curve.getPoint = function (t) {
+                const x = xmin + t * (xmax - xmin);  // Adjust x based on xmin and xmax
+                const y = amplitude * Math.sin(x + phase);
+                return new THREE.Vector3(x, y, 0);
+            };
+
+            const points = curve.getPoints(samples);
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            const material = new THREE.LineBasicMaterial({ color: color });
+            return new THREE.Line(geometry, material);
+        }
+
+            let gridHelper;
+            function createGrid() {
+                        if (gridHelper) {  // Check if gridHelper already exists
+                scene.remove(gridHelper);  // If yes, remove it from the scene
+            }
+            const xmin = parseFloat(document.getElementById('xmin').value);
+            const xmax = parseFloat(document.getElementById('xmax').value);
+            const size = xmax - xmin;
+
+            // Determine divisions based on range
+            let divisions;
+            if (size <= 10) divisions = 10;
+            else if (size <= 50) divisions = 20;
+            else divisions = 50;
+
+            gridHelper = new THREE.GridHelper(size, divisions, 'white', 'white');
+            gridHelper.rotation.x = Math.PI / 2;
+            scene.add(gridHelper);
+            addAxisLabels(xmin, xmax, divisions);
+        }
+        createGrid();
+
+
+        let sinusoids = [createSinusoid(1, 0), createSinusoid(1, 0), createSinusoid(1, 0)];
+        sinusoids.forEach(s => scene.add(s));
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        function updateView() {
+            const xmin = parseFloat(document.getElementById('xmin').value);
+            const xmax = parseFloat(document.getElementById('xmax').value);
+            const range = Math.abs(xmax - xmin);
+
+            // Adjust the camera's position based on the x range
+            camera.position.z = 5 + range * 0.05;
+
+            createGrid();  // Refresh the grid
+            convertPhasor();
+}
+
+        animate();
+        function updateAnimation() {
+            if (isAnimating) {
+                for (let i = 1; i <= 3; i++) {
+                    const currentPhase = parseFloat(document.getElementById(`input2_${i}`).value) * (Math.PI / 180);
+                    const newPhase = currentPhase + phaseIncrement;
+                    document.getElementById(`input2_${i}`).value = (newPhase * (180 / Math.PI)).toFixed(2);
+                }
+                convertPhasor();
+                requestAnimationFrame(updateAnimation);
+            }
+        }
+        function toggleAnimation() {
+            phaseIncrement = parseFloat(document.getElementById('phaseIncrement').value) * (Math.PI / 180);
+            isAnimating = !isAnimating;
+            if (isAnimating) {
+                document.getElementById('animateBtn').innerText = 'Stop Animation';
+                updateAnimation();
+            } else {
+                document.getElementById('animateBtn').innerText = 'Start Animation';
+            }
+        }
+        function convertPhasor() {
+            const inputType = document.getElementById('inputType').value;
+    let outputs = [];
+    for (let i = 1; i <= 3; i++) {
+        const input1 = parseFloat(document.getElementById(`input1_${i}`).value);
+        const input2 = parseFloat(document.getElementById(`input2_${i}`).value);
+        const color = document.getElementById(`color_${i}`).value;  // Get the color value
+        let amplitude, phase, output;
+        if (inputType === 'complex') {
+            amplitude = Math.sqrt(input1 * input1 + input2 * input2);
+            phase = Math.atan2(input2, input1);
+            output = `Sinusoid ${i}: [${amplitude.toFixed(2)}, ${(phase * (180 / Math.PI)).toFixed(2)}°]`;
+        } else {
+            amplitude = input1;
+            phase = input2 * (Math.PI / 180);
+            const real = amplitude * Math.cos(phase);
+            const imag = amplitude * Math.sin(phase);
+            output = `Sinusoid ${i}: ${real.toFixed(2)} + ${imag.toFixed(2)}i`;
+        }
+                    //new stuff:
+            let peak = amplitude;
+            let trough = -amplitude;
+            output += ` | Peak: ${peak.toFixed(2)}, Trough: ${trough.toFixed(2)}`;
+
+
+        outputs.push(output);
+
+        // Remove the old sinusoid and create a new one with the new amplitude and phase
+        scene.remove(sinusoids[i - 1]);
+        sinusoids[i - 1] = createSinusoid(amplitude, phase, color);
+        scene.add(sinusoids[i - 1]);
+    }
+
+    document.getElementById('output').innerText = outputs.join('\n');
+}
+
+        
+    </script>
+<style>
+   /* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #2e2e2e; /* Dark gray background */
+    color: #e4e4e4; /* Light gray font color */
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+h2, h3, h4, p {
+    margin: 10px 0;
+}
+
+h2 {
+    font-size: 2.2em;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+h3 {
+    font-size: 1.8em;
+    color: #ffa500; /* Orange color for emphasis */
+}
+
+h4 {
+    font-size: 1.4em;
+    margin-top: 20px;
+}
+
+.container {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.section {
+    padding: 10px;
+    background: #333; /* Slightly lighter dark gray */
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+/* Input Styles */
+#inputFields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#inputFields > div {
+    width: 40%;
+    margin: 15px 0;
+    text-align: center;
+}
+
+input[type="number"], input[type="color"], select {
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #444;
+    background-color: #3a3a3a;
+    color: #e4e4e4;
+    outline: none;
+    border-radius: 4px;
+    font-size: 140%;
+    width: 40%;
+    box-sizing: border-box;
+}
+
+input[type="color"] {
+    padding: 4px;
+    width: 25px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #ffa500; /* Orange for buttons */
+    color: #e4e4e4;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 15px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover, button:active {
+    background-color: #e87f00; /* Darker orange for hover */
+    transform: translateY(-2px);
+}
+
+/* Canvas and Output Styles */
+#canvas {
+    margin: 20px auto;
+    border: 2px solid #ffa500; /* Orange border */
+    border-radius: 4px;
+}
+
+#output {
+    margin: 15px;
+    padding: 15px;
+    font-size:130%;
+    position:relative;
+    text-align:center;
+    background-color: #3a3a3a; /* Slightly lighter dark gray for contrast */
+    border: 1px solid #ffa500;
+    border-radius: 4px;
+    text-align: left;
+    max-width: 800px;
+    margin: 15px auto;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    h2 {
+        font-size: 2em;
+    }
+    h3 {
+        font-size: 1.6em;
+    }
+    h4 {
+        font-size: 1.2em;
+    }
+    #canvas {
+        max-width: 90%;
+        width: 100%;
+    }
+}
+
+/*Nav Bar*/
+.navbar {
+    background-color: #3a3a3a;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.navbar a {
+    color: #e4e4e4;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.navbar a:hover {
+    background-color: #ffa500;
+}
+
+
+</style>
+
+
+
+
+</body>
+</html>
