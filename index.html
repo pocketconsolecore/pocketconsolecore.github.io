@@ -110,6 +110,13 @@
     <button id="animateBtn" onclick="toggleAnimation()">Start Animation</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
+
+        window.onload = function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('warningMessage').classList.add('active');
+            }
+        };
+
         let isAnimating = false;
         let phaseIncrement = parseFloat(document.getElementById('phaseIncrement').value) * (Math.PI / 180);
         const scene = new THREE.Scene();
