@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complex Numbers as Vectors</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <style>
+
+        /* Global Styles */
+     body {
+        text-align: center;
+         font-family: 'Roboto', sans-serif;
+         background-color: #2e2e2e; /* Dark gray background */
+         color: #e4e4e4; /* Light gray font color */
+         margin: 0;
+         padding: 0;
+         font-size: 14px;
+         line-height: 1.4;
+     }
+     
+     h2, h3, h4, p {
+         margin: 10px 0;
+     }
+     
+     h2 {
+         font-size: 2.2em;
+         margin-top: 20px;
+         margin-bottom: 5px;
+     }
+     
+     h3 {
+         font-size: 1.8em;
+         color: #ffa500; /* Orange color for emphasis */
+     }
+     
+     h4 {
+         font-size: 1.4em;
+         margin-top: 20px;
+     }
+     
+     .container {
+         max-width: 750px;
+         margin: 0 auto;
+         padding: 0 10px;
+     }
+     
+     .section {
+         padding: 10px;
+         background: #333; /* Slightly lighter dark gray */
+         border-radius: 6px;
+         margin-bottom: 20px;
+     }
+     
+     /* Input Styles */
+     #inputFields {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+     }
+     
+     #inputFields > div {
+         width: 40%;
+         margin: 15px 0;
+         text-align: center;
+     }
+     
+     input[type="number"], input[type="color"], select {
+         padding: 8px;
+         margin: 8px 0;
+         border: 1px solid #444;
+         background-color: #3a3a3a;
+         color: #e4e4e4;
+         outline: none;
+         border-radius: 4px;
+         font-size: 140%;
+         width: 40%;
+         box-sizing: border-box;
+     }
+     
+     input[type="color"] {
+         padding: 4px;
+         width: 25px;
+     }
+     
+     button {
+         padding: 10px 20px;
+         background-color: #ffa500; /* Orange for buttons */
+         color: #e4e4e4;
+         border: none;
+         border-radius: 4px;
+         cursor: pointer;
+         margin: 15px 0;
+         transition: all 0.3s ease-in-out;
+     }
+     
+     button:hover, button:active {
+         background-color: #e87f00; /* Darker orange for hover */
+         transform: translateY(-2px);
+     }
+     
+     /* Canvas and Output Styles */
+     #canvas {
+         max-width: 90vw; /* Adjusts to 90% of viewport width */
+         height: auto;    /* Maintains aspect ratio */
+         margin: 20px auto;
+         border: 2px solid #ffa500; /* Orange border */
+         border-radius: 4px;
+     }
+     
+     #output {
+         margin: 15px;
+         padding: 15px;
+         font-size:130%;
+         position:relative;
+         text-align:center;
+         background-color: #3a3a3a; /* Slightly lighter dark gray for contrast */
+         border: 1px solid #ffa500;
+         border-radius: 4px;
+         text-align: left;
+         max-width: 800px;
+         margin: 15px auto;
+     }
+     
+     /* Responsive Design */
+     @media screen and (max-width: 600px) {
+         h2 {
+             font-size: 2em;
+         }
+         h3 {
+             font-size: 1.6em;
+         }
+         h4 {
+             font-size: 1.2em;
+         }
+         #canvas {
+             max-width: 90%;
+             width: 100%;
+         }
+     }
+     
+     /*Nav Bar*/
+     .navbar {
+         background-color: #3a3a3a;
+         padding: 10px 0;
+         text-align: center;
+     }
+     
+     .navbar ul {
+         list-style-type: none;
+         margin: 0;
+         padding: 0;
+     }
+     
+     .navbar li {
+         display: inline;
+         margin: 0 15px;
+     }
+     
+     .navbar a {
+         color: #e4e4e4;
+         text-decoration: none;
+         font-weight: bold;
+         padding: 5px 10px;
+         border-radius: 4px;
+         transition: background-color 0.3s ease-in-out;
+     }
+     
+     .navbar a:hover {
+         background-color: #ffa500;
+     }
+     
+     
+     </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <ul>
+            <li><a href="index.html">Main</a></li>
+            <li><a href="#">Blank</a></li>
+            <li><a href="#">Blank</a></li>
+        </ul>
+    </div>
+    
+    <div class="container section">
+        <h2>Complex Numbers as Vectors</h2>
+        
+        <canvas id="complexCanvas"></canvas>
+        
+        <div id="inputFields">
+            <div>
+                <label for="realInput">a: </label>
+                <input type="number" id="realInput" name="realInput" value="0">
+            </div>
+            
+            <div>
+                <label for="imaginaryInput">bi: </label>
+                <input type="number" id="imaginaryInput" name="imaginaryInput" value="0">
+            </div>
+    
+            <div>
+                <label for="colorPicker">Choose a color:</label>
+                <input type="color" id="colorPicker" name="colorPicker" value="#ff0000">
+            </div>
+    
+            <button onclick="addComplexNumber()">Add</button>
+            <button onclick="clearChart()">Clear Chart</button>
+    
+            <div>
+                <label for="zoomSlider">Zoom: </label>
+                <input type="range" id="zoomSlider" min="0" max="50" value="10" onchange="adjustZoom()">
+                <span id="zoomDisplay">1.0x</span>
+            </div>
+        </div>
+    
+        <div id="output">
+            <ul id="vectorLengths"></ul>
+        </div>
+    </div>
+
+<script>
+
+    let ctx = document.getElementById('complexCanvas').getContext('2d');
+    let data = {
+        datasets: []
+    };
+
+    let options = {
+        scales: {
+            x: {
+                min: -10,
+                max: 10
+            },
+            y: {
+                min: -10,
+                max: 10
+            }
+        }
+    };
+
+    let arrowPlugin = {
+        id: 'arrowPlugin',
+        afterDatasetsDraw: function(chart, _, options) {
+            let ctx = chart.ctx;
+            ctx.save();
+            data.datasets.forEach(dataset => {
+                dataset.data.forEach(dataPoint => {
+                    let pixel = chart.scales.x.getPixelForValue(dataPoint.x);
+                    let pixelY = chart.scales.y.getPixelForValue(dataPoint.y);
+                    let originPixel = chart.scales.x.getPixelForValue(0);
+                    let originPixelY = chart.scales.y.getPixelForValue(0);
+                    drawArrow(ctx, originPixel, originPixelY, pixel, pixelY, dataset.borderColor);
+                });
+            });
+            ctx.restore();
+        }
+    };
+
+    function drawArrow(ctx, fromX, fromY, toX, toY, color) {
+        let headLength = 10; 
+        let dx = toX - fromX;
+        let dy = toY - fromY;
+        let angle = Math.atan2(dy, dx);
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(fromX, fromY);
+        ctx.lineTo(toX, toY);
+        ctx.lineTo(toX - headLength * Math.cos(angle - Math.PI/6), toY - headLength * Math.sin(angle - Math.PI/6));
+        ctx.moveTo(toX, toY);
+        ctx.lineTo(toX - headLength * Math.cos(angle + Math.PI/6), toY - headLength * Math.sin(angle + Math.PI/6));
+        ctx.stroke();
+    }
+
+    let chart = new Chart(ctx, {
+        type: 'scatter',
+        data: data,
+        options: options,
+        plugins: [arrowPlugin] 
+    });
+
+    function addComplexNumber() {
+        let real = parseFloat(document.getElementById('realInput').value);
+        let imaginary = parseFloat(document.getElementById('imaginaryInput').value);
+        let color = document.getElementById('colorPicker').value;
+        let datasetLabel = `${real}, ${imaginary}`;
+
+        let newDataset = {
+            label: datasetLabel,
+            data: [{
+                x: real,
+                y: imaginary
+            }],
+            borderColor: color,
+            backgroundColor: color
+        };
+
+        data.datasets.push(newDataset);
+        
+        let length = Math.sqrt(real * real + imaginary * imaginary);
+        document.getElementById('vectorLengths').innerHTML += `<li>${real} + ${imaginary}i : ${length.toFixed(2)}</li>`;
+
+        chart.update();
+    }
+
+    function adjustZoom() {
+        let zoomFactor = parseFloat(document.getElementById('zoomSlider').value) / 10;
+        chart.options.scales.x.min = -10 * zoomFactor;
+        chart.options.scales.x.max = 10 * zoomFactor;
+        chart.options.scales.y.min = -10 * zoomFactor;
+        chart.options.scales.y.max = 10 * zoomFactor;
+        document.getElementById('zoomDisplay').textContent = zoomFactor.toFixed(1) + "x";
+        chart.update();
+    }
+
+    function clearChart() {
+        data.datasets = [];
+        document.getElementById('vectorLengths').innerHTML = "";
+        chart.resetZoom(); 
+        chart.update();
+    }
+
+    adjustZoom();
+</script>
+</body>
+
+</html>
