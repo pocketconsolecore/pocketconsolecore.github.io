@@ -184,7 +184,7 @@
     return dataPoints;
 }
 
-        function convertPhasor() {
+function convertPhasor() {
     const inputType = document.getElementById('inputType').value;
     let outputs = [];
     data.datasets = []; // Clear existing datasets
@@ -200,11 +200,13 @@
             imag = input2;
             amplitude = Math.sqrt(real*real + imag*imag);
             phase = Math.atan2(imag, real);
+            output = `Sinusoid ${i}: ${amplitude.toFixed(2)}, ${(phase * (180 / Math.PI)).toFixed(2)} degrees`;
         } else {
             amplitude = input1;
             phase = input2 * (Math.PI / 180);
             real = amplitude * Math.cos(phase);
             imag = amplitude * Math.sin(phase);
+            output = `Sinusoid ${i}: ${real.toFixed(2)} + ${imag.toFixed(2)}i`;
         }
 
         const sinusoidData = generateSinusoid(amplitude, phase);
@@ -217,7 +219,6 @@
             pointRadius: 0     // Hide individual points
         });
 
-        output = `Sinusoid ${i}: ${real.toFixed(2)} + ${imag.toFixed(2)}i`;
         outputs.push(output);
     }
 
