@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+        #steps {
+            border: 1px solid black;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        .step {
+            margin-bottom: 10px;
+        }
+
+        /* Global Styles */
+        body {
+        text-align: center;
+        font-family: 'Roboto', sans-serif;
+        background-color: #2e2e2e; /* Dark gray background */
+        color: #e4e4e4; /* Light gray font color */
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        line-height: 1.4;
+        }
+
+        h2, h3, h4, p {
+        margin: 10px 0;
+        }
+
+        h2 {
+        font-size: 2.2em;
+        margin-top: 20px;
+        margin-bottom: 5px;
+        }
+
+        h3 {
+        font-size: 1.8em;
+        color: #ffa500; /* Orange color for emphasis */
+        }
+
+        h4 {
+        font-size: 1.4em;
+        margin-top: 20px;
+        }
+
+        .container {
+        max-width: 750px;
+        margin: 0 auto;
+        padding: 0 10px;
+        }
+
+        .section {
+        padding: 10px;
+        background: #333; /* Slightly lighter dark gray */
+        border-radius: 6px;
+        margin-bottom: 20px;
+        }
+
+        /* Input Styles */
+        #inputFields {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
+
+        #inputFields > div {
+        width: 40%;
+        margin: 15px 0;
+        text-align: center;
+        }
+
+        input[type="number"], input[type="color"], select {
+        padding: 8px;
+        margin: 8px 0;
+        border: 1px solid #444;
+        background-color: #3a3a3a;
+        color: #e4e4e4;
+        outline: none;
+        border-radius: 4px;
+        font-size: 140%;
+        width: 40%;
+        box-sizing: border-box;
+        }
+
+        input[type="color"] {
+        padding: 4px;
+        width: 25px;
+        }
+
+        button {
+        padding: 10px 20px;
+        background-color: #ffa500; /* Orange for buttons */
+        color: #e4e4e4;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 15px 0;
+        transition: all 0.3s ease-in-out;
+        }
+
+        button:hover, button:active {
+        background-color: #e87f00; /* Darker orange for hover */
+        transform: translateY(-2px);
+        }
+
+        /* Canvas and Output Styles */
+        #canvas {
+        max-width: 90vw; /* Adjusts to 90% of viewport width */
+        height: auto;    /* Maintains aspect ratio */
+        margin: 20px auto;
+        border: 2px solid #ffa500; /* Orange border */
+        border-radius: 4px;
+        }
+
+        #output {
+        margin: 15px;
+        padding: 15px;
+        font-size:130%;
+        position:relative;
+        text-align:center;
+        background-color: #3a3a3a; /* Slightly lighter dark gray for contrast */
+        border: 1px solid #ffa500;
+        border-radius: 4px;
+        text-align: left;
+        max-width: 800px;
+        margin: 15px auto;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 600px) {
+        h2 {
+            font-size: 2em;
+        }
+        h3 {
+            font-size: 1.6em;
+        }
+        h4 {
+            font-size: 1.2em;
+        }
+        #canvas {
+            max-width: 90%;
+            width: 100%;
+        }
+        }
+
+        /*Nav Bar*/
+        .navbar {
+        background-color: #3a3a3a;
+        padding: 10px 0;
+        text-align: center;
+        }
+
+        .navbar ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        }
+
+        .navbar li {
+        display: inline;
+        margin: 0 15px;
+        }
+
+        .navbar a {
+        color: #e4e4e4;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease-in-out;
+        }
+
+        .navbar a:hover {
+        background-color: #ffa500;
+        }
+
+
+</style>
+
+<head>
+
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phasor Operations Calculator</title>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <ul>
+            <li><a href="index.html">Main</a></li>
+            <li><a href="complexPlot.html">Complex Vector Plotter</a></li>
+            <li><a href="#">Blank</a></li>
+        </ul>
+    </div>
+
+
+    <div class="container">
+
+    <h2>Phasor Operations Calculator</h2>
+
+    <label>Select Input Type:</label>
+    <select id="inputType">
+        <option value="time">Function of Time</option>
+        <option value="phasor">Phasor Notation</option>
+    </select><br><br>
+
+    <label>Select Operation:</label>
+    <select id="operationType">
+        <option value="add">Add</option>
+        <option value="subtract">Subtract</option>
+        <option value="multiply">Multiply</option>
+        <option value="divide">Divide</option>
+    </select><br><br>
+
+    <div id="timeInput">
+        <h3>Function of Time Input</h3>
+        <label>Amplitude 1: <input type="number" id="amp1Time"></label><br>
+        <label>Frequency 1 (in rad/s): <input type="number" id="freq1"></label><br>
+        <label>Phase 1 (in degrees): <input type="number" id="phase1Time"></label><br><br>
+        
+        <label>Amplitude 2: <input type="number" id="amp2Time"></label><br>
+        <label>Frequency 2 (in rad/s): <input type="number" id="freq2"></label><br>
+        <label>Phase 2 (in degrees): <input type="number" id="phase2Time"></label><br>
+    </div>
+
+    <div id="phasorInput" style="display: none;">
+        <h3>Phasor Notation Input</h3>
+        <label>Amplitude 1: <input type="number" id="amp1Phasor"></label><br>
+        <label>Phase 1 (in degrees): <input type="number" id="phase1Phasor"></label><br><br>
+        
+        <label>Amplitude 2: <input type="number" id="amp2Phasor"></label><br>
+        <label>Phase 2 (in degrees): <input type="number" id="phase2Phasor"></label><br>
+    </div><br>
+
+    <button onclick="performPhasorOperation()">Calculate</button>
+
+    <h3>Result:</h3>
+    <p id="result"></p>
+
+   <div class="section">
+            <h3>Steps:</h3>
+            <div id="steps"></div>
+        </div>
+    </div>
+
+</div> <!-- container -->
+
+
+    <script>
+        document.getElementById("inputType").addEventListener("change", function() {
+            const selectedType = this.value;
+            if (selectedType === "time") {
+                document.getElementById("timeInput").style.display = "block";
+                document.getElementById("phasorInput").style.display = "none";
+            } else {
+                document.getElementById("timeInput").style.display = "none";
+                document.getElementById("phasorInput").style.display = "block";
+            }
+        });
+
+        function performPhasorOperation() {
+            let steps = "";
+
+            const inputType = document.getElementById("inputType").value;
+            let amp1, phase1, amp2, phase2;
+
+            if (inputType === "time") {
+                amp1 = parseFloat(document.getElementById("amp1Time").value);
+                phase1 = parseFloat(document.getElementById("phase1Time").value);
+                amp2 = parseFloat(document.getElementById("amp2Time").value);
+                phase2 = parseFloat(document.getElementById("phase2Time").value);
+            } else {
+                amp1 = parseFloat(document.getElementById("amp1Phasor").value);
+                phase1 = parseFloat(document.getElementById("phase1Phasor").value);
+                amp2 = parseFloat(document.getElementById("amp2Phasor").value);
+                phase2 = parseFloat(document.getElementById("phase2Phasor").value);
+            }
+
+            const x1 = amp1 * Math.cos(phase1 * Math.PI / 180);
+            const y1 = amp1 * Math.sin(phase1 * Math.PI / 180);
+            const x2 = amp2 * Math.cos(phase2 * Math.PI / 180);
+            const y2 = amp2 * Math.sin(phase2 * Math.PI / 180);
+
+            steps += `\\[ \\text{Convert to Rectangular Form:} \\]`;
+            steps += `\\[ x_1 = ${amp1.toFixed(2)} \\times \\cos(${phase1.toFixed(2)}^\\circ) = ${x1.toFixed(4)}, \\quad y_1 = ${amp1.toFixed(2)} \\times \\sin(${phase1.toFixed(2)}^\\circ) = ${y1.toFixed(4)} \\]`;
+            steps += `\\[ x_2 = ${amp2.toFixed(2)} \\times \\cos(${phase2.toFixed(2)}^\\circ) = ${x2.toFixed(4)}, \\quad y_2 = ${amp2.toFixed(2)} \\times \\sin(${phase2.toFixed(2)}^\\circ) = ${y2.toFixed(4)} \\]`;
+
+            const operation = document.getElementById("operationType").value;
+            let xTotal, yTotal;
+
+            switch (operation) {
+            case "add":
+                xTotal = x1 + x2;
+                yTotal = y1 + y2;
+                steps += `\\[ \\text{Addition:} \\]`;
+                steps += `\\[ x_{\\text{Total}} = x_1 + x_2 = ${x1.toFixed(4)} + ${x2.toFixed(4)} = ${xTotal.toFixed(4)} \\]`;
+                steps += `\\[ y_{\\text{Total}} = y_1 + y_2 = ${y1.toFixed(4)} + ${y2.toFixed(4)} = ${yTotal.toFixed(4)} \\]`;
+                break;
+            case "subtract":
+                xTotal = x1 - x2;
+                yTotal = y1 - y2;
+                steps += `\\[ \\text{Subtraction:} \\]`;
+                steps += `\\[ x_{\\text{Total}} = x_1 - x_2 = ${x1.toFixed(4)} - ${x2.toFixed(4)} = ${xTotal.toFixed(4)} \\]`;
+                steps += `\\[ y_{\\text{Total}} = y_1 - y_2 = ${y1.toFixed(4)} - ${y2.toFixed(4)} = ${yTotal.toFixed(4)} \\]`;
+                break;
+            case "multiply":
+                xTotal = x1 * x2 - y1 * y2;
+                yTotal = x1 * y2 + y1 * x2;
+                steps += `\\[ \\text{Multiplication:} \\]`;
+                steps += `\\[ x_{\\text{Total}} = x_1 \\times x_2 - y_1 \\times y_2 = ${x1.toFixed(4)} \\times ${x2.toFixed(4)} - ${y1.toFixed(4)} \\times ${y2.toFixed(4)} = ${xTotal.toFixed(4)} \\]`;
+                steps += `\\[ y_{\\text{Total}} = x_1 \\times y_2 + y_1 \\times x_2 = ${x1.toFixed(4)} \\times ${y2.toFixed(4)} + ${y1.toFixed(4)} \\times ${x2.toFixed(4)} = ${yTotal.toFixed(4)} \\]`;
+                break;
+            case "divide":
+                if (x2 === 0 && y2 === 0) {
+                    document.getElementById("result").innerText = "Division by zero!";
+                    return;
+                }
+                const denom = x2 * x2 + y2 * y2;
+                xTotal = (x1 * x2 + y1 * y2) / denom;
+                yTotal = (y1 * x2 - x1 * y2) / denom;
+                steps += `\\[ \\text{Division:} \\]`;
+                steps += `\\[ x_{\\text{Total}} = \\frac{x_1 \\times x_2 + y_1 \\times y_2}{x_2^2 + y_2^2} = \\frac{${x1.toFixed(4)} \\times ${x2.toFixed(4)} + ${y1.toFixed(4)} \\times ${y2.toFixed(4)}}{${x2.toFixed(4)}^2 + ${y2.toFixed(4)}^2} = ${xTotal.toFixed(4)} \\]`;
+                steps += `\\[ y_{\\text{Total}} = \\frac{y_1 \\times x_2 - x_1 \\times y_2}{x_2^2 + y_2^2} = \\frac{${y1.toFixed(4)} \\times ${x2.toFixed(4)} - ${x1.toFixed(4)} \\times ${y2.toFixed(4)}}{${x2.toFixed(4)}^2 + ${y2.toFixed(4)}^2} = ${yTotal.toFixed(4)} \\]`;
+                break;
+        }
+
+            const amplitude = Math.sqrt(xTotal * xTotal + yTotal * yTotal);
+            const phase = Math.atan2(yTotal, xTotal) * 180 / Math.PI;
+            steps += `\\[ \\text{Convert back to Polar Form:} \\]`;
+            steps += `\\[ \\text{Amplitude} = \\sqrt{x_{\\text{Total}}^2 + y_{\\text{Total}}^2} = \\sqrt{${xTotal.toFixed(4)}^2 + ${yTotal.toFixed(4)}^2} = ${amplitude.toFixed(4)} \\]`;
+            steps += `\\[ \\text{Phase} = \\arctan2(y_{\\text{Total}}, x_{\\text{Total}}) = \\arctan2(${yTotal.toFixed(4)}, ${xTotal.toFixed(4)}) = ${phase.toFixed(2)}^\\circ \\]`;
+
+            document.getElementById("steps").innerHTML = steps;
+
+            //content altered, render (typeset) new stuff
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "steps"]);
+
+            document.getElementById("result").innerText = `Amplitude: ${amplitude.toFixed(4)} at Phase: ${phase.toFixed(2)} degrees`;
+        }
+
+    </script>
+
+</body>
+
+</html>
