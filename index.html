@@ -56,13 +56,20 @@
     </div>
     -->
 
-    <nav class="navbar">
+    <div id="menuToggle" onclick="toggleMenu()">&#9658;</div>
+
+    <div class="sidebar">
         <ul>
-            <li><a href="complexPlot.html">Complex Plotter</a></li>
+            <li class="category">Phasors and Complex Numbers</li>
+            <li><a href="index.html"><b>Phasor Sinusoid Plotter (Here)</b></a></li>
             <li><a href="phasorCalculator.html">Phasor Calculator</a></li>
-            <li><a href="#">blank</a></li>
+            <li><a href="complexPlot.html">Complex Number Plotter</a></li>
+    
+            <li class="category">Discrete Time Signals & DSP</li>
+            <li><a href="discreteTimeSignalGraphingTool.html">Discrete Time Signal Graphing</a></li>
+            <li><a href="#">Coming Soon!</a></li>
         </ul>
-    </nav>
+    </div>
 
     <div class="container section">
 
@@ -118,6 +125,19 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
+
+function toggleMenu() {
+                const sidebar = document.querySelector('.sidebar');
+                const menuToggle = document.getElementById('menuToggle');
+
+                if (sidebar.style.width === '0px' || !sidebar.style.width) {
+                    sidebar.style.width = '350px';
+                    menuToggle.innerHTML = '&#9668;'; // Change to left arrow when opened
+                } else {
+                    sidebar.style.width = '0px';
+                    menuToggle.innerHTML = '&#9658;'; // Change back to right arrow when closed
+                }
+            }
 
     window.onload = function() {
         var warningMessage = document.getElementById('warningMessage');
@@ -405,35 +425,89 @@ button:hover, button:active {
         width: 100%;
     }
 }
+       /*Nav Bar*/
+       .navbar {
+         background-color: #3a3a3a;
+         padding: 10px 0;
+         text-align: center;
+         padding-top:150%;
+     }
+     
+     .navbar ul {
+         list-style-type: none;
+         margin: 0;
+         padding: 0;
+     }
+     
+     .navbar li {
+         display: inline;
+         margin: 0 15px;
+     }
+     
+     .navbar a {
+         color: #e4e4e4;
+         text-decoration: none;
+         font-weight: bold;
+         padding: 5px 10px;
+         border-radius: 4px;
+         transition: background-color 0.3s ease-in-out;
+     }
+     
+     .navbar a:hover {
+         background-color: #ffa500;
+     }
 
-/*Nav Bar*/
-.navbar {
-    background-color: #3a3a3a;
-    padding: 10px 0;
-    text-align: center;
+    .sidebar {
+    position: fixed;
+    left:0px;  /* Move slightly to the right to make space for the arrow */
+    top: -1.3%;
+    height: 100%;
+    width: 0;  /* Initially it's closed */
+    overflow-x: hidden;
+    transition: 0.3s;
+    z-index: 1000;
+    background-color: #1f1f1f;
 }
 
-.navbar ul {
-    list-style-type: none;
-    margin: 0;
+#menuToggle {
+    position: fixed;
+    top: -.7%;
+    left: 1px;  /* Move to the left side */
+    font-size: 24px; 
+    cursor: pointer;
+     /* Changed color for low-key design */
+    color: #e4e4e4;          /* Light gray color for the arrow */
+    padding: 10px;
+    border-radius: 10%;  
+    z-index: 2000;  /* ensure it's on top */
+    transition: 0.3s;  /* Smooth transition effect */
+}
+
+.sidebar ul {
     padding: 0;
+    list-style-type: none;
+    width: 350px;
 }
 
-.navbar li {
-    display: inline;
-    margin: 0 15px;
+.sidebar li {
+    padding: 8px 10px;
 }
 
-.navbar a {
+.sidebar .category {
+    font-weight: bold;
+    background-color: #333;
+    color: #ffa500;
+}
+
+.sidebar a {
     color: #e4e4e4;
     text-decoration: none;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease-in-out;
+    display: block;
+    padding: 8px 10px;
+    transition: background-color 0.3s;
 }
 
-.navbar a:hover {
+.sidebar a:hover {
     background-color: #ffa500;
 }
 
