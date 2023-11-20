@@ -50,7 +50,6 @@
     font-family: 'Press Start 2P', cursive;
     display: inline-block;
     padding: 6px 20px;
-    margin: 6px 0;
     background-color: #323232;
     color: #e4e4e4;
     text-align: center;
@@ -63,10 +62,29 @@
 }
 
 .homeBtn:hover {
-    background-color: #A50CD4; /* Changes background on hover */
-    color: #ffffff; /* Changes text color on hover */
-    text-decoration: none; /* Keeps underline off on hover */
+    background-color: #A50CD4; /*background on hover */
+    color: #ffffff; /*text color on hover */
+    text-decoration: none; /*underline off on hover */
 }
+
+.close-nav {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: -10px;
+    left: 0;
+    height: 40px; /* Adjusted for appropriate size */
+    background-color: rgb(211, 134, 134);
+    color: white;
+    border-radius: 0%;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 2001; 
+    font-size: 20px; /* Reduced font size */
+    box-sizing: border-box; /* Include padding and border in the box's dimensions */
+}
+
     </style>
 </head>
 
@@ -83,9 +101,11 @@
     <div id="menuToggle" onclick="toggleMenu()">≡</div>
 
     <div class="sidebar">
-        <ul>
 
-            <li><a href="#" class="homeBtn">Home</a></li>
+        <ul>
+            <div id="closeBtn" class="close-nav" onclick="toggleMenu()">X</div>
+            <li>
+                <a href="#" class="homeBtn">Home</a></li>
 
             <li class="category">Phasors and Complex Numbers</li>
             <li><a href="index.html"><b>Phasor Sinusoid Plotter (Here)</b></a></li>
@@ -158,19 +178,30 @@
     <script>
 
 function toggleMenu() {
-                const sidebar = document.querySelector('.sidebar');
-                const menuToggle = document.getElementById('menuToggle');
 
-                if (sidebar.style.width === '0px' || !sidebar.style.width) {
-                    sidebar.style.width = '350px';
-                    menuToggle.innerHTML = 'X'; // Change to left arrow when opened
-                } else {
-                    sidebar.style.width = '0px';
-                    menuToggle.innerHTML = '≡'; // Change back to right arrow when closed
-                }
-            }
+    const sidebar = document.querySelector('.sidebar');
+    const menuToggle = document.getElementById('menuToggle');
+    const closeBtn = document.getElementById('closeBtn');
+
+    // Check if sidebar is open
+    if (sidebar.style.width == '350px') {
+        // Close the sidebar
+        sidebar.style.width = '0';
+        console.log("DEBUG: CLOSING NAV");
+        menuToggle.style.display = 'block';
+        closeBtn.style.display = 'none';
+    } else {
+        // Open the sidebar
+        sidebar.style.width = '350px';
+        menuToggle.style.display = 'none';
+        closeBtn.style.display = 'block';
+    }
+}
+
+
 
     window.onload = function() {
+
         var warningMessage = document.getElementById('warningMessage');
 
         // Check if the device is a mobile device
