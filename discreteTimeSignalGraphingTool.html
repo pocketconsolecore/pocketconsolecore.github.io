@@ -10,12 +10,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
 
-        /* Global Styles */
+
      body {
         text-align: center;
          font-family: 'Roboto', sans-serif;
-         background-color: #2e2e2e; /* Dark gray background */
-         color: #e4e4e4; /* Light gray font color */
+         background-color: #2e2e2e;
+         color: #e4e4e4;
          margin: 0;
          padding: 0;
          font-size: 14px;
@@ -34,7 +34,7 @@
      
      h3 {
          font-size: 1.8em;
-         color: #ffa500; /* Orange color for emphasis */
+         color: #ffa500; 
      }
      
      h4 {
@@ -50,7 +50,7 @@
      
      .section {
          padding: 10px;
-         background: #333; /* Slightly lighter dark gray */
+         background: #333;
          border-radius: 6px;
          margin-bottom: 20px;
      }
@@ -88,7 +88,7 @@
      
      button {
          padding: 10px 20px;
-         background-color: #ffa500; /* Orange for buttons */
+         background-color: #ffa500;
          color: #e4e4e4;
          border: none;
          border-radius: 4px;
@@ -98,16 +98,15 @@
      }
      
      button:hover, button:active {
-         background-color: #e87f00; /* Darker orange for hover */
+         background-color: #e87f00;
          transform: translateY(-2px);
      }
      
-     /* Canvas and Output Styles */
      #canvas {
-         max-width: 90vw; /* Adjusts to 90% of viewport width */
-         height: auto;    /* Maintains aspect ratio */
+         max-width: 90vw;
+         height: auto;    
          margin: 20px auto;
-         border: 2px solid #ffa500; /* Orange border */
+         border: 2px solid #ffa500;
          border-radius: 4px;
      }
      
@@ -117,7 +116,7 @@
          font-size:130%;
          position:relative;
          text-align:center;
-         background-color: #3a3a3a; /* Slightly lighter dark gray for contrast */
+         background-color: #3a3a3a; 
          border: 1px solid #ffa500;
          border-radius: 4px;
          text-align: left;
@@ -131,7 +130,7 @@
          font-size:130%;
          position:relative;
          text-align:center;
-         background-color: #3a3a3a; /* Slightly lighter dark gray for contrast */
+         background-color: #3a3a3a;
          border: 1px solid #ffa500;
          border-radius: 4px;
          text-align: left;
@@ -139,7 +138,7 @@
          margin: 15px auto;
      }
      
-     /* Responsive Design */
+
      @media screen and (max-width: 600px) {
          h2 {
              font-size: 2em;
@@ -156,7 +155,7 @@
          }
      }
      
-       /*Nav Bar*/
+ 
        .navbar {
          background-color: #3a3a3a;
          padding: 10px 0;
@@ -192,27 +191,27 @@
      .sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /*push the footer to the bottom */
+    justify-content: space-between; 
     position: fixed;
     left: 0;
     top: -1.3%;
     height: 100%;
-    width: 0px; /* Adjusted width */
+    width: 0px; 
     overflow-x: hidden;
     transition: 0.3s;
     z-index: 1000;
     background-color: #1f1f1f;
-    padding-bottom: 20px; /* Give some space at the bottom */
+    padding-bottom: 20px; 
 }
 
 #menuToggle {
     position: fixed;
     top: -.7%;
-    left: 1px;  /* Move to the left side */
+    left: 1px; 
     font-size: 24px; 
     cursor: pointer;
-     /* Changed color for low-key design */
-    color: #e4e4e4;          /* Light gray color for the arrow */
+     /*low-key design coloring?*/
+    color: #e4e4e4;      
     padding: 10px;
     border-radius: 10%;  
     z-index: 2000;  /* ensure it's on top */
@@ -248,8 +247,8 @@
 }
 
 .navbar .footer {
-    font-size: 10px; /* Super small text */
-    color: #e4e4e4; /* Light gray font color */
+    font-size: 10px; 
+    color: #e4e4e4; 
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -258,8 +257,8 @@
 }
 
 .footer {
-    font-size: 10px; /* Super small text */
-    color: #e4e4e4; /* Light gray font color */
+    font-size: 10px;
+    color: #e4e4e4; 
     text-align: center;
 }
 
@@ -279,9 +278,9 @@
 }
 
 .homeBtn:hover {
-    background-color: #A50CD4; /*background on hover */
-    color: #ffffff; /*text color on hover */
-    text-decoration: none; /*underline off on hover */
+    background-color: #A50CD4; 
+    color: #ffffff; 
+    text-decoration: none;
 }
 
 .close-nav {
@@ -291,15 +290,15 @@
     position: relative;
     top: -10px;
     left: 0;
-    height: 40px; /* Adjusted for appropriate size */
+    height: 40px; 
     background-color: rgb(211, 134, 134);
     color: white;
     border-radius: 0%;
     padding: 10px;
     cursor: pointer;
     z-index: 2001; 
-    font-size: 20px; /* Reduced font size */
-    box-sizing: border-box; /* Include padding and border in the box's dimensions */
+    font-size: 20px; 
+    box-sizing: border-box; 
 }
 
 
@@ -404,15 +403,13 @@
     const menuToggle = document.getElementById('menuToggle');
     const closeBtn = document.getElementById('closeBtn');
 
-    // Check if sidebar is open
     if (sidebar.style.width == '350px') {
-        // Close the sidebar
         sidebar.style.width = '0';
         console.log("DEBUG: CLOSING NAV");
         menuToggle.style.display = 'block';
         closeBtn.style.display = 'none';
     } else {
-        // Open the sidebar
+        //open the sidebar
         sidebar.style.width = '350px';
         menuToggle.style.display = 'none';
         closeBtn.style.display = 'block';
@@ -495,13 +492,12 @@
     const rawPoints = document.getElementById('manualPoints').value.split(' ');
     let manualPoints = [];
     let bestFitLine = [];
-    let manualVerticalLines = []; // New array for vertical lines for manual points
+    let manualVerticalLines = []; 
 
     for (const pt of rawPoints) {
         const [x, y] = pt.split(',').map(Number);
         manualPoints.push({ x: x, y: y });
 
-        // Check if vertical lines for manual points should be shown
         if (document.getElementById('showManualVerticalLines').checked) {
             manualVerticalLines.push({ x: x, y: 0 });
             manualVerticalLines.push({ x: x, y: y });
@@ -519,7 +515,6 @@
         equation = `y = ${regressionResult.equation[0].toFixed(4)}x + ${regressionResult.equation[1].toFixed(4)}`;
     }
 
-    // Get colors from input elements
     const manualPointColor = document.getElementById('manualPointColor').value;
     const bestFitLineColor = document.getElementById('bestFitLineColor').value;
 
@@ -528,7 +523,7 @@
             label: 'Vertical Lines for Manual Points',
             data: manualVerticalLines,
             fill: false,
-            borderColor: manualPointColor, // Use the manual point color for vertical lines
+            borderColor: manualPointColor, 
             borderWidth: 1,
             showLine: true,
             pointRadius: 0,
