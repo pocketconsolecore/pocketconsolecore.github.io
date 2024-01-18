@@ -328,10 +328,10 @@
         <ul>
             <div id="closeBtn" class="close-nav" onclick="toggleMenu()">X</div>
             <li>
-                <a href="#" class="homeBtn">Home</a></li>
+                <a href="index.html" class="homeBtn">Home</a></li>
 
             <li class="category">Phasors and Complex Numbers</li>
-            <li><a href="index.html">Phasor Sinusoid Plotter</a></li>
+            <li><a href="phasorsinusoidfunctionplotter.html">Phasor Sinusoid Plotter</a></li>
             <li><a href="phasorCalculator.html"><b>Phasor Calculator (Here)</b></a></li>
             <li><a href="complexPlot.html">Complex Number Plotter</a></li>
     
@@ -340,63 +340,42 @@
             <li><a href="#">Coming Soon!</a></li>
         </ul>
             <div class="footer">
-                easytrig © 2023, Perry Newlin<br>
+                easytrig © 2024, Perry Newlin<br>
                 <!-- Social: -->
             </div>
     </div>
     
 
     <div class="container section">
+        <h2>Phasor Operations Calculator</h2>
 
-    <h2>Phasor Operations Calculator</h2>
+        <label>Select Operation:</label>
+        <select id="operationType">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+        </select><br><br>
 
+        <div id="phasorInput">
+            <h3>Phasor Notation Input</h3>
+            <label>Amplitude 1: <input type="number" id="amp1Phasor"></label><br>
+            <label>Phase 1 (in degrees): <input type="number" id="phase1Phasor"></label><br><br>
+            
+            <label>Amplitude 2: <input type="number" id="amp2Phasor"></label><br>
+            <label>Phase 2 (in degrees): <input type="number" id="phase2Phasor"></label><br>
+        </div><br>
 
-    <label>Select Input Type:</label>
-    <select id="inputType">
-        <option value="time">Function of Time</option>
-        <option value="phasor">Phasor Notation</option>
-    </select><br><br>
+        <button onclick="performPhasorOperation()">Calculate</button>
 
-    <label>Select Operation:</label>
-    <select id="operationType">
-        <option value="add">Add</option>
-        <option value="subtract">Subtract</option>
-        <option value="multiply">Multiply</option>
-        <option value="divide">Divide</option>
-    </select><br><br>
+        <h3>Result:</h3>
+        <p id="result"></p>
 
-    <div id="timeInput">
-        <h3>Function of Time Input</h3>
-        <label>Amplitude 1: <input type="number" id="amp1Time"></label><br>
-        <label>F (in rad/s) (coming soon): <input type="number" id="freq1" value="Coming Soon" disabled></label><br>
-        <label>Phase 1 (in degrees): <input type="number" id="phase1Time"></label><br><br>
-        
-        <label>Amplitude 2: <input type="number" id="amp2Time"></label><br>
-        <label>F (in rad/s) (coming soon): <input type="number" id="freq2" value="Coming Soon" disabled></label><br>
-        <label>Phase 2 (in degrees): <input type="number" id="phase2Time"></label><br>
-    </div>
-
-    <div id="phasorInput" style="display: none;">
-        <h3>Phasor Notation Input</h3>
-        <label>Amplitude 1: <input type="number" id="amp1Phasor"></label><br>
-        <label>Phase 1 (in degrees): <input type="number" id="phase1Phasor"></label><br><br>
-        
-        <label>Amplitude 2: <input type="number" id="amp2Phasor"></label><br>
-        <label>Phase 2 (in degrees): <input type="number" id="phase2Phasor"></label><br>
-    </div><br>
-
-    <button onclick="performPhasorOperation()">Calculate</button>
-
-    <h3>Result:</h3>
-    <p id="result"></p>
-
-   <div class="section">
+        <div class="section">
             <h3>Steps:</h3>
             <div id="steps"></div>
         </div>
     </div>
-
-</div> <!-- container -->
 
 
     <script>
@@ -423,7 +402,7 @@
         }
 
 
-        document.getElementById("inputType").addEventListener("change", function() {
+        /*document.getElementById("inputType").addEventListener("change", function() {
             const selectedType = this.value;
             if (selectedType === "time") {
                 document.getElementById("timeInput").style.display = "block";
@@ -432,25 +411,18 @@
                 document.getElementById("timeInput").style.display = "none";
                 document.getElementById("phasorInput").style.display = "block";
             }
-        });
+        });*/
 
         function performPhasorOperation() {
             let steps = "";
 
-            const inputType = document.getElementById("inputType").value;
+            //const inputType = document.getElementById("inputType").value;
             let amp1, phase1, amp2, phase2;
 
-            if (inputType === "time") {
-                amp1 = parseFloat(document.getElementById("amp1Time").value);
-                phase1 = parseFloat(document.getElementById("phase1Time").value);
-                amp2 = parseFloat(document.getElementById("amp2Time").value);
-                phase2 = parseFloat(document.getElementById("phase2Time").value);
-            } else {
                 amp1 = parseFloat(document.getElementById("amp1Phasor").value);
                 phase1 = parseFloat(document.getElementById("phase1Phasor").value);
                 amp2 = parseFloat(document.getElementById("amp2Phasor").value);
                 phase2 = parseFloat(document.getElementById("phase2Phasor").value);
-            }
 
             const x1 = amp1 * Math.cos(phase1 * Math.PI / 180);
             const y1 = amp1 * Math.sin(phase1 * Math.PI / 180);
@@ -511,7 +483,7 @@
             //content altered, render (typeset) new stuff
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, "steps"]);
 
-            document.getElementById("result").innerText = `Amplitude: ${amplitude.toFixed(4)} at Phase: ${phase.toFixed(2)} degrees`;
+            document.getElementById("result").innerText = `Amplitude: ${amplitude.toFixed(4)} at Angle: ${phase.toFixed(2)} degrees`;
         }
 
     </script>
