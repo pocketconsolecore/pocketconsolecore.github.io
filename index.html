@@ -1,319 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
-    <script>
-        function toggleMenu() {
-        
-            const sidebar = document.querySelector('.sidebar');
-            const menuToggle = document.getElementById('menuToggle');
-            const closeBtn = document.getElementById('closeBtn');
-        
-            // Check if sidebar is open
-            if (sidebar.style.width == '350px') {
-                // Close the sidebar
-                sidebar.style.width = '0';
-                console.log("DEBUG: CLOSING NAV");
-                menuToggle.style.display = 'block';
-                closeBtn.style.display = 'none';
-            } else {
-                // Open the sidebar
-                sidebar.style.width = '350px';
-                menuToggle.style.display = 'none';
-                closeBtn.style.display = 'block';
-            }
-        }
-        </script>
 <head>
+    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Easytrig delivers fast, user-friendly tools for precise math operations, including phasor calculation for circuit analysis, 2D vector plotting of complex numbers, discrete function rendering, and customizable point and step size plotting. Ideal for electrical engineering, signal processing, and math enthusiasts.">
-    <meta name='designer' content='Perry Newlin'>
-	<meta name='owner' content='Perry Newlin'>
-	<meta name='revised' content='Thursday, October 3, 2024, 7:30 am'>
-	<meta name='topic' content='Math and circuit analysis'>
-	<meta name='subject' content='Online calculators to visualize and solve for discrete math functions and phasors.'>
-	<meta name='keywords' content='phasor calculator, phasor plotter, phasor tool, circuit phasor calculator, electrical phasor calculator, complex number calculator, complex number plotter, complex vector plotter, vector plotter online, discrete function plotter, function plotter tool, plot complex numbers, plot phasors, 2D vector plot, render phasors, render complex numbers, vector calculator, electrical engineering tools, math tool for engineers, phasor math tool, math function plotter, phasor calculation tool, signal processing calculator, circuit analysis phasor tool, custom phasor plotter, custom function plotter, electrical circuits calculator, circuit analysis tool, frequency domain plot, discrete function calculator, phasor visualization, electrical phasors, circuit phasors, custom plotting tool, math function rendering, math plotting tool, easy math tools, phasor diagrams, custom number of points plot, math visualization tool, signal processing phasor, electrical circuit analysis, phasor vector plotter, complex numbers visualization, phasor math operations, plot vectors online, 2D function plotter, phasor calculation online, plot phasors online, math plotting tools, math graphing tools, circuit analysis software, phasor graphs, circuit visualization tools, render functions online, engineering math tools, phasor graph plotter, interactive phasor tool, custom function graph, math tools for circuits, electrical engineering plotting tools, vector math tool, vector plotting software, phasor plotting software, math operations software, phasor tools for circuits, electrical engineering calculators, custom step size plotter, math operations calculator, custom phasor calculations, discrete math function plotter, interactive phasor plotter, electrical engineering math tools, easy math operations, signal processing visualizer, electrical circuits math, phasor plotting and calculation, online phasor calculator, circuit analysis calculator, math tools for engineers, interactive complex number plot, circuit analysis phasor, electrical circuits plotter, complex number rendering, phasor math calculations, 2D vector rendering, complex function calculator, signal processing phasor tool, electrical math tool, phasor tool for engineers, easy phasor calculator, phasor visualization tool, phasor software for engineers, render complex functions, plot discrete functions, signal processing plotter, custom function plotting software, easy math graph plotter, math graph software, math plotting calculator'>
-	<title>EasyTrig.com homepage: Easy to use phasor calculator and cheap circuit solutions.</title>
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>EasyTrig.com - Your Gateway to Simple Hardware and Software Solutions</title>
+    <meta name="description" content="Easytrig delivers fast, user-friendly tools for precise math operations, including phasor calculation for circuit analysis, 2D vector plotting of complex numbers, discrete function rendering, and customizable point and step size plotting. Ideal for electrical engineering, signal processing, and math enthusiasts.">
+    <meta name="keywords" content="EasyTrig, phasor calculation, complex number plotting, discrete function rendering, plot phasor as sine wave, plot phasor as sinusoid, plot sinusoid phasor, how to plot phasors, mathematical tools, electrical engineering, signal processing, math enthusiasts, Perry Newlin, Perry Hamilton Newlin, ">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+	
+	<!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="EasyTrig.com | Simple Hardware and Software Solutions for Circuit Analysis, DSP, and Embedded Systems">
+    <meta property="og:description" content="Discover EasyTrig's free online tools for phasor plotting, DSP plotting, complex number plotting and more...">
+    <meta property="og:image" content="https://www.easytrig.com/images/og-image.jpg">
+    <meta property="og:url" content="https://www.easytrig.com/">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EasyTrig.com | Simple Hardware and Software Solutions for Math/Circuit/Embedded/FPGA Enthusiasts">
+    <meta name="twitter:description" content="Discover EasyTrig's free online tools for phasor plotting, DSP plotting, complex number plotting and more...">
+    <meta name="twitter:image" content="https://www.easytrig.com/images/og-image.jpg">
+
+	<link rel="canonical" href="https://www.easytrig.com/">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
     <style>
+        :root {
+            --primary-color: #0D6EFD;
+            --secondary-color: #6C757D;
+            --background-color: #121212;
+            --text-color: #FFFFFF;
+            --accent-color: #BB86FC;
+            --surface-color: #1E1E1E;
+            --nav-height: 60px;
+            --font-family: 'Poppins', sans-serif;
+            --hover-background-color: #333;
+            --hover-text-color: var(--text-color);
+        }
+
+        /* Legacy Theme Variables */
+        [data-theme="legacy"] {
+            --background-color: #2e2e2e;
+            --text-color: #e4e4e4;
+            --accent-color: #ffa500;
+            --surface-color: #333333;
+            --hover-background-color: #ffa500;
+            --hover-text-color: var(--text-color);
+        }
+
+        /* Light Theme Variables */
+        [data-theme="light"] {
+            --background-color: #FFFFFF;
+            --text-color: #212529;
+            --accent-color: #0D6EFD;
+            --surface-color: #F8F9FA;
+            --hover-background-color: #333;
+            --hover-text-color: #FFFFFF;
+        }
+
+        /* Ocean Theme Variables */
+        [data-theme="ocean"] {
+            --background-color: #2C3E50;
+            --text-color: #ecf0f1;
+            --accent-color: #1ABC9C;
+            --surface-color: #34495E;
+            --hover-background-color: #1ABC9C;
+            --hover-text-color: var(--text-color);
+        }
+
+        /* Dark Theme Variables */
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --text-color: #FFFFFF;
+            --accent-color: #BB86FC;
+            --surface-color: #1E1E1E;
+            --hover-background-color: #333;
+            --hover-text-color: var(--text-color);
+        }
+
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #2e2e2e; 
-            color: #e4e4e4;
             margin: 0;
             padding: 0;
-            text-align: center;
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
-        .container {
-            max-width: 750px;
-            margin: 0 auto;
-            padding: 0 10px;
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--surface-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            height: var(--nav-height);
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .section {
-            padding: 20px;
-            background: #333; 
-            border-radius: 6px;
-            margin-top: 50px;
-            margin-bottom: 20px;
+
+        .navbar .logo {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-decoration: none;
         }
-        h1 {
-            position: relative;
-            font-size: 2.2em;
-            color: #ffa500; 
+
+        .navbar .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
         }
-        h1::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            bottom: -10px; 
-            width: 85%; /*width*/
-            height: 4px; /*thick*/
-            background: linear-gradient(to left, #333, white, #333); 
-            transform: translateX(-50%); 
+
+        .navbar .nav-links li {
+            margin-left: 20px;
         }
-        p {
-            margin-top: 20px;
-            font-size: 1.4em;
-            color: #e4e4e4;
+
+        .navbar .nav-links li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: 500;
+            transition: color 0.3s;
+            white-space: nowrap;
         }
-        .links {
+
+        .navbar .nav-links li a:hover {
+            color: var(--accent-color);
+        }
+
+        .navbar .theme-selector {
+            margin-right : 20px;
+        }
+
+        .navbar .theme-selector select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid var(--accent-color);
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5em;
+            color: var(--text-color);
+            cursor: pointer;
+            margin-right: 5%;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100vh;
+            background-color: var(--surface-color);
+            padding-top: var(--nav-height);
+            transition: left 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar ul {
             list-style: none;
             padding: 0;
-            margin-top: 30px;
+            margin: 0;
         }
-        .links li {
-            margin: 10px 0;
+
+        .sidebar ul li {
+            border-bottom: 1px solid #333;
         }
-        .links a {
-            color: #007bff;
+
+        .sidebar ul li a {
+            display: block;
+            padding: 15px 20px;
+            color: var(--text-color);
             text-decoration: none;
-            font-size: 1.1em;
-            transition: color 0.3s ease-in-out;
+            font-size: 1em;
+            transition: background-color 0.3s, color 0.3s;
         }
-        .links a:hover {
-            color: #0056b3; /*dark blue for hoverinn*/
+
+        /* Updated Hover Styles */
+        .sidebar ul li a:hover {
+            background-color: var(--hover-background-color);
+            color: var(--hover-text-color);
         }
-        .footer {
-            margin-top: 20px;
+
+        .sidebar .theme-selector {
+            padding: 15px 20px;
+        }
+
+        .sidebar .theme-selector select {
+            width: 100%;
             padding: 10px;
-            background-color: #292929; 
-            font-size: 0.9em;
-            border-radius: 6px;
-            color: #d3d3d3;
+            border-radius: 5px;
+            border: 1px solid var(--accent-color);
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
         }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5em;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: calc(var(--nav-height) + 20px) auto 0;
+            padding: 0 20px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h1 {
+            font-size: 2.5em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .section h2 {
+            font-size: 1.8em;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .section p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .section .line {
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            margin: 30px 0;
+        }
+
+        /* Links */
+        .links {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .links li {
+            margin-bottom: 15px;
+        }
+
+        .links li a {
+            color: var(--accent-color);
+            font-size: 1.2em;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .links li a:hover {
+            color: var(--text-color);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--surface-color);
+            padding: 20px 0;
+            text-align: center;
+            color: var(--text-color);
+        }
+
         .footer p {
-            margin: 5px 0;
+            margin: 0;
         }
-        @media screen and (max-width: 600px) {
-    body {
-        font-size: 0.8em; /*so-so mobile impl.*/
-    }
-    .container {
-        width: 100%;
-        padding: 0 5px;
-    }
-    h1 {
-        font-size: 1.8em;
-    }
-    p {
-        font-size: 1.2em;
-    }
-    .footer {
-        font-size: 0.8em;
-    }
-}
 
-/*nav*/
-.navbar {
-         background-color: #3a3a3a;
-         padding: 10px 0;
-         text-align: center;
-         padding-top:150%;
-         position: relative;
-     }
-     
-     .navbar ul {
-         list-style-type: none;
-         margin: 0;
-         padding: 0;
-     }
-     
-     .navbar li {
-         display: inline;
-         margin: 0 15px;
-     }
-     
-     .navbar a {
-         color: #e4e4e4;
-         text-decoration: none;
-         font-weight: bold;
-         padding: 5px 10px;
-         border-radius: 4px;
-         transition: background-color 0.3s ease-in-out;
-     }
-     
-     .navbar a:hover {
-         background-color: #ffa500;
-     }
+        /* Responsive */
+        @media (max-width: 992px) {
+            .navbar .nav-links,
+            .navbar .theme-selector {
+                display: none;
+            }
 
-     .sidebar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
-    position: fixed;
-    left: 0;
-    top: -1.3%;
-    height: 100%;
-    width: 0px;
-    overflow-x: hidden;
-    transition: 0.3s;
-    z-index: 1000;
-    background-color: #1f1f1f;
-    padding-bottom: 20px; 
-}
+            .menu-toggle {
+                display: block;
+            }
+        }
 
-#menuToggle {
-    position: fixed;
-    top: -.7%;
-    left: 1px;
-    font-size: 24px; 
-    cursor: pointer;
-    color: #e4e4e4;        
-    padding: 10px;
-    border-radius: 10%;  
-    z-index: 2000;
-    transition: 0.3s;  
-}
+        @media (max-width: 768px) {
+            .section h1 {
+                font-size: 2em;
+            }
 
-.sidebar ul {
-    padding: 0;
-    list-style-type: none;
-    width: 350px;
-}
+            .section h2 {
+                font-size: 1.5em;
+            }
 
-.sidebar li {
-    padding: 8px 10px;
-}
+            .section p {
+                font-size: 1em;
+            }
+        }
 
-.sidebar .category {
-    font-weight: bold;
-    background-color: #333;
-    color: #ffa500;
-}
+        @media (max-width: 576px) {
+            .section h1 {
+                font-size: 1.8em;
+            }
 
-.sidebar a {
-    color: #e4e4e4;
-    text-decoration: none;
-    display: block;
-    padding: 8px 10px;
-    transition: background-color 0.3s;
-}
+            .section h2 {
+                font-size: 1.3em;
+            }
 
-.sidebar a:hover {
-    background-color: #ffa500;
-}
-
-.navbar .footerN {
-    font-size: 10px;
-    color: #e4e4e4;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    padding: 5px 0;
-}
-
-.footerN {
-    font-size: 10px;
-    color: #e4e4e4;
-    text-align: center;
-}
-
-.close-nav {
-    display: flex; 
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    top: -10px;
-    left: 0;
-    height: 40px;
-    background-color: rgb(211, 134, 134);
-    color: white;
-    border-radius: 0%;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 2001; 
-    font-size: 20px;
-    box-sizing: border-box;
-}
-
-.youtube-link {
-    text-align: left;
-    margin-top: 20px;
-    font-size: 11px;
-    margin-left: auto;
-    margin-right: auto;
-    width: fit-content;
-}
-
-.youtube-link a,
-.youtube-link a:visited { 
-    color: #ffa500; 
-    text-decoration: none;
-    font-size: 1.1em;
-    transition: text-shadow 0.3s ease-in-out;
-}
-
-.youtube-link a:hover {
-    text-shadow: 0 0 8px #ffa500; /*lil orange glow n stuff*/
-}
-
-
-
+            .section p {
+                font-size: 0.9em;
+            }
+        }
     </style>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function changeTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            document.getElementById('themeSelect').value = theme;
+            document.getElementById('themeSelectSidebar').value = theme;
+        }
+
+        // Load saved theme
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeSelect').value = savedTheme;
+            document.getElementById('themeSelectSidebar').value = savedTheme;
+        }
+    </script>
 </head>
 <body>
 
-    <div id="menuToggle" onclick="toggleMenu()">≡</div>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="logo">Easytrig</a>
+        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
+        <ul class="nav-links">
+            <li><a href="software_downloads.html">Software Downloads</a></li>
+            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="easytrig_online_calculators.html">Online Calculators</a></li>
+        </ul>
+        <div class="theme-selector">
+            <select id="themeSelect" onchange="changeTheme(this.value)">
+                <option value="legacy">Legacy Theme</option>
+                <option value="light">Light Theme</option>
+                <option value="ocean">Ocean Theme</option>
+                <option value="dark">Dark Theme</option>
+            </select>
+        </div>
+    </nav>
 
+    <!-- Sidebar -->
     <div class="sidebar">
-
+        <div class="close-btn" onclick="toggleSidebar()">×</div>
         <ul>
-            <div id="closeBtn" class="close-nav" onclick="toggleMenu()">X</div>
-
-            <li class="category">Phasors and Complex Numbers</li>
-            <li><a href="phasorsinusoidfunctionplotter.html">Phasor Sinusoid Plotter</a></li>
-            <li><a href="phasorCalculator.html">Phasor Calculator</a></li>
-            <li><a href="complexPlot.html">Complex Number Plotter</a></li>
-    
-            <li class="category">Discrete Time Signals & DSP</li>
-            <li><a href="discreteTimeSignalGraphingTool.html">Discrete Time Signal Graphing</a></li>
-            <li><a href="#">Coming Soon!</a></li>
+            <li><a href="software_downloads.html">Software Downloads</a></li>
+            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="easytrig_online_calculators.html">Online Calculators</a></li>
+            <li class="theme-selector">
+                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+                    <option value="legacy">Legacy Theme</option>
+                    <option value="light">Light Theme</option>
+                    <option value="ocean">Ocean Theme</option>
+                    <option value="dark">Dark Theme</option>
+                </select>
+            </li>
         </ul>
-            <div class="footerN">
-                easytrig © 2024, Perry Newlin<br>
-                <!-- Social: -->
-            </div>
     </div>
 
-    <div class="container section">
-        <h1>Easytrig.com</h1>
-        <p>Easytrig serves as a hobby project in the hopes of making some yucky math less annoying. Most tools come with a straight forward interface, visualization or step-by-step output.</p>
-        <ul class="links">
-            <li><a href="phasorsinusoidfunctionplotter.html">Phasor Sinusoid Plotter</a></li>
-            <li><a href="phasorCalculator.html">Phasor Calculator</a></li>
-            <li><a href="complexPlot.html">Complex Number Plotter</a></li>
-            <li><a href="discreteTimeSignalGraphingTool.html">Discrete Time Signal Graphing</a></li>
-        </ul>
+    <!-- Main Content -->
+    <div class="container">
+        <div class="section">
+            <h1>Easytrig</h1>
+            <h2>Your Gateway to Simple Hardware and Software Solutions</h2>
+			<p>Welcome to Easytrig—your source for affordable hardware and software solutions. 
+			We offer simple, cheap circuit boards for hobbyists and ultra-easy software to encrypt files effortlessly. 
+			Plus, free and intuitive online tools for complex math, circuit analysis and DSP. 
+			Our mission is to make high-level computing and engineering concepts accessible to <b><u>everyone.</u></b></p>
 
-        <div class="youtube-link">
-            <u><a href="https://www.youtube.com/watch?v=R9ku-4wu5qU&t=1s" target="_blank">Basic Demo/Tutorial</a></u>
+        <div class="section">
+            <h2>Why Choose Easytrig?</h2>
+            <p>At Easytrig, we believe in simplicity and efficiency. All our tools are insanely simple to use, beautiful, customizable, and absurdly lightweight.</p>
         </div>
 
-        <div class="footer">
-            <p>Maintained and Created by: Perry Newlin</p>
-            <p>Suggestions or Bugs: newlinp@msoe.edu</p>
+        <div class="section">
+            <div class="line"></div>
+            <h2>Browse Our Solutions</h2>
+            <ul class="links">
+                <li><a href="software_downloads.html">Download our latest software tools</a></li>
+                <li><a href="purchase_easytrig_hardware.html">Explore our hardware offerings</a></li>
+                <li><a href="easytrig_online_calculators.html">Access our online calculators</a></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Featured Online Easytrig Tools</h2>
+            <ul class="links">
+                <li><a href="phasorsinusoidfunctionplotter.html">Phasor Sinusoid Plotter</a> &mdash; Visualize phasor sinusoids effortlessly.</li>
+                <li><a href="phasorCalculator.html">Phasor Calculator</a> &mdash; Perform phasor calculations with ease.</li>
+                <li><a href="complexPlot.html">Complex Number Plotter</a> &mdash; Graph complex numbers interactively.</li>
+            </ul>
         </div>
     </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>easytrig © 2024, Perry Newlin</p>
+        <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/" style="color: var(--accent-color); text-decoration: none;">My LinkedIn</a></p>
+    </div>
+
 </body>
 </html>
