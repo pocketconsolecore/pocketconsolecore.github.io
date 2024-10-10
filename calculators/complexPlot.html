@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+    <title>Complex Number Plotter | EasyTrig.com</title>
+    <meta name="description" content="Plot complex numbers as vectors. Calculates vector length.">
+	<meta name="keywords" content="complex numbers, plot vectors, plot complex numbers, how to find length of a vector, plot complex numbers as vectors, vector, vector length, interactive, Perry Newlin">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Complex number plotter">
+    <meta property="og:description" content="Plot complex numbers as vectors. Calculates vector length.">
+    <meta property="og:image" content="https://www.easytrig.com/images/og-image.jpg">
+    <meta property="og:url" content="https://www.easytrig.com/easytrig_online_calculators.html">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Complex number plotter | EasyTrig.com">
+    <meta name="twitter:description" content="{lot complex numbers as vectors. Calculates vector length.">
+    <meta name="twitter:image" content="https://www.easytrig.com/images/og-image.jpg">
+	
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+	<link rel="stylesheet" href="../style.css">
+</head>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="../index.html" class="logo">Easytrig</a>
+        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
+        <ul class="nav-links">
+            <li><a href="software_downloads.html">Software Downloads</a></li>
+            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="index.html">Online Calculators</a></li>
+        </ul>
+        <div class="theme-selector">
+            <select id="themeSelect" onchange="changeTheme(this.value)">
+                <option value="legacy">Legacy Theme</option>
+                <option value="light">Light Theme</option>
+                <option value="ocean">Ocean Theme</option>
+                <option value="dark">Dark Theme</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="close-btn" onclick="toggleSidebar()">×</div>
+        <ul>
+            <li><a href="software_downloads.html">Software Downloads</a></li>
+            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="index.html">Online Calculators</a></li>
+            <li class="theme-selector">
+                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+                    <option value="legacy">Legacy Theme</option>
+                    <option value="light">Light Theme</option>
+                    <option value="ocean">Ocean Theme</option>
+                    <option value="dark">Dark Theme</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container section" style="width:650px">
+        <h2>Complex Number Vector Plotter</h2>
+        
+        <canvas id="complexCanvas"></canvas>
+        
+        <div id="inputFields">
+            <div class="inputRow">
+                <div>
+                    <label for="realInput">a: </label>
+                    <input type="number" id="realInput" name="realInput" value="0">
+                </div>
+                
+                <div>
+                    <label for="imaginaryInput">bi: </label>
+                    <input type="number" id="imaginaryInput" name="imaginaryInput" value="0">
+                </div>
+				
+				<div class="inputRow">
+                <button onclick="addComplexNumber()">Add</button>
+                <button onclick="clearChart()">Clear Chart</button>
+				</div>
+            </div>
+
+            <div>
+                <center>
+                <label for="colorPicker">Choose a color:</label>
+                <input type="color" id="colorPicker" name="colorPicker" value="#ff0000">
+                </center>
+            </div>
+
+            <div>
+                <label for="zoomSlider">Zoom: </label>
+                <input type="range" id="zoomSlider" min="1" max="50" value="10" onchange="adjustZoom()">
+                <span id="zoomDisplay">1.0x</span>
+            </div>
+        </div>
+
+        <div id="output">
+            <ul id="vectorLengths"></ul>
+        </div>
+    </div>
+
+<script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function changeTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            document.getElementById('themeSelect').value = theme;
+            document.getElementById('themeSelectSidebar').value = theme;
+        }
+
+        //load save theme, change default later?
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeSelect').value = savedTheme;
+            document.getElementById('themeSelectSidebar').value = savedTheme;
+        }
+
+
+    let ctx = document.getElementById('complexCanvas').getContext('2d');
+    let data = {
+        datasets: []
+    };
+
+    let options = {
+        scales: {
+            x: {
+                min: -10,
+                max: 10
+            },
+            y: {
+                min: -10,
+                max: 10
+            }
+        }
+    };
+
+    let arrowPlugin = {
+        id: 'arrowPlugin',
+        afterDatasetsDraw: function(chart, _, options) {
+            let ctx = chart.ctx;
+            ctx.save();
+            data.datasets.forEach(dataset => {
+                dataset.data.forEach(dataPoint => {
+                    let pixel = chart.scales.x.getPixelForValue(dataPoint.x);
+                    let pixelY = chart.scales.y.getPixelForValue(dataPoint.y);
+                    let originPixel = chart.scales.x.getPixelForValue(0);
+                    let originPixelY = chart.scales.y.getPixelForValue(0);
+                    drawArrow(ctx, originPixel, originPixelY, pixel, pixelY, dataset.borderColor);
+                });
+            });
+            ctx.restore();
+        }
+    };
+
+    function drawArrow(ctx, fromX, fromY, toX, toY, color) {
+        let headLength = 10; 
+        let dx = toX - fromX;
+        let dy = toY - fromY;
+        let angle = Math.atan2(dy, dx);
+        ctx.strokeStyle = color;
+        ctx.fillStyle = color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(fromX, fromY);
+        ctx.lineTo(toX, toY);
+        ctx.lineTo(toX - headLength * Math.cos(angle - Math.PI/6), toY - headLength * Math.sin(angle - Math.PI/6));
+        ctx.moveTo(toX, toY);
+        ctx.lineTo(toX - headLength * Math.cos(angle + Math.PI/6), toY - headLength * Math.sin(angle + Math.PI/6));
+        ctx.stroke();
+    }
+
+    let chart = new Chart(ctx, {
+        type: 'scatter',
+        data: data,
+        options: options,
+        plugins: [arrowPlugin] 
+    });
+
+    function addComplexNumber() {
+        let real = parseFloat(document.getElementById('realInput').value);
+        let imaginary = parseFloat(document.getElementById('imaginaryInput').value);
+        let color = document.getElementById('colorPicker').value;
+        let datasetLabel = `${real}, ${imaginary}`;
+
+        let newDataset = {
+            label: datasetLabel,
+            data: [{
+                x: real,
+                y: imaginary
+            }],
+            borderColor: color,
+            backgroundColor: color
+        };
+
+        data.datasets.push(newDataset);
+        
+        let length = Math.sqrt(real * real + imaginary * imaginary);
+        document.getElementById('vectorLengths').innerHTML += `<li>${real} + ${imaginary}i : ${length.toFixed(2)}</li>`;
+
+        chart.update();
+    }
+
+    function adjustZoom() {
+        let zoomFactor = parseFloat(document.getElementById('zoomSlider').value) / 10;
+        chart.options.scales.x.min = -10 * zoomFactor;
+        chart.options.scales.x.max = 10 * zoomFactor;
+        chart.options.scales.y.min = -10 * zoomFactor;
+        chart.options.scales.y.max = 10 * zoomFactor;
+        document.getElementById('zoomDisplay').textContent = zoomFactor.toFixed(1) + "x";
+        chart.update();
+    }
+
+    function clearChart() {
+        data.datasets = [];
+        document.getElementById('vectorLengths').innerHTML = "";
+        chart.resetZoom(); 
+        chart.update();
+    }
+
+    adjustZoom();
+</script>
+</body>
+
+</html>
