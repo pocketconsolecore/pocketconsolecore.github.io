@@ -1,0 +1,438 @@
+:root {
+    --primary-color: #0D6EFD;
+    --secondary-color: #6C757D;
+    --background-color: #121212;
+    --text-color: #FFFFFF;
+    --accent-color: #BB86FC;
+    --surface-color: #1E1E1E;
+    --nav-height: 60px;
+    --font-family: 'Poppins', sans-serif;
+    --hover-background-color: #333;
+    --hover-text-color: var(--text-color);
+}
+
+/* Legacy Theme Variables */
+[data-theme="legacy"] {
+    --background-color: #2e2e2e;
+    --text-color: #e4e4e4;
+    --accent-color: #ffa500;
+    --surface-color: #333333;
+    --hover-background-color: #ffa500;
+    --hover-text-color: var(--text-color);
+}
+
+/* Light Theme Variables */
+[data-theme="light"] {
+    --background-color: #FFFFFF;
+    --text-color: #212529;
+    --accent-color: #0D6EFD;
+    --surface-color: #F8F9FA;
+    --hover-background-color: #333;
+    --hover-text-color: #99ccff;
+}
+
+/* Ocean Theme Variables */
+[data-theme="ocean"] {
+    --background-color: #2C3E50;
+    --text-color: #ecf0f1;
+    --accent-color: #1ABC9C;
+    --surface-color: #34495E;
+    --hover-background-color: #1ABC9C;
+    --hover-text-color: var(--text-color);
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+    --background-color: #121212;
+    --text-color: #FFFFFF;
+    --accent-color: #BB86FC;
+    --surface-color: #1E1E1E;
+    --hover-background-color: #333;
+    --hover-text-color: var(--text-color);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.theme-selector select {
+    appearance: none;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border: 1px solid var(--accent-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1em;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--surface-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: var(--nav-height);
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar .logo {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar .nav-links li {
+    margin-left: 20px;
+}
+
+.navbar .nav-links li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 500;
+    transition: color 0.3s;
+    white-space: nowrap;
+}
+
+.navbar .nav-links li a:hover {
+    color: var(--accent-color);
+}
+
+.navbar .theme-selector {
+    margin-right: 20px;
+}
+
+.navbar .theme-selector select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--accent-color);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 1.5em;
+    color: var(--text-color);
+    cursor: pointer;
+    margin-right: 5%;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100vh;
+    background-color: var(--surface-color);
+    padding-top: var(--nav-height);
+    transition: left 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    border-bottom: 1px solid #333;
+}
+
+.sidebar ul li a {
+    display: block;
+    padding: 15px 20px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1em;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Updated Hover Styles */
+.sidebar ul li a:hover {
+    background-color: var(--hover-background-color);
+    color: var(--hover-text-color);
+}
+
+.sidebar .theme-selector {
+    padding: 15px 20px;
+}
+
+.sidebar .theme-selector select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--accent-color);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+}
+
+.sidebar .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5em;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/* Main Content */
+.container {
+    max-width: 950px;
+    margin: calc(var(--nav-height) + 20px) auto 0;
+    padding: 0 20px;
+}
+
+.section {
+    margin-bottom: 60px;
+}
+
+.section h1 {
+    font-size: 2.5em;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--accent-color);
+}
+
+.section h2 {
+    font-size: 1.8em;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.section p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.section .line {
+    width: 80px;
+    height: 4px;
+    background-color: var(--accent-color);
+    margin: 30px 0;
+}
+
+/* Links */
+.links {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.links li {
+    margin-bottom: 15px;
+}
+
+.links li a {
+    color: var(--accent-color);
+    font-size: 1.2em;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.links li a:hover {
+    color: var(--text-color);
+}
+
+/* Calculator Entries */
+.calculator-entry {
+    display: flex;
+    align-items: center;
+    background-color: var(--surface-color);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.calculator-entry img {
+    width: 350px;
+    height: 200px;
+    object-fit: fit;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.calculator-info {
+    text-align: left;
+}
+
+.calculator-info a {
+    color: var(--accent-color);
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.calculator-info a:hover {
+    color: var(--hover-text-color);
+}
+
+.calculator-info p {
+    margin-top: 10px;
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--surface-color);
+    padding: 20px 0;
+    text-align: center;
+    color: var(--text-color);
+}
+
+.footer p {
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .navbar .nav-links,
+    .navbar .theme-selector {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .section h1 {
+        font-size: 2em;
+    }
+
+    .section h2 {
+        font-size: 1.5em;
+    }
+
+    .section p {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 576px) {
+    .section h1 {
+        font-size: 1.8em;
+    }
+
+    .section h2 {
+        font-size: 1.3em;
+    }
+
+    .section p {
+        font-size: 0.9em;
+    }
+}
+
+/* Text will appear below image in mobile view */
+@media (max-width: 768px) {
+    .calculator-entry {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .calculator-entry img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .calculator-info {
+        text-align: center;
+        margin-top: 10px;
+    }
+}
+
+/* Additional styles from your phasor converter page */
+#output {
+    font-weight: bold;
+    margin: 15px;
+    padding: 15px;
+    font-size: 130%;
+    position: relative;
+    text-align: center;
+    background-color: var(--surface-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    text-align: left;
+    max-width: 800px;
+    margin: 15px auto;
+}
+
+aa {
+    font-size: 10px;
+    color: tomato;
+    font-style: italic;
+}
+
+input[type="number"], input[type="color"], input[type="text"] select {
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid var(--surface-color);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    outline: none;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 15px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover, button:active {
+    background-color: var(--hover-background-color);
+    color: var(--hover-text-color);
+    transform: translateY(-2px);
+}
+
+/* Adjusted styles for the canvas */
+/*
+#phasorCanvas {
+    width: 650px;
+    height: 650px;
+    margin: 20px auto;
+    border: 2px solid var(--accent-color);
+    border-radius: 4px;
+}
+*/
