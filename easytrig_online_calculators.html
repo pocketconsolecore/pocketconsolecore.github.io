@@ -352,6 +352,25 @@
                 font-size: 0.9em;
             }
         }
+		
+		/* text will appear below image in mobile view */
+		@media (max-width: 768px) {
+		.calculator-entry {
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.calculator-entry img {
+			width: 100%;
+			height: auto;
+			margin-bottom: 10px;
+		}
+
+		.calculator-info {
+			text-align: center;
+			margin-top: 10px;
+		}
+}
     </style>
 
     <!-- JavaScript -->
