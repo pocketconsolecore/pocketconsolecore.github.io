@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Tags -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Discrete Function Plotter</title>
+    
+	<meta name="description" content="Plot discrete functions and best fit line calculator.">
+    <meta name="keywords" content="discrete time function, function plotter, best fit line calculator,
+	convert continous function into discrete, discrete plotter, plot discrete function, discrete function plotter">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
+    
+	<!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Discrete Function Plotter">
+    <meta property="og:description" content="Plot discrete functions and best fit line calculator.">
+    <meta property="og:image" content="https://www.easytrig.com/images/discrete_time_function_plotter_manual_perry_newlin_easytrig.png">
+    <meta property="og:url" content="https://www.easytrig.com/calculators/discreteTimeSignalGraphingTool.html">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="Discrete Function Plotter">
+    <meta name="twitter:title" content="EasyTrig.com | Plot Phasors as Sinusoids">
+    <meta name="twitter:description" content="Plot discrete functions and best fit line calculator.">
+    <meta name="twitter:image" content="https://www.easytrig.com/images/discrete_time_function_plotter_manual_perry_newlin_easytrig.png">
+
+	<link rel="canonical" href="https://www.easytrig.com/calculators/discreteTimeSignalGraphingTool.html">
+	
+	<!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+	
+	<!-- External Stylesheet -->
+    <link rel="stylesheet" href="../style.css">
+
+	<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Tom-Alexander/regression-js/dist/regression.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
+	<script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function changeTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            document.getElementById('themeSelect').value = theme;
+            document.getElementById('themeSelectSidebar').value = theme;
+        }
+
+        // Load saved theme
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light'; // Set light theme as default
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeSelect').value = savedTheme;
+            document.getElementById('themeSelectSidebar').value = savedTheme;
+        }
+    </script>
+</head>
+<body onload="initTheme(); plotFunctionOnLoad(); plotManualPointsOnLoad();">
+<!-- plot some basic demo stuff, fills page and looks good -->
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="../index.html" class="logo">Easytrig</a>
+        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
+        <ul class="nav-links">
+            <li><a href="../software_downloads.html">Software Downloads</a></li>
+            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="index.html">Online Calculators</a></li>
+        </ul>
+        <div class="theme-selector">
+            <select id="themeSelect" onchange="changeTheme(this.value)">
+                <option value="legacy">Legacy Theme</option>
+                <option value="light">Light Theme</option>
+                <option value="ocean">Ocean Theme</option>
+                <option value="dark">Dark Theme</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="close-btn" onclick="toggleSidebar()">×</div>
+        <ul>
+            <li><a href="../software_downloads.html">Software Downloads</a></li>
+            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="index.html">Online Calculators</a></li>
+            <li class="theme-selector">
+                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+                    <option value="legacy">Legacy Theme</option>
+                    <option value="light">Light Theme</option>
+                    <option value="ocean">Ocean Theme</option>
+                    <option value="dark">Dark Theme</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div style="max-width:650px" class="container section">
+
+        <h2>Discrete Function Plotter</h2>
+        <!--<aa>Supports function plotting and manual point plotting</aa>-->
+
+            <!-- Function Plotting Section -->
+			<div class="container" >
+                <h4>Function Plotting:</h4>
+                <input style="width: 60%" type="text" id="functionInput" placeholder="Function f(x): e.g., Math.sin(x) + x" />
+                <input type="number" id="pointsInput" value="100" placeholder="Number of points" />
+                <input type="number" id="stepInput" value="1" placeholder="Step" />
+                <label for="dataColor">Data Color:</label>
+                <input type="color" id="dataColor" value="#4BC0C0" />
+                <div class="checkbox-group">
+                    <input type="checkbox" id="showVerticalLines" />
+                    <label for="showVerticalLines">Show vertical lines</label>
+                </div>
+				<button onclick="plotFunction()">Plot Function</button><br>
+				<!--function plotting-->
+				<canvas id="myChart"></canvas>
+			</div>
+
+
+            <!--manual plotting section-->
+            <div class="container">
+                <h4>Manual Point Plotting:</h4>
+                <textarea style="width: 60%" id="manualPoints" rows="5" placeholder="Enter points as x,y pairs separated by spaces"></textarea>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="showBestFitLine" />
+                    <label for="showBestFitLine">Show Best-fit Line</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="showManualVerticalLines" />
+                    <label for="showManualVerticalLines">Show vertical lines</label>
+                </div>
+                <label for="manualPointColor">Manual Point Color:</label>
+                <input type="color" id="manualPointColor" value="#FF0000" />
+                <label for="bestFitLineColor">Best-fit Line Color:</label>
+                <input type="color" id="bestFitLineColor" value="#0000FF" />
+                <button onclick="plotManualPoints()">Plot Manual Points</button>
+							        <!-- Canvas for Manual Plotting -->
+				<canvas id="manualChart"></canvas>
+		        <div id="output"></div>
+            </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>easytrig © 2024, Perry Newlin</p>
+        <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/" style="color: var(--accent-color); text-decoration: none;">My LinkedIn</a></p>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        let functionChartInstance = null;
+        let manualChartInstance = null;
+
+        function plotFunction() {
+            const originalFunc = document.getElementById('functionInput').value;
+            const numPoints = document.getElementById('pointsInput').value;
+            const step = parseFloat(document.getElementById('stepInput').value);
+            const color = document.getElementById('dataColor').value;
+
+            let dataPoints = [];
+            let verticalLines = [];
+
+            for (let i = 0; i < numPoints; i++) {
+                let xVal = i * step;
+                const y = new Function('x', `return ${originalFunc}`)(xVal);
+                dataPoints.push({ x: xVal, y: y });
+
+                if (document.getElementById('showVerticalLines').checked) {
+                    verticalLines.push({ x: xVal, y: 0 });
+                    verticalLines.push({ x: xVal, y: y });
+                    verticalLines.push({ x: NaN, y: NaN });
+                }
+            }
+
+            let datasets = [];
+
+            if (document.getElementById('showVerticalLines').checked) {
+                datasets.push({
+                    label: 'Vertical Lines',
+                    data: verticalLines,
+                    fill: false,
+                    borderColor: color,
+                    borderWidth: 1,
+                    showLine: true,
+                    pointRadius: 0,
+                    tension: 0
+                });
+            }
+
+            datasets.push({
+                label: 'Discrete Time Points',
+                data: dataPoints,
+                fill: false,
+                borderColor: color,
+                pointRadius: 5,
+                showLine: false,
+            });
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+
+            if (functionChartInstance) {
+                functionChartInstance.destroy();
+            }
+
+            functionChartInstance = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: datasets
+                },
+                options: {
+                    scales: {
+                        x: { type: 'linear', position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function plotManualPoints() {
+            const rawPoints = document.getElementById('manualPoints').value.trim().split(' ');
+            let manualPoints = [];
+            let bestFitLine = [];
+            let manualVerticalLines = [];
+
+            for (const pt of rawPoints) {
+                if (pt.includes(',')) {
+                    const [x, y] = pt.split(',').map(Number);
+                    manualPoints.push({ x: x, y: y });
+
+                    if (document.getElementById('showManualVerticalLines').checked) {
+                        manualVerticalLines.push({ x: x, y: 0 });
+                        manualVerticalLines.push({ x: x, y: y });
+                        manualVerticalLines.push({ x: NaN, y: NaN });
+                    }
+                }
+            }
+
+            let equation = "";
+
+            if (document.getElementById('showBestFitLine').checked && manualPoints.length) {
+                const regressionResult = regression.linear(manualPoints.map(pt => [pt.x, pt.y]));
+                for (const pt of regressionResult.points) {
+                    bestFitLine.push({ x: pt[0], y: pt[1] });
+                }
+                equation = `y = ${regressionResult.equation[0].toFixed(4)}x + ${regressionResult.equation[1].toFixed(4)}`;
+            }
+
+            const manualPointColor = document.getElementById('manualPointColor').value;
+            const bestFitLineColor = document.getElementById('bestFitLineColor').value;
+
+            let datasets = [];
+
+            if (document.getElementById('showManualVerticalLines').checked) {
+                datasets.push({
+                    label: 'Vertical Lines',
+                    data: manualVerticalLines,
+                    fill: false,
+                    borderColor: manualPointColor,
+                    borderWidth: 1,
+                    showLine: true,
+                    pointRadius: 0,
+                    tension: 0
+                });
+            }
+
+            datasets.push({
+                label: 'Manual Points',
+                data: manualPoints,
+                fill: false,
+                borderColor: manualPointColor,
+                pointRadius: 5,
+                showLine: false,
+            });
+
+            if (document.getElementById('showBestFitLine').checked && manualPoints.length) {
+                datasets.push({
+                    label: 'Best-fit Line',
+                    data: bestFitLine,
+                    fill: false,
+                    borderColor: bestFitLineColor,
+                    pointRadius: 0,
+                    showLine: true,
+                    borderWidth: 2,
+                });
+            }
+
+            const ctx = document.getElementById('manualChart').getContext('2d');
+
+            if (manualChartInstance) {
+                manualChartInstance.destroy();
+            }
+
+            manualChartInstance = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: datasets
+                },
+                options: {
+                    scales: {
+                        x: { type: 'linear', position: 'bottom' }
+                    }
+                }
+            });
+
+            document.getElementById('output').textContent = equation;
+        }
+		
+		
+        function plotFunctionOnLoad() {
+            document.getElementById('functionInput').value = 'Math.sin(x)';
+            document.getElementById('pointsInput').value = 25;
+            document.getElementById('stepInput').value = 0.2;
+            plotFunction();
+        }
+		
+        function plotManualPointsOnLoad() {
+            //exponential data, expected best fit line is y=5x-1.3
+            let points = "";
+            for (let x = 0; x <= 3; x += 0.2) {
+                let y = Math.exp(x).toFixed(4);
+                points += `${x.toFixed(1)},${y} `;
+            }
+            document.getElementById('manualPoints').value = points.trim();
+			
+			document.getElementById('showBestFitLine').checked = true;
+			
+            plotManualPoints();
+        }
+    </script>
+</body>
+</html>

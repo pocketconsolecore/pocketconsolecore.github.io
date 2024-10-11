@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phasor Converter with 2D Visualization</title>
+
+	<meta name="description" content="Plot phasors with complex numbers or magnitude and phase as sinusoids. General phasor calculator for circuits.">
+    <meta name="keywords" content="plot phasors, phasor sinusoid calculator, circuit calculator, circuit analysis, circuit phasors, phasors in circuits, Easytrig, circuit analysis calculator, phasor plotter">
+
+	<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
+	
+	<!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Phasor Converter with 2D Visualization">
+    <meta property="og:description" content="Plot phasors with complex numbers or magnitude and phase as sinusoids. General phasor calculator for circuits.">
+    <meta property="og:image" content="https://www.easytrig.com/images/plot_phasor_as_sinusoid_perry_newlin.png">
+    <meta property="og:url" content="https://www.easytrig.com/calculators/phasorsinusoidfunctionplotter.html">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Phasor Converter with 2D Visualization">
+    <meta name="twitter:description" content="Plot phasors with complex numbers or magnitude and phase as sinusoids. General phasor calculator for circuits.">
+    <meta name="twitter:image" content="https://www.easytrig.com/images/plot_phasor_as_sinusoid_perry_newlin.png">
+
+	<link rel="canonical" href="https://www.easytrig.com/calculators/phasorsinusoidfunctionplotter.html">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+	<link rel="stylesheet" href="../style.css">
+
+    <!-- JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function changeTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            document.getElementById('themeSelect').value = theme;
+            document.getElementById('themeSelectSidebar').value = theme;
+        }
+
+        // Load saved theme and initialize page
+        window.onload = function() {
+            // Initialize Theme
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeSelect').value = savedTheme;
+            document.getElementById('themeSelectSidebar').value = savedTheme;
+
+            // Adjust scales on load
+            adjustZoom();
+            adjustXScale();
+            adjustYScale();
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="../index.html" class="logo">Easytrig</a>
+        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
+        <ul class="nav-links">
+            <li><a href="../software_downloads.html">Software Downloads</a></li>
+            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="index.html">Online Calculators</a></li>
+        </ul>
+        <div class="theme-selector">
+            <select id="themeSelect" onchange="changeTheme(this.value)">
+                <option value="legacy">Legacy Theme</option>
+                <option value="light">Light Theme</option>
+                <option value="ocean">Ocean Theme</option>
+                <option value="dark">Dark Theme</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="close-btn" onclick="toggleSidebar()">×</div>
+        <ul>
+            <li><a href="../software_downloads.html">Software Downloads</a></li>
+            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="index.html">Online Calculators</a></li>
+            <li class="theme-selector">
+                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+                    <option value="legacy">Legacy Theme</option>
+                    <option value="light">Light Theme</option>
+                    <option value="ocean">Ocean Theme</option>
+                    <option value="dark">Dark Theme</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div style="max-width:650px" class="container section">
+
+        <h2>Phasor Converter with 2D Visualization</h2>
+        <aa>zoom improvement soon</aa>
+        <p>Select input type:</p>
+		
+		<div class="theme-selector">
+        <select id="inputType">
+            <option value="complex">Complex (a+bi)</option>
+            <option value="magPhase">Magnitude and Phase</option>
+        </select>
+		</div>
+		
+        <div id="inputFields" style="display: flex; justify-content: center; gap: 20px;">
+            <div class="sinusoid-group">
+                <h4>Sinusoid 1:</h4>
+                <input type="number" id="input1_1" placeholder="a or magnitude">
+                <input type="number" id="input2_1" placeholder="b or phase (in degrees)">
+                <input type="color" id="color_1" value="#FF0000">
+            </div>
+        
+            <div class="sinusoid-group">
+                <h4>Sinusoid 2:</h4>
+                <input type="number" id="input1_2" placeholder="a or magnitude">
+                <input type="number" id="input2_2" placeholder="b or phase (in degrees)">
+                <input type="color" id="color_2" value="#00FF00">
+            </div>
+        
+            <div class="sinusoid-group">
+                <h4>Sinusoid 3:</h4>
+                <input type="number" id="input1_3" placeholder="a or magnitude">
+                <input type="number" id="input2_3" placeholder="b or phase (in degrees)">
+                <input type="color" id="color_3" value="#0000FF">
+            </div>
+        </div>
+        
+        <h4>View Settings:</h4>
+		<center>
+        <label for="zoomSlider">Zoom: </label>
+        <input type="range" id="zoomSlider" min="1" max="50" value="10" onchange="adjustZoom()">
+        <span id="zoomDisplay">1.0x</span>
+        <br>
+        <label for="xScaleSlider">X Scale: </label>
+        <input type="range" id="xScaleSlider" min="1" max="100" value="10" onchange="adjustXScale()">
+        <span id="xScaleDisplay">1.0x</span>
+        <br>
+        <label for="yScaleSlider">Y Scale: </label>
+        <input type="range" id="yScaleSlider" min="1" max="100" value="10" onchange="adjustYScale()">
+        <span id="yScaleDisplay">1.0x</span>
+        <br>
+
+		
+        <button onclick="convertPhasor()">Convert</button>
+        <canvas id="phasorCanvas"></canvas>
+        <center><p id="output"></p></center>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>easytrig © 2024, Perry Newlin</p>
+        <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/" style="color: var(--accent-color); text-decoration: none;">My LinkedIn</a></p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+
+        function toggleMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            const menuToggle = document.getElementById('menuToggle');
+            const closeBtn = document.getElementById('closeBtn');
+
+            // Check if sidebar is open
+            if (sidebar.style.width == '350px') {
+                // Close the sidebar
+                sidebar.style.width = '0';
+                console.log("DEBUG: CLOSING NAV");
+                menuToggle.style.display = 'block';
+                closeBtn.style.display = 'none';
+            } else {
+                // Open the sidebar
+                sidebar.style.width = '350px';
+                menuToggle.style.display = 'none';
+                closeBtn.style.display = 'block';
+            }
+        }
+
+        let ctx = document.getElementById('phasorCanvas').getContext('2d');
+        let data = {
+            datasets: []
+        };
+
+        let options = {
+            scales: {
+                x: {
+                    min: -10,
+                    max: 10
+                },
+                y: {
+                    min: -10,
+                    max: 10
+                }
+            }
+        };
+        let chart = new Chart(ctx, {
+            type: 'scatter',
+            data: data,
+            options: options
+        });
+
+        function generateSinusoid(amplitude, phase) {
+            const dataPoints = [];
+            const steps = 1000; //more steps for increased granularity
+            for (let i = 0; i <= steps; i++) {
+                const theta = (i/steps) * (40 * Math.PI) - (20 * Math.PI);
+                const x = theta;
+                const y = amplitude * Math.sin(theta + phase);
+                dataPoints.push({x, y});
+            }
+            return dataPoints;
+        }
+
+        function convertPhasor() {
+            const inputType = document.getElementById('inputType').value;
+            let outputs = [];
+            data.datasets = [];
+
+            for (let i = 1; i <= 3; i++) {
+                const input1 = parseFloat(document.getElementById(`input1_${i}`).value);
+                const input2 = parseFloat(document.getElementById(`input2_${i}`).value);
+                const color = document.getElementById(`color_${i}`).value;
+                let real, imag, amplitude, phase;
+
+                if (inputType === 'complex') {
+                    real = input1;
+                    imag = input2;
+                    amplitude = Math.sqrt(real*real + imag*imag);
+                    phase = Math.atan2(imag, real);
+                    output = `Sinusoid ${i}: ${amplitude.toFixed(2)}, ${(phase * (180 / Math.PI)).toFixed(2)} degrees`;
+                } else {
+                    amplitude = input1;
+                    phase = input2 * (Math.PI / 180);
+                    real = amplitude * Math.cos(phase);
+                    imag = amplitude * Math.sin(phase);
+                    output = `Sinusoid ${i}: ${real.toFixed(2)} + ${imag.toFixed(2)}i`;
+                }
+
+                const sinusoidData = generateSinusoid(amplitude, phase);
+                data.datasets.push({
+                    label: `Sinusoid ${i}`,
+                    data: sinusoidData,
+                    borderColor: color,
+                    fill: false,
+                    showLine: true,    // Show the line
+                    pointRadius: 0     // Hide individual points
+                });
+
+                outputs.push(output);
+            }
+
+            document.getElementById('output').innerText = outputs.join('\n');
+            chart.update();
+        }
+
+        function updateView() {
+            const xmin = parseFloat(document.getElementById('xmin').value) || -7;
+            const xmax = parseFloat(document.getElementById('xmax').value) || 7;
+            chart.options.scales.x.min = xmin;
+            chart.options.scales.x.max = xmax;
+            chart.update();
+        }
+
+        function adjustZoom() {
+            let zoomFactor = parseFloat(document.getElementById('zoomSlider').value) / 10;
+            chart.options.scales.x.min = -20 * Math.PI * zoomFactor;
+            chart.options.scales.x.max = 20 * Math.PI * zoomFactor;
+            chart.options.scales.y.min = -10 * zoomFactor;
+            chart.options.scales.y.max = 10 * zoomFactor;
+            document.getElementById('zoomDisplay').textContent = zoomFactor.toFixed(1) + "x";
+            chart.update();
+        }
+
+        function adjustXScale() {
+            let xScaleFactor = parseFloat(document.getElementById('xScaleSlider').value) / 10;
+            const zoomFactor = parseFloat(document.getElementById('zoomSlider').value) / 10; //get current zoom
+            
+            chart.options.scales.x.min = -20 * Math.PI * zoomFactor / xScaleFactor;
+            chart.options.scales.x.max = 20 * Math.PI * zoomFactor / xScaleFactor;
+            
+            document.getElementById('xScaleDisplay').textContent = xScaleFactor.toFixed(1) + "x";
+            chart.update();
+        }
+        function adjustYScale() {
+            let yScaleFactor = parseFloat(document.getElementById('yScaleSlider').value) / 10;
+            const zoomFactor = parseFloat(document.getElementById('zoomSlider').value) / 10; //get current zoom
+            
+            chart.options.scales.y.min = -10 * zoomFactor / yScaleFactor;
+            chart.options.scales.y.max = 10 * zoomFactor / yScaleFactor;
+            
+            document.getElementById('yScaleDisplay').textContent = yScaleFactor.toFixed(1) + "x";
+            chart.update();
+        }
+        
+    </script>
+
+</body>
+</html>

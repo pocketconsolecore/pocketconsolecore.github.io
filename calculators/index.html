@@ -8,7 +8,7 @@
     <meta name="description" content="Explore EasyTrig's collection of online calculators designed to simplify DSP and Circuit analysis.">
 	<meta name="keywords" content="EasyTrig, online calculators, phasor plotting, complex number plotting, signal plotting, discrete signal plotting, mathematical tools, electrical engineering calculators, signal processing tools, phasor calculator, add phasors, subtract phasors, multiply phasors, divide phasors, AC phasor plotting, continuous to discrete function plotter, discrete time function calculator, best fit line calculator, Perry Newlin, Perry Hamilton Newlin">
 
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Free Online Calculators | EasyTrig.com">
@@ -47,7 +47,7 @@
 
         // Load saved theme
         window.onload = function() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             document.getElementById('themeSelect').value = savedTheme;
             document.getElementById('themeSelectSidebar').value = savedTheme;
@@ -61,8 +61,8 @@
         <a href="../index.html" class="logo">Easytrig</a>
         <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
         <ul class="nav-links">
-            <li><a href="software_downloads.html">Software Downloads</a></li>
-            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="../software_downloads.html">Software Downloads</a></li>
+            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
             <li><a href="index.html"><b>Online Calculators</b></a></li>
         </ul>
         <div class="theme-selector">
@@ -79,8 +79,8 @@
     <div class="sidebar">
         <div class="close-btn" onclick="toggleSidebar()">×</div>
         <ul>
-            <li><a href="software_downloads.html">Software Downloads</a></li>
-            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="../software_downloads.html">Software Downloads</a></li>
+            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
             <li><a href="index.html"><b>Online Calculators</b></a></li>
             <li class="theme-selector">
                 <select id="themeSelectSidebar" onchange="changeTheme(this.value)">

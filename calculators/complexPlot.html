@@ -3,29 +3,30 @@
 
 <head>
 
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-    <title>Complex Number Plotter | EasyTrig.com</title>
+    <title>Complex Number Plotter</title>
     <meta name="description" content="Plot complex numbers as vectors. Calculates vector length.">
 	<meta name="keywords" content="complex numbers, plot vectors, plot complex numbers, how to find length of a vector, plot complex numbers as vectors, vector, vector length, interactive, Perry Newlin">
 
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Complex number plotter">
     <meta property="og:description" content="Plot complex numbers as vectors. Calculates vector length.">
-    <meta property="og:image" content="https://www.easytrig.com/images/og-image.jpg">
-    <meta property="og:url" content="https://www.easytrig.com/easytrig_online_calculators.html">
+    <meta property="og:image" content="https://www.easytrig.com/images/complex_number_plotter_easytrig_perry_newlin.png">
+    <meta property="og:url" content="https://www.easytrig.com/calculators/complexPlot.html">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Complex number plotter | EasyTrig.com">
-    <meta name="twitter:description" content="{lot complex numbers as vectors. Calculates vector length.">
-    <meta name="twitter:image" content="https://www.easytrig.com/images/og-image.jpg">
+    <meta name="twitter:title" content="Complex number plotter">
+    <meta name="twitter:description" content="Plot complex numbers as vectors. Calculates vector length.">
+    <meta name="twitter:image" content="https://www.easytrig.com/images/complex_number_plotter_easytrig_perry_newlin.png">
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://www.easytrig.com/calculators/complexPlot.html">
 	
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
@@ -40,8 +41,8 @@
         <a href="../index.html" class="logo">Easytrig</a>
         <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
         <ul class="nav-links">
-            <li><a href="software_downloads.html">Software Downloads</a></li>
-            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="../software_downloads.html">Software Downloads</a></li>
+            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
             <li><a href="index.html">Online Calculators</a></li>
         </ul>
         <div class="theme-selector">
@@ -58,8 +59,8 @@
     <div class="sidebar">
         <div class="close-btn" onclick="toggleSidebar()">×</div>
         <ul>
-            <li><a href="software_downloads.html">Software Downloads</a></li>
-            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
+            <li><a href="../software_downloads.html">Software Downloads</a></li>
+            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
             <li><a href="index.html">Online Calculators</a></li>
             <li class="theme-selector">
                 <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
@@ -73,7 +74,7 @@
     </div>
 
     <div class="container section" style="max-width:650px">
-        <h2>Complex Number Vector Plotter</h2>
+        <h2>Complex Number Plotter</h2>
         
         <canvas id="complexCanvas"></canvas>
         
@@ -129,7 +130,7 @@
 
         //load save theme, change default later?
         window.onload = function() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             document.getElementById('themeSelect').value = savedTheme;
             document.getElementById('themeSelectSidebar').value = savedTheme;
