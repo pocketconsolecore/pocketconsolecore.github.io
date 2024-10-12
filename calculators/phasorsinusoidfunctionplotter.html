@@ -113,7 +113,7 @@
     <div style="max-width:650px" class="container section">
 
         <h2>Phasor Converter with 2D Visualization</h2>
-        <aa>zoom improvement soon</aa>
+        <aa>Auto Zoom Added!</aa>
         <p>Select input type:</p>
 		
 		<div class="theme-selector">
@@ -148,21 +148,22 @@
         
         <h4>View Settings:</h4>
 		<center>
+
         <label for="zoomSlider">Zoom: </label>
-        <input type="range" id="zoomSlider" min="1" max="50" value="10" onchange="adjustZoom()">
+        <input type="range" id="zoomSlider" min="1" max="10" value="1" onchange="adjustZoom()">
         <span id="zoomDisplay">1.0x</span>
         <br>
         <label for="xScaleSlider">X Scale: </label>
-        <input type="range" id="xScaleSlider" min="1" max="100" value="10" onchange="adjustXScale()">
+        <input type="range" id="xScaleSlider" min="1" max="1000" value="500" onchange="adjustXScale()">
         <span id="xScaleDisplay">1.0x</span>
         <br>
         <label for="yScaleSlider">Y Scale: </label>
-        <input type="range" id="yScaleSlider" min="1" max="100" value="10" onchange="adjustYScale()">
+        <input type="range" id="yScaleSlider" min="1" max="1000" value="500" onchange="adjustYScale()">
         <span id="yScaleDisplay">1.0x</span>
         <br>
 
-		
-        <button onclick="convertPhasor()">Convert</button>
+        <button onclick="convertPhasor()">Plot</button>
+		<button onclick="autoZoom()">Auto Zoom</button>
         <canvas id="phasorCanvas"></canvas>
         <center><p id="output"></p></center>
     </div>
@@ -175,6 +176,32 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
+		function autoZoom() {
+			let allDataX = [];
+			let allDataY = [];
+
+			data.datasets.forEach(dataset => {
+				dataset.data.forEach(point => {
+					allDataX.push(point.x);
+					allDataY.push(point.y);
+				});
+			});
+
+			let minX = Math.min(...allDataX);
+			let maxX = Math.max(...allDataX);
+			let minY = Math.min(...allDataY);
+			let maxY = Math.max(...allDataY);
+
+			let xPadding = (maxX - minX) * 0.1;
+			let yPadding = (maxY - minY) * 0.1;
+
+			chart.options.scales.x.min = minX - xPadding;
+			chart.options.scales.x.max = maxX + xPadding;
+			chart.options.scales.y.min = minY - yPadding;
+			chart.options.scales.y.max = maxY + yPadding;
+
+			chart.update();
+		}
 
         function toggleMenu() {
             const sidebar = document.querySelector('.sidebar');
