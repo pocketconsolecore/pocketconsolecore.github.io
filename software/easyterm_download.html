@@ -35,7 +35,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="../style.css">
 
     <script>
         function toggleSidebar() {
@@ -63,12 +63,12 @@
 
     <!-- Navbar -->
     <nav class="navbar">
-        <a href="#" class="logo">Easytrig</a>
+        <a href="../index.html" class="logo">Easytrig</a>
         <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
         <ul class="nav-links">
             <li><a href="software/index.html">Software Downloads</a></li>
             <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="calculators/index.html">Online Calculators</a></li>
+            <li><a href="../calculators/index.html">Online Calculators</a></li>
         </ul>
         <div class="theme-selector">
             <select id="themeSelect" onchange="changeTheme(this.value)">
@@ -101,38 +101,44 @@
     <!-- Main Content -->
     <div class="container">
         <div class="section">
-            <h1>Easytrig</h1>
-            <h2>Your Gateway to Simple Hardware and Software Solutions</h2>
-			<p>At Easytrig, we specialize in affordable solutions for hardware and software. 
-			Whether you're a hobbyist looking for inexpensive circuit boards or need simple 
-			encryption tools, we've got you covered. Explore our free online tools for 
-			complex math, circuit design, and DSP. Our mission is to make advanced tech 
-			accessible to <b>everyone.</b></p>
-
+            <h1>Easyterm Download</h1>
+            <h2>A Lightweight, Customizable Serial Terminal</h2>
+            <p>Modern serial terminal application, designed with simplicity and functionality in mind. Enjoy customizable themes, an intuitive interface, and a lightweight download.</p>
+			
+		<img style="width:75%; height: 75%; border-radius: 10px;" src="../images/easyterm_zoom.gif" alt="Easyterm demo gif">
+		</div>
+		
         <div class="section">
-            <h2>Why Choose Easytrig?</h2>
-            <p>Easytrig values functionality and simplicity above all else. Our tools are insanely 
-			simple to use, beautiful, customizable, and absurdly lightweight.</p>
+            <h2>Key Features</h2>
+            <ul class="links">
+				<li><b><u>FREE</b></u></li>
+                <li>Customizable Themes: Choose from Dark, light, and ocean.</li>
+                <li>Lightweight: < 1MB size, one click .exe no annoying installation required.</li>
+                <li>Intuitive Interface: User-friendly, zero bloat, only what you need.</li>
+                <li>Advanced Functionality: Custom baud rate support, even/odd/none parity.</li>
+				<li>Scaling: Built in slider to change scale.</li>
+            </ul>
         </div>
 
         <div class="section">
             <div class="line"></div>
-            <h2>Browse Our Solutions</h2>
-            <ul class="links">
-                <li><a href="software_downloads.html">Download our latest software tools</a></li>
-                <li><a href="purchase_easytrig_hardware.html">Explore our hardware offerings</a></li>
-                <li><a href="calculators/index.html">Access our online calculators</a></li>
-            </ul>
+            <h2>Download Now</h2>
+            <p>Get started with our modern serial terminal by downloading the latest version below.</p>
+            <button onclick="window.location.href='downloads/serial_terminal.zip'">Download Serial Terminal</button>
         </div>
 
         <div class="section">
-            <h2>Featured Online Easytrig Tools</h2>
-            <ul class="links">
-                <li><a href="calculators/phasorsinusoidfunctionplotter.html">Phasor Sinusoid Plotter</a> &mdash; Visualize phasor sinusoids effortlessly.</li>
-                <li><a href="calculators/phasorCalculator.html">Phasor Calculator</a> &mdash; Perform phasor calculations with ease.</li>
-                <li><a href="calculators/complexPlot.html">Complex Number Plotter</a> &mdash; Graph complex numbers interactively.</li>
-            </ul>
+            <h2>Screenshots</h2>
+            <div class="calculator-entry">
+                <img src="../images/easyterm.png" alt="Serial Terminal Screenshot">
+				<img src="../images/easyterm_lightmode.png" alt="Serial Terminal Screenshot">
+                <div class="calculator-info">
+                    <p>Dark and light mode</p>
+                </div>
+            </div>
+            <!-- Add more screenshots as needed -->
         </div>
+		
     </div>
 	
 	</div> <!-- get footer out of container, must span the whole horizontal-->
