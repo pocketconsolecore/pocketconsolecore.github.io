@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Calculators | EasyTrig.com</title>
+    <meta name="description" content="Explore EasyTrig's collection of online calculators designed to simplify complex mathematical and engineering tasks.">
+    <meta name="keywords" content="EasyTrig, online calculators, phasor plotting, complex number plotting, discrete signal plotting, mathematical tools, electrical engineering, signal processing">
+
+	<meta name="author" content="Perry Newlin">
+	<meta name="language" content="English">
+
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Online Calculators | EasyTrig.com">
+    <meta property="og:description" content="Explore EasyTrig's collection of online calculators designed to simplify complex mathematical and engineering tasks.">
+    <meta property="og:image" content="https://www.easytrig.com/images/og-image.jpg">
+    <meta property="og:url" content="https://www.easytrig.com/easytrig_online_calculators.html">
+    <meta property="og:type" content="website">
+	<meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Online Calculators | EasyTrig.com">
+    <meta name="twitter:description" content="Explore EasyTrig's collection of online calculators designed to simplify complex mathematical and engineering tasks.">
+    <meta name="twitter:image" content="https://www.easytrig.com/images/og-image.jpg">
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://www.easytrig.com/easytrig_online_calculators.html">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+	<link rel="stylesheet" href="style.css">
+
+    <!-- JavaScript -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function changeTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            document.getElementById('themeSelect').value = theme;
+            document.getElementById('themeSelectSidebar').value = theme;
+        }
+
+        // Load saved theme
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeSelect').value = savedTheme;
+            document.getElementById('themeSelectSidebar').value = savedTheme;
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">Easytrig</a>
+        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
+        <ul class="nav-links">
+            <li><a href="software_downloads.html">Software Downloads</a></li>
+            <li><a href="purchase_easytrig_hardware.html"><b>Purchase Hardware</b></a></li>
+            <li><a href="calculators/index.html">Online Calculators</a></li>
+        </ul>
+        <div class="theme-selector">
+            <select id="themeSelect" onchange="changeTheme(this.value)">
+                <option value="legacy">Legacy Theme</option>
+                <option value="light">Light Theme</option>
+                <option value="ocean">Ocean Theme</option>
+                <option value="dark">Dark Theme</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="close-btn" onclick="toggleSidebar()">×</div>
+        <ul>
+            <li><a href="software_downloads.html">Software Downloads</a></li>
+            <li><a href="purchase_easytrig_hardware.html"><b>Purchase Hardware</b></a></li>
+            <li><a href="calculators/index.html">Online Calculators</a></li>
+            <li class="theme-selector">
+                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+                    <option value="legacy">Legacy Theme</option>
+                    <option value="light">Light Theme</option>
+                    <option value="ocean">Ocean Theme</option>
+                    <option value="dark">Dark Theme</option>
+                </select>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="section">
+            <h1>Easytrig Hardware</h1>
+            <p>Cheap and easy hardware solutions for the intermediate and beginner hobbyist.</p>	
+
+            <!-- Calculator Entry 1 -->
+            <div class="calculator-entry">
+				<a href="phasorsinusoidfunctionplotter.html">
+                <img src="images/plot_phasor_as_sinusoid_perry_newlin.png" alt="Phasor Sinusoid Plotter">
+                </a>
+				<div class="calculator-info">
+                    <h2><a href="phasorsinusoidfunctionplotter.html">USB-C UART Board</a></h2>
+                    <p>Features the CH340 IC.</p>
+				</div>
+            </div>
+
+            <!-- Calculator Entry 2 -->
+            <div class="calculator-entry">
+			<a href="phasorCalculator.html">
+                <img src="images/phasor_calculator_with_steps_perry_newlin.png" alt="Phasor Calculator">
+				</a>
+				<div class="calculator-info">
+                    <h2><a href="phasorCalculator.html">Micro USB UART baord</a></h2>
+					<p>Features the CH340 IC.</p>
+                </div>
+            </div>
+
+            <!-- Additional calculator entries can be added here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>easytrig © 2024, Perry Newlin</p>
+        <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/" style="color: var(--accent-color); text-decoration: none;">My LinkedIn</a></p>
+    </div>
+
+</body>
+</html>

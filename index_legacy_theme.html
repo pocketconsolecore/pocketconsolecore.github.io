@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script>
+        function toggleMenu() {
+        
+            const sidebar = document.querySelector('.sidebar');
+            const menuToggle = document.getElementById('menuToggle');
+            const closeBtn = document.getElementById('closeBtn');
+        
+            // Check if sidebar is open
+            if (sidebar.style.width == '350px') {
+                // Close the sidebar
+                sidebar.style.width = '0';
+                console.log("DEBUG: CLOSING NAV");
+                menuToggle.style.display = 'block';
+                closeBtn.style.display = 'none';
+            } else {
+                // Open the sidebar
+                sidebar.style.width = '350px';
+                menuToggle.style.display = 'none';
+                closeBtn.style.display = 'block';
+            }
+        }
+        </script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Easytrig delivers fast, user-friendly tools for precise math operations, including phasor calculation for circuit analysis, 2D vector plotting of complex numbers, discrete function rendering, and customizable point and step size plotting. Ideal for electrical engineering, signal processing, and math enthusiasts.">
+    <meta name='designer' content='Perry Newlin'>
+	<meta name='owner' content='Perry Newlin'>
+	<meta name='revised' content='Thursday, October 3, 2024, 7:30 am'>
+	<meta name='topic' content='Math and circuit analysis'>
+	<meta name='subject' content='Online calculators to visualize and solve for discrete math functions and phasors.'>
+	<meta name='keywords' content='phasor calculator, phasor plotter, phasor tool, circuit phasor calculator, electrical phasor calculator, complex number calculator, complex number plotter, complex vector plotter, vector plotter online, discrete function plotter, function plotter tool, plot complex numbers, plot phasors, 2D vector plot, render phasors, render complex numbers, vector calculator, electrical engineering tools, math tool for engineers, phasor math tool, math function plotter, phasor calculation tool, signal processing calculator, circuit analysis phasor tool, custom phasor plotter, custom function plotter, electrical circuits calculator, circuit analysis tool, frequency domain plot, discrete function calculator, phasor visualization, electrical phasors, circuit phasors, custom plotting tool, math function rendering, math plotting tool, easy math tools, phasor diagrams, custom number of points plot, math visualization tool, signal processing phasor, electrical circuit analysis, phasor vector plotter, complex numbers visualization, phasor math operations, plot vectors online, 2D function plotter, phasor calculation online, plot phasors online, math plotting tools, math graphing tools, circuit analysis software, phasor graphs, circuit visualization tools, render functions online, engineering math tools, phasor graph plotter, interactive phasor tool, custom function graph, math tools for circuits, electrical engineering plotting tools, vector math tool, vector plotting software, phasor plotting software, math operations software, phasor tools for circuits, electrical engineering calculators, custom step size plotter, math operations calculator, custom phasor calculations, discrete math function plotter, interactive phasor plotter, electrical engineering math tools, easy math operations, signal processing visualizer, electrical circuits math, phasor plotting and calculation, online phasor calculator, circuit analysis calculator, math tools for engineers, interactive complex number plot, circuit analysis phasor, electrical circuits plotter, complex number rendering, phasor math calculations, 2D vector rendering, complex function calculator, signal processing phasor tool, electrical math tool, phasor tool for engineers, easy phasor calculator, phasor visualization tool, phasor software for engineers, render complex functions, plot discrete functions, signal processing plotter, custom function plotting software, easy math graph plotter, math graph software, math plotting calculator'>
+	<title>EasyTrig.com - Your Gateway to Simple Hardware and Software Solutions</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #2e2e2e; 
+            color: #e4e4e4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 0 10px;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .section {
+            padding: 20px;
+            background: #333; 
+            border-radius: 6px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            position: relative;
+            font-size: 2.2em;
+            color: #ffa500; 
+        }
+        h1::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -10px; 
+            width: 85%; /*width*/
+            height: 4px; /*thick*/
+            background: linear-gradient(to left, #333, white, #333); 
+            transform: translateX(-50%); 
+        }
+		.line {
+    position: relative;
+    width: 85%; /* Adjust as needed */
+    height: 4px; /* Adjust the thickness */
+    background: linear-gradient(to left, #333, white, #333);
+    margin: 20px auto; /* Centers the line */
+}
+
+        p {
+            margin-top: 20px;
+            font-size: 1.4em;
+            color: #e4e4e4;
+        }
+        .links {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+        }
+        .links li {
+            margin: 10px 0;
+        }
+        .links a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s ease-in-out;
+        }
+        .links a:hover {
+            color: #0056b3; /*dark blue for hoverinn*/
+        }
+        .footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #292929; 
+            font-size: 0.9em;
+            border-radius: 6px;
+            color: #d3d3d3;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        @media screen and (max-width: 600px) {
+    body {
+        font-size: 0.8em; /*so-so mobile impl.*/
+    }
+    .container {
+        width: 100%;
+        padding: 0 5px;
+    }
+    h1 {
+        font-size: 1.8em;
+    }
+    p {
+        font-size: 1.2em;
+    }
+    .footer {
+        font-size: 0.8em;
+    }
+}
+
+/*nav*/
+.navbar {
+         background-color: #3a3a3a;
+         padding: 10px 0;
+         text-align: center;
+         padding-top:150%;
+         position: relative;
+     }
+     
+     .navbar ul {
+         list-style-type: none;
+         margin: 0;
+         padding: 0;
+     }
+     
+     .navbar li {
+         display: inline;
+         margin: 0 15px;
+     }
+     
+     .navbar a {
+         color: #e4e4e4;
+         text-decoration: none;
+         font-weight: bold;
+         padding: 5px 10px;
+         border-radius: 4px;
+         transition: background-color 0.3s ease-in-out;
+     }
+     
+     .navbar a:hover {
+         background-color: #ffa500;
+     }
+
+     .sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    position: fixed;
+    left: 0;
+    top: -1.3%;
+    height: 100%;
+    width: 0px;
+    overflow-x: hidden;
+    transition: 0.3s;
+    z-index: 1000;
+    background-color: #1f1f1f;
+    padding-bottom: 20px; 
+}
+
+#menuToggle {
+    position: fixed;
+    top: -.7%;
+    left: 1px;
+    font-size: 24px; 
+    cursor: pointer;
+    color: #e4e4e4;        
+    padding: 10px;
+    border-radius: 10%;  
+    z-index: 2000;
+    transition: 0.3s;  
+}
+
+.sidebar ul {
+    padding: 0;
+    list-style-type: none;
+    width: 350px;
+}
+
+.sidebar li {
+    padding: 8px 10px;
+}
+
+.sidebar .category {
+    font-weight: bold;
+    background-color: #333;
+    color: #ffa500;
+}
+
+.sidebar a {
+    color: #e4e4e4;
+    text-decoration: none;
+    display: block;
+    padding: 8px 10px;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #ffa500;
+}
+
+.navbar .footerN {
+    font-size: 10px;
+    color: #e4e4e4;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.footerN {
+    font-size: 10px;
+    color: #e4e4e4;
+    text-align: center;
+}
+
+.close-nav {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: -10px;
+    left: 0;
+    height: 40px;
+    background-color: rgb(211, 134, 134);
+    color: white;
+    border-radius: 0%;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 2001; 
+    font-size: 20px;
+    box-sizing: border-box;
+}
+/* end of nav */
+
+.youtube-link {
+    text-align: left;
+    margin-top: 20px;
+    font-size: 11px;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
+
+.youtube-link a,
+.youtube-link a:visited { 
+    color: #ffa500; 
+    text-decoration: none;
+    font-size: 2.1em;
+    transition: text-shadow 0.3s ease-in-out;
+}
+
+.youtube-link a:hover {
+    text-shadow: 0 0 8px #ffa500; /*lil orange glow n stuff*/
+}
+
+
+
+    </style>
+</head>
+<body>
+
+    <div id="menuToggle" onclick="toggleMenu()">≡</div>
+
+    <div class="sidebar">
+
+        <ul>
+            <div id="closeBtn" class="close-nav" onclick="toggleMenu()">X</div>
+			
+			<li class="category">Solutions</li>
+			<li><a href="software_downloads.html" >Software Downloads</a></li>
+			<li><a href="purchase_easytrig_hardware.html" >Purchase Hardware</a></li>
+			<li><a href="easytrig_online_calculators.html" >Online Calculator Tools</a></li>
+			
+            <li class="category">Phasors and Complex Numbers</li>
+            <li><a href="phasorsinusoidfunctionplotter.html">Phasor Sinusoid Plotter</a></li>
+            <li><a href="phasorCalculator.html">Phasor Calculator</a></li>
+            <li><a href="complexPlot.html">Complex Number Plotter</a></li>
+    
+            <li class="category">Discrete Time Signals & DSP</li>
+            <li><a href="discreteTimeSignalGraphingTool.html">Discrete Time Signal Graphing</a></li>
+            <li><a href="#">Coming Soon!</a></li>
+        </ul>
+            <div class="footerN">
+                easytrig © 2024, Perry Newlin<br>
+                <!-- Social: -->
+            </div>
+    </div>
+
+    <div class="container section">
+        <h1>Easytrig</h1>
+		<h2>Your Gateway to Simple Hardware and Software Solutions</h2>
+      
+		<div style="text-align:left; padding-left:5%">
+		<p>Welcome to <strong>Easytrig</strong>, where we specialize in providing free, cheap, straightforward and intuitive hardware and software tools. 
+		Our mission is to simplify complex mathematical concepts/operations and bring funtional software and hardware solutions for a dirt cheap price.</p>
+		</div>
+
+		<h3>Why Choose Easytrig?</h3>
+		<div style="text-align:left; padding-left:5%">
+		<p>At Easytrig, we believe in simplicity and efficiency. All our tools are insanely simple to use, beatiful, customizable, and absurdly lightweight.</p>
+		</div>
+		
+		<div class="line"></div>
+		
+		<h3>Browse our solutions</h3>
+
+			<div class="youtube-link">
+				<a href="software_downloads.html">Download our latest software tools</a>
+			</div>
+			
+			<div class="youtube-link">
+				<a href="purchase_easytrig_hardware.html">Explore our hardware offerings</a>
+			</div>
+			
+			<div class="youtube-link">
+				<a href="easytrig_online_calculators.html">Access our online calculators</a>
+			</div>
+		
+		<br>
+		<br>
+		<br>
+		<h3>Featured Online Easytrig Tools</h3>
+
+		<ul class="links" style="text-align:center;">
+			<li><a href="phasorsinusoidfunctionplotter.html">Phasor Sinusoid Plotter</a> &mdash; Visualize phasor sinusoids effortlessly.</li>
+			<li><a href="phasorCalculator.html">Phasor Calculator</a> &mdash; Perform phasor calculations with ease.</li>
+			<li><a href="complexPlot.html">Complex Number Plotter</a> &mdash; Graph complex numbers interactively.</li>
+		</ul>
+
+
+        <div class="footer">
+			<ul class="links">
+            <a href="https://www.linkedin.com/in/perry-newlin-440619198/">My LinkedIn</p>
+			</ul>
+        </div>
+    </div>
+</body>
+</html>
