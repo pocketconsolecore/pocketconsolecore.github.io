@@ -6,7 +6,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phasor Converter with 2D Visualization</title>
+    <title>Phasor Converter and Calculator with 2D Visualization</title>
 
 	<meta name="description" content="Plot phasors with complex numbers or magnitude and phase as sinusoids. General phasor calculator for circuits.">
     <meta name="keywords" content="plot phasors, phasor sinusoid calculator, circuit calculator, circuit analysis, circuit phasors, phasors in circuits, Easytrig, circuit analysis calculator, phasor plotter">
@@ -17,7 +17,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
 	
 	<!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Phasor Converter with 2D Visualization">
+    <meta property="og:title" content="Phasor Converter and Calculator with 2D Visualization">
     <meta property="og:description" content="Plot phasors with complex numbers or magnitude and phase as sinusoids. General phasor calculator for circuits.">
     <meta property="og:image" content="https://www.easytrig.com/images/plot_phasor_as_sinusoid_perry_newlin.png">
     <meta property="og:url" content="https://www.easytrig.com/calculators/phasorsinusoidfunctionplotter.html">
@@ -25,7 +25,7 @@
 	<meta property="og:locale" content="en_US">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Phasor Converter with 2D Visualization">
+    <meta name="twitter:title" content="Phasor Converter and Calculator with 2D Visualization">
     <meta name="twitter:description" content="Plot phasors with complex numbers or magnitude and phase as sinusoids. General phasor calculator for circuits.">
     <meta name="twitter:image" content="https://www.easytrig.com/images/plot_phasor_as_sinusoid_perry_newlin.png">
 
@@ -112,7 +112,14 @@
     <!-- Main Content -->
     <div style="max-width:650px" class="container section">
 
+
         <h2>Phasor Converter with 2D Visualization</h2>
+		
+				<!-- Description Box -->
+		<div class="description">
+				<p>Plot and calculate phasors as sinusoids with complex (a+bi) or magnitude and phase input.</p>
+		</div>
+		
         <aa>Auto Zoom Added!</aa>
         <p>Select input type:</p>
 		
@@ -165,8 +172,19 @@
         <button onclick="convertPhasor()">Plot</button>
 		<button onclick="autoZoom()">Auto Zoom</button>
         <canvas id="phasorCanvas"></canvas>
-        <center><p id="output"></p></center>
-    </div>
+        <center><p id="output"></p></center></center>
+		
+	<div class="description">  <p>A phasor is a mathematical representation that simplifies AC circuit analysis by expressing sinusoidal signals as complex numbers.</p> 
+	<p>This tool allows you to input phasors either as complex numbers (a + bi) or in magnitude and phase form.<p> 
+	<p>For each phasor, this tool will plot the resulting signal in the time domain, the corresponding amplitude and phase, or the equivalent complex number representation of the 
+	perspective phasor.</p>
+	<p>This tool was the first offering provided by <a href="https://www.easytrig.com">Easytrig</a>, originally made to help me understand the relationship between complex numbers, phasors and their sinusoidal representations.
+	</p>
+	
+	<p>Our phasor converter and <a href="https://www.easytrig.com/calculators/phasorCalculator.html">phasor calculator</a> pair extremely well together in college AC circuit problems, <a href="https://www.youtube.com/watch?app=desktop&v=R9ku-4wu5qU">take a look!</a></p>
+		
+		
+    </div></div>
 
     <!-- Footer -->
     <div class="footer">
