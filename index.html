@@ -41,11 +41,8 @@
         (function() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
-			document.getElementById('themeSelect').value = savedTheme;
-            document.getElementById('themeSelectSidebar').value = savedTheme;
         })();
     </script>
-
 
     <script>
         function toggleSidebar() {
@@ -60,14 +57,11 @@
             document.getElementById('themeSelectSidebar').value = theme;
         }
 
-        /*
         window.onload = function() {
             const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
             document.getElementById('themeSelect').value = savedTheme;
             document.getElementById('themeSelectSidebar').value = savedTheme;
-        }
-		*/
+        };
     </script>
 </head>
 <body>
