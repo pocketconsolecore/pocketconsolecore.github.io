@@ -36,7 +36,13 @@
     <!-- Stylesheet -->
 	<link rel="stylesheet" href="style.css">
 
-    <!-- JavaScript -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+	
     <script>
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
@@ -50,13 +56,11 @@
             document.getElementById('themeSelectSidebar').value = theme;
         }
 
-        // Load saved theme
         window.onload = function() {
             const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
             document.getElementById('themeSelect').value = savedTheme;
             document.getElementById('themeSelectSidebar').value = savedTheme;
-        }
+        };
     </script>
 </head>
 <body>
