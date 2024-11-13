@@ -38,6 +38,15 @@
 	<link rel="stylesheet" href="style.css">
 
     <script>
+        // Apply saved theme as early as possible to prevent flash of default theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light'; // Default to 'light' theme
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+
+    <script>
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('active');
@@ -50,13 +59,14 @@
             document.getElementById('themeSelectSidebar').value = theme;
         }
 
-        // Load saved theme
+        /*
         window.onload = function() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             document.getElementById('themeSelect').value = savedTheme;
             document.getElementById('themeSelectSidebar').value = savedTheme;
         }
+		*/
     </script>
 </head>
 <body>
