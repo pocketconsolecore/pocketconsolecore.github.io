@@ -99,7 +99,12 @@
     }
 </style>
 
-
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
 
  <script>
         function toggleSidebar() {
@@ -132,16 +137,12 @@
 			type();
 		}
 
-
-        // Load saved theme and start typing effect
         window.onload = function() {
-            // Existing code for theme
             const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
             document.getElementById('themeSelect').value = savedTheme;
             document.getElementById('themeSelectSidebar').value = savedTheme;
 
-            // Typing effect
+            //typing effect
             const summaries = document.querySelectorAll('details summary');
             const typingSpeeds = [85, 70, 95]; // Different typing speeds
             summaries.forEach((summary, index) => {
