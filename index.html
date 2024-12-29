@@ -1,76 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EasyTrig.com - Your Gateway to Simple Hardware and Software Solutions</title>
     <meta name="description" content="Easytrig delivers fast, user-friendly, free, and cheap tools for precise math operations, 
-	including phasor calculation for circuit analysis, 2D vector plotting of complex numbers, 
-	discrete function rendering, file security, simple and customizable serial terminals. Easytrig is the best online calculator and store for electrical engineering, the electronic enthusiasts, and
-	the average personal computer user needing simple solutions for high levels of file security.">
+    including phasor calculation for circuit analysis, 2D vector plotting of complex numbers, 
+    discrete function rendering, file security, simple and customizable serial terminals. Easytrig is the best online calculator and store for electrical engineering, the electronic enthusiasts, and
+    the average personal computer user needing simple solutions for high levels of file security.">
     <meta name="keywords" content="EasyTrig, phasor calculation, complex number plotting, discrete function rendering, plot phasor as sine wave, plot phasor as sinusoid, plot sinusoid phasor, how to plot phasors, mathematical tools, electrical engineering, signal processing, math enthusiasts, Perry Newlin, Perry Hamilton Newlin, serial terminal, simple file encryption">
-	
-	<meta name="author" content="Perry Newlin">
-	<meta name="language" content="English">
-	
-	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
-	
-	<!-- Open Graph Meta Tags -->
+    <meta name="author" content="Perry Newlin">
+    <meta name="language" content="English">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
     <meta property="og:title" content="EasyTrig.com | Simple Hardware and Software Solutions for Circuit Analysis, DSP, and Embedded Systems">
     <meta property="og:description" content="Discover EasyTrig's free online tools for phasor plotting, DSP plotting, complex number plotting and more...">
     <meta property="og:image" content="https://www.easytrig.com/images/og-image.jpg">
     <meta property="og:url" content="https://www.easytrig.com/">
     <meta property="og:type" content="website">
-	<meta property="og:locale" content="en_US">
-
+    <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="EasyTrig.com | Simple Hardware and Software Solutions for Math/Circuit/Embedded/FPGA Enthusiasts">
     <meta name="twitter:description" content="Discover EasyTrig's free online tools for phasor plotting, DSP plotting, complex number plotting and more...">
     <meta name="twitter:image" content="https://www.easytrig.com/images/og-image.jpg">
-
-	<link rel="canonical" href="https://www.easytrig.com/">
-
-    <!-- Google Fonts -->
+    <link rel="canonical" href="https://www.easytrig.com/">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- Stylesheet -->
-	<link rel="stylesheet" href="style.css">
-
+    <style>
+        :root {
+            --primary-color: #0D6EFD;
+            --secondary-color: #6C757D;
+            --background-color: #ffffff;
+            --text-color: #212529;
+            --accent-color: #0D6EFD;
+            --surface-color: #f8f9fa;
+            --hover-background-color: #333;
+            --hover-text-color: #fff;
+            --nav-height: 60px;
+            --font-family: 'Poppins', sans-serif;
+            --transition-speed: 0.3s;
+        }
+        [data-theme="legacy"] {
+            --background-color: #2e2e2e;
+            --text-color: #e4e4e4;
+            --accent-color: #ffa500;
+            --surface-color: #333333;
+            --hover-background-color: #ffa500;
+            --hover-text-color: var(--text-color);
+        }
+        [data-theme="light"] {
+            --background-color: #FFFFFF;
+            --text-color: #212529;
+            --accent-color: #0D6EFD;
+            --surface-color: #F8F9FA;
+            --hover-background-color: #333;
+            --hover-text-color: #99ccff;
+        }
+        [data-theme="ocean"] {
+            --background-color: #2C3E50;
+            --text-color: #ecf0f1;
+            --accent-color: #1ABC9C;
+            --surface-color: #34495E;
+            --hover-background-color: #1ABC9C;
+            --hover-text-color: var(--text-color);
+        }
+        [data-theme="dark"] {
+            --background-color: #121212;
+            --text-color: #FFFFFF;
+            --accent-color: #BB86FC;
+            --surface-color: #1E1E1E;
+            --hover-background-color: #333;
+            --hover-text-color: var(--text-color);
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        body {
+            animation: fadeIn var(--transition-speed) ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+        a:hover {
+            color: var(--hover-background-color);
+        }
+        .navbar {
+            width: 100%;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--surface-color);
+            position: fixed;
+            top: 0;
+            padding: 0 20px;
+            z-index: 999;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .navbar-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            font-weight: 600;
+            font-size: 1.5em;
+            color: var(--accent-color);
+        }
+        .menu-icon {
+            font-size: 1.5em;
+            color: var(--text-color);
+            cursor: pointer;
+            display: none;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin: 0;
+        }
+        .nav-links li a {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        .nav-links li a:hover {
+            color: var(--accent-color);
+        }
+        .theme-selector {
+            margin-left: 1rem;
+        }
+        .theme-selector select {
+            appearance: none;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            border: 1px solid var(--accent-color);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .theme-selector select:hover {
+            background-color: var(--hover-background-color);
+            color: var(--hover-text-color);
+        }
+        @media screen and (max-width: 768px) {
+            .menu-icon {
+                display: block;
+            }
+            .nav-links {
+                position: absolute;
+                top: var(--nav-height);
+                right: 0;
+                background-color: var(--surface-color);
+                flex-direction: column;
+                width: 200px;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                padding-top: 1rem;
+				right: 18px;
+				padding: 5px; 
+				width: 130px;
+            }
+            .nav-links.active {
+                transform: translateX(0);
+            }
+            .nav-links li {
+                margin: 1rem 0;
+                width: 100%;
+                text-align: left;
+            }
+            .nav-links li a {
+                padding: 0.75rem 1rem;
+                display: block;
+            }
+            .theme-selector {
+                margin: 1rem 1rem;
+            }
+        }
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100vh;
+            color: var(--text-color);
+            background: linear-gradient(
+                135deg,
+                rgba(0,0,0,0) 0%,
+                var(--accent-color) 100%
+            );
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+            margin-top: var(--nav-height);
+        }
+        .hero-text {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            animation: slideDown 1s ease forwards;
+            opacity: 0;
+        }
+        .hero h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            color: #fff;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease forwards;
+        }
+        @keyframes slideDown {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+        }
+        .cta {
+            animation: fadeInUp 2s ease forwards;
+            opacity: 0;
+        }
+        .cta a {
+            background-color: #fff;
+            color: var(--accent-color);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+        .cta a:hover {
+            background-color: var(--hover-background-color);
+            color: var(--hover-text-color);
+        }
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            padding: 4rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .feature-card {
+            flex: 1 1 300px;
+            max-width: 350px;
+            background-color: var(--surface-color);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .feature-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        .feature-card p {
+            color: var(--text-color);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .feature-card a {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: var(--accent-color);
+        }
+        .feature-card a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            background-color: var(--surface-color);
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-color);
+            margin-top: 4rem;
+            position: relative;
+        }
+        .footer p {
+            margin: 0.5rem 0;
+        }
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero h2 {
+                font-size: 1.3rem;
+                margin-bottom: 1.5rem;
+            }
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
-    </script>
-
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-        }
-
         function changeTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
             document.getElementById('themeSelect').value = theme;
-            document.getElementById('themeSelectSidebar').value = theme;
         }
-
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
         window.onload = function() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.getElementById('themeSelect').value = savedTheme;
-            document.getElementById('themeSelectSidebar').value = savedTheme;
         };
     </script>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="#" class="logo">Easytrig</a>
-        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
-        <ul class="nav-links">
+<nav class="navbar">
+    <div class="navbar-container">
+        <div class="logo">Easytrig</div>
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <ul class="nav-links" id="navLinks">
             <li><a href="software/index.html">Software Downloads</a></li>
             <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
             <li><a href="calculators/index.html">Online Calculators</a></li>
@@ -83,70 +377,48 @@
                 <option value="dark">Dark Theme</option>
             </select>
         </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleSidebar()">×</div>
-        <ul>
-            <li><a href="software/index.html">Software Downloads</a></li>
-            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="calculators/index.html">Online Calculators</a></li>
-            <li class="theme-selector">
-                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
-                    <option value="legacy">Legacy Theme</option>
-                    <option value="light">Light Theme</option>
-                    <option value="ocean">Ocean Theme</option>
-                    <option value="dark">Dark Theme</option>
-                </select>
-            </li>
-        </ul>
     </div>
+</nav>
 
-    <!-- Main Content -->
-    <div class="container">
-        <div class="section">
-            <h1>Easytrig</h1>
-            <h2>Your Gateway to Simple Hardware and Software Solutions</h2>
-			<p>At Easytrig, we specialize in affordable solutions for hardware and software. 
-			Whether you're a hobbyist looking for inexpensive circuit boards or need simple 
-			encryption tools, we've got you covered. Explore our free online tools for 
-			complex math, circuit design, and DSP. Our mission is to make advanced tech 
-			accessible to <b>everyone.</b></p>
-
-        <div class="section">
-            <h2>Why Choose Easytrig?</h2>
-            <p>Easytrig values functionality and simplicity above all else. Our tools are insanely 
-			simple to use, beautiful, customizable, and absurdly lightweight.</p>
-        </div>
-
-        <div class="section">
-            <div class="line"></div>
-            <h2>Browse Our Solutions</h2>
-            <ul class="links">
-                <li><a href="software/index.html">Download our latest software tools</a></li>
-                <li><a href="purchase_easytrig_hardware.html">Explore our hardware offerings</a></li>
-                <li><a href="calculators/index.html">Access our online calculators</a></li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>Featured Online Easytrig Tools</h2>
-            <ul class="links">
-                <li><a href="calculators/phasorsinusoidfunctionplotter.html">Phasor Sinusoid Plotter</a> &mdash; Visualize phasor sinusoids effortlessly.</li>
-                <li><a href="calculators/phasorCalculator.html">Phasor Calculator</a> &mdash; Perform phasor calculations with ease.</li>
-                <li><a href="calculators/MarkdowntoPDF.html">Markdown + Mathjax Renderer</a> &mdash; Render Markdown & Mathjax in live time. <i>chatGPT markdown support!</i></li>
-            </ul>
+<section class="hero">
+    <div class="hero-text">
+        <h1>Easytrig</h1>
+        <h2>Your Gateway to Simple Hardware and Software Solutions</h2>
+        <div class="cta">
+            <a href="#features-section">Explore Solutions</a>
         </div>
     </div>
-	
-	</div> <!-- get footer out of container, must span the whole horizontal-->
+</section>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>easytrig © 2024, Perry Newlin</p>
-        <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/" style="color: var(--accent-color); text-decoration: none;">My LinkedIn</a></p>
+<section class="features" id="features-section">
+    <div class="feature-card">
+        <h3>Online Calculators</h3>
+        <p>Access free phasor sinusoids, DSP plotting, and complex number calculators designed for simplicity and precision.</p>
+        <a href="calculators/index.html">Go to Calculators</a><br>
+        <a href="calculators/phasorsinusoidfunctionplotter.html">Phasor Sinusoid Plotter</a><br>
+        <a href="calculators/phasorCalculator.html">Phasor Calculator</a><br>
+        <a href="calculators/MarkdowntoPDF.html">Markdown + MathJax Renderer</a>
     </div>
+    <div class="feature-card">
+        <h3>Software Downloads</h3>
+        <p>From simple encryption tools to advanced DSP utilities, our software suite is lightweight, user-friendly, and free to start.</p>
+        <a href="software/index.html">Discover Software</a>
+    </div>
+    <div class="feature-card">
+        <h3>Hardware Offerings</h3>
+        <p>Explore our affordable circuit boards and customizable solutions for embedded systems, FPGA development, and more.</p>
+        <a href="purchase_easytrig_hardware.html">Buy Hardware</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <p>easytrig © 2024, Perry Newlin</p>
+    <p>
+        <a href="https://www.linkedin.com/in/perry-newlin-440619198/" target="_blank">
+            My LinkedIn
+        </a>
+    </p>
+</footer>
 
 </body>
 </html>
