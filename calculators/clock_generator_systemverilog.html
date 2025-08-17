@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SystemVerilog Clock Generator · EasyTrig</title>
+  <meta name="description" content="Generate a SystemVerilog multi-output clock generator with per-clock frequency or period and duty cycle, plus an enable.">
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="../style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);}})();
+    function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('active')}
+    function changeTheme(v){if(v==='default'){document.documentElement.removeAttribute('data-theme');localStorage.removeItem('theme')}else{document.documentElement.setAttribute('data-theme',v);localStorage.setItem('theme',v)}var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=v}if(s2){s2.value=v}}
+    window.addEventListener('DOMContentLoaded',function(){var t=localStorage.getItem('theme')||'default';var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=t}if(s2){s2.value=t}});
+  </script>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="logo" href="index.html">Easy<span>trig</span></a>
+    <div class="nav-links">
+      <!--<a href="software/index.html">Software</a>-->
+      <!--<a href="purchase_easytrig_hardware.html">Hardware</a>-->
+      <a href="index.html">Calculators</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="theme-selector">
+      <select id="themeSelect" onchange="changeTheme(this.value)">
+        <option value="default">Black+Orange</option>
+        <option value="legacy">Legacy</option>
+        <option value="light">Light</option>
+        <option value="ocean">Ocean</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+  </nav>
+
+  <div class="sidebar">
+    <div class="close-btn" onclick="toggleSidebar()">×</div>
+    <ul>
+      <!--<li><a href="software/index.html">Software</a></li>-->
+      <!--<li><a href="purchase_easytrig_hardware.html">Hardware</a></li>-->
+      <li><a href="calculators/index.html">Calculators</a></li>
+      <li class="theme-selector">
+        <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+          <option value="default">Black+Orange</option>
+          <option value="legacy">Legacy</option>
+          <option value="light">Light</option>
+          <option value="ocean">Ocean</option>
+          <option value="dark">Dark</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+
+  <main class="container section">
+    <h1>SystemVerilog Clock Generator</h1>
+
+    <div class="card">
+      <div class="grid cols-3">
+        <div class="controls">
+          <label>Module name</label>
+          <input id="modName" value="clk_gen">
+          <label>Enable signal</label>
+          <input id="enName" value="clk_en">
+          <label>Outputs</label>
+          <input id="outCount" type="number" min="1" max="5" value="3">
+        </div>
+        <div class="controls">
+          <label>Timeunit/precision</label>
+          <select id="tuSel">
+            <option value="1ns/1ps">1ns/1ps</option>
+            <option value="1us/1ns">1us/1ns</option>
+            <option value="100ps/1ps">100ps/1ps</option>
+            <option value="1ms/1us">1ms/1us</option>
+          </select>
+          <label>Preset</label>
+          <select id="preset" onchange="applyPreset(this.value)">
+            <option value="none">None</option>
+            <option value="3clks">3 outputs: 100MHz, 50MHz, 10MHz</option>
+            <option value="lab">2 outputs: 1MHz 30%, 10kHz 60%</option>
+          </select>
+          <button class="btn" onclick="resetAll()">Reset</button>
+        </div>
+        <div class="controls">
+          <label>Actions</label>
+          <button class="btn primary" onclick="generateSVAndInst()">Generate SystemVerilog</button>
+          <button class="btn" onclick="copyCode()">Copy</button>
+          <button class="btn" onclick="downloadFile()">Download .sv</button>
+          <p class="notice">Each output can use frequency or period with its own duty cycle. Enable gates all clocks.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Outputs</h3>
+        <div id="outputs"></div>
+      </div>
+      <div class="card">
+        <h3>Preview</h3>
+        <div class="canvas-wrap">
+          <svg id="preview" viewBox="0 0 700 400" style="width:100%;height:auto"></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Generated SystemVerilog</h3>
+      <pre class="code-view"><code id="svOut"></code></pre>
+    </div>
+
+    <div class="card">
+      <h3>Instantiation Preview</h3>
+      <pre class="code-view"><code id="instOut"></code></pre>
+    </div>
+  </main>
+
+  <div class="footer">
+    <p>easytrig © 2025, Perry Newlin</p>
+    <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/">LinkedIn</a></p>
+  </div>
+
+  <script>
+    const freqUnits=[["Hz",1],["kHz",1e3],["MHz",1e6],["GHz",1e9]];
+    const perUnits=[["fs",1e-15],["ps",1e-12],["ns",1e-9],["us",1e-6],["ms",1e-3],["s",1]];
+    const tuMap={"1ns/1ps":"ns","1us/1ns":"us","100ps/1ps":"ps","1ms/1us":"ms"};
+    const tuFactor={"fs":1e-15,"ps":1e-12,"ns":1e-9,"us":1e-6,"ms":1e-3,"s":1};
+    const state={count:3,outs:[],mod:"clk_gen",en:"clk_en",tu:"1ns/1ps"};
+    function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+    function fmt(n){let s=(Math.round(n*1e9)/1e9).toString();if(!s.includes("."))return s;while(s.endsWith("0"))s=s.slice(0,-1);if(s.endsWith("."))s=s.slice(0,-1);return s}
+    function initOut(i){return {name:`clk_out_${i+1}`,mode:"freq",fval:100,fun:"MHz",pval:10,pun:tuMap[state.tu]||"ns",duty:50}}
+    function readBasics(){
+      state.mod=document.getElementById("modName").value.trim()||"clk_gen";
+      state.en=document.getElementById("enName").value.trim()||"clk_en";
+      state.count=clamp(+document.getElementById("outCount").value||1,1,5);
+      document.getElementById("outCount").value=state.count;
+      state.tu=document.getElementById("tuSel").value;
+      for(let i=state.outs.length-1;i>=state.count;i--) state.outs.pop();
+      for(let i=state.outs.length;i<state.count;i++) state.outs.push(initOut(i));
+      buildOutputs();
+      drawPreview();
+      generateSVAndInst();
+    }
+    function buildOutputs(){
+      const wrap=document.getElementById("outputs");
+      wrap.innerHTML="";
+      for(let i=0;i<state.count;i++){
+        if(!state.outs[i]) state.outs[i]=initOut(i);
+        const o=state.outs[i];
+        const row=document.createElement("div");row.className="details";row.style.marginBottom="10px";
+        const top=document.createElement("div");top.className="controls";
+        const name=document.createElement("input");name.value=o.name;name.oninput=()=>{o.name=name.value;drawPreview();generateSVAndInst()};
+        const mode=document.createElement("select");[["freq","Frequency"],["period","Period"]].forEach(([v,l])=>{const opt=document.createElement("option");opt.value=v;opt.textContent=l;mode.appendChild(opt)});
+        mode.value=o.mode;mode.onchange=()=>{o.mode=mode.value;fields();drawPreview();generateSVAndInst()};
+        const duty=document.createElement("input");duty.type="number";duty.min="1";duty.max="99";duty.value=o.duty;duty.oninput=()=>{o.duty=clamp(+duty.value||50,1,99);duty.value=o.duty;drawPreview();generateSVAndInst()};
+        const fnum=document.createElement("input");fnum.type="number";fnum.step="any";fnum.value=o.fval;fnum.oninput=()=>{o.fval=+fnum.value||0;drawPreview();generateSVAndInst()};
+        const funit=document.createElement("select");freqUnits.forEach(([u])=>{const z=document.createElement("option");z.value=u;z.textContent=u;funit.appendChild(z)});funit.value=o.fun;funit.onchange=()=>{o.fun=funit.value;drawPreview();generateSVAndInst()};
+        const pnum=document.createElement("input");pnum.type="number";pnum.step="any";pnum.value=o.pval;pnum.oninput=()=>{o.pval=+pnum.value||0;drawPreview();generateSVAndInst()};
+        const punit=document.createElement("select");perUnits.forEach(([u])=>{const z=document.createElement("option");z.value=u;z.textContent=u;punit.appendChild(z)});punit.value=o.pun;punit.onchange=()=>{o.pun=punit.value;drawPreview();generateSVAndInst()};
+        const left=document.createElement("div");left.className="controls";left.append("Name",name,"Mode",mode,"Duty %",duty);
+        const right=document.createElement("div");right.className="controls";right.style.marginTop="8px";
+        const freqWrap=document.createElement("span");freqWrap.id=`freqWrap_${i}`;freqWrap.className="controls";freqWrap.append("f",fnum,funit);
+        const perWrap=document.createElement("span");perWrap.id=`perWrap_${i}`;perWrap.className="controls";perWrap.append("T",pnum,punit);
+        right.append(freqWrap,perWrap);
+        top.append(left);top.append(right);row.append(top);wrap.append(row);
+        function fields(){freqWrap.style.display=o.mode==="freq"?"flex":"none";perWrap.style.display=o.mode==="period"?"flex":"none"}
+        fields();
+      }
+    }
+    document.getElementById("modName").addEventListener("input",()=>{state.mod=document.getElementById("modName").value;drawPreview();generateSVAndInst()});
+    document.getElementById("enName").addEventListener("input",()=>{state.en=document.getElementById("enName").value;drawPreview();generateSVAndInst()});
+    document.getElementById("outCount").addEventListener("input",readBasics);
+    document.getElementById("tuSel").addEventListener("change",()=>{state.tu=document.getElementById("tuSel").value;state.outs.forEach(o=>o.pun=tuMap[state.tu]);buildOutputs();drawPreview();generateSVAndInst()});
+
+    function applyPreset(p){
+      if(p==="3clks"){state.count=3;document.getElementById("outCount").value=3;state.outs=[{name:"clk_out_1",mode:"freq",fval:100,fun:"MHz",pval:10,pun:"ns",duty:50},{name:"clk_out_2",mode:"freq",fval:50,fun:"MHz",pval:20,pun:"ns",duty:50},{name:"clk_out_3",mode:"freq",fval:10,fun:"MHz",pval:100,pun:"ns",duty:50}]}
+      else if(p==="lab"){state.count=2;document.getElementById("outCount").value=2;state.outs=[{name:"clk_out_1",mode:"freq",fval:1,fun:"MHz",pval:1000,pun:"ns",duty:30},{name:"clk_out_2",mode:"freq",fval:10,fun:"kHz",pval:100000,pun:"ns",duty:60}]}
+      buildOutputs();drawPreview();generateSVAndInst();
+    }
+    function resetAll(){state.count=3;state.mod="clk_gen";state.en="clk_en";state.tu="1ns/1ps";document.getElementById("modName").value=state.mod;document.getElementById("enName").value=state.en;document.getElementById("outCount").value=state.count;document.getElementById("tuSel").value=state.tu;state.outs=[];buildOutputs();drawPreview();document.getElementById("svOut").textContent="";document.getElementById("instOut").textContent=""}
+
+    function periodSeconds(o){
+      if(o.mode==="freq"){
+        const scale=freqUnits.find(([u])=>u===o.fun)[1];const f=o.fval*scale;if(f<=0)return null;return 1/f;
+      }else{
+        const scale=perUnits.find(([u])=>u===o.pun)[1];const T=o.pval*scale;if(T<=0)return null;return T;
+      }
+    }
+    function asTimeLiteral(seconds,baseUnit){
+      const factor=tuFactor[baseUnit]||1e-9;const n=seconds/factor;return fmt(n)+baseUnit;
+    }
+
+    function drawPreview(){
+      const svg=document.getElementById("preview");const w=700;const outs=state.outs.slice(0,state.count);
+      const rows=outs.length;const rowH=Math.max(36,Math.min(64,Math.floor(300/(rows||1))));const h=Math.max(180, rows? rowH*rows+80 : 180);
+      svg.setAttribute("viewBox",`0 0 ${w} ${h}`);
+      svg.innerHTML="";
+      const blockX=160, blockY=40, blockW=360, blockH=h-80;
+      const rect=document.createElementNS("http://www.w3.org/2000/svg","rect");
+      rect.setAttribute("x",blockX);rect.setAttribute("y",blockY);rect.setAttribute("rx","12");rect.setAttribute("ry","12");
+      rect.setAttribute("width",blockW);rect.setAttribute("height",blockH);rect.setAttribute("fill","var(--surface)");rect.setAttribute("stroke","var(--border)");rect.setAttribute("stroke-width","2");
+      svg.appendChild(rect);
+      const title=document.createElementNS("http://www.w3.org/2000/svg","text");
+      title.setAttribute("x",blockX+blockW/2);title.setAttribute("y",blockY+28);title.setAttribute("text-anchor","middle");title.setAttribute("fill","var(--text)");title.setAttribute("font-size","18");title.setAttribute("font-weight","700");title.textContent=state.mod;
+      svg.appendChild(title);
+      const enY=blockY+blockH/2;
+      const enLine=document.createElementNS("http://www.w3.org/2000/svg","line");
+      enLine.setAttribute("x1",blockX-80);enLine.setAttribute("y1",enY);enLine.setAttribute("x2",blockX);enLine.setAttribute("y2",enY);enLine.setAttribute("stroke","var(--brand)");
+      enLine.setAttribute("stroke-width","3");svg.appendChild(enLine);
+      const enTxt=document.createElementNS("http://www.w3.org/2000/svg","text");
+      enTxt.setAttribute("x",blockX-86);enTxt.setAttribute("y",enY-8);enTxt.setAttribute("text-anchor","end");enTxt.setAttribute("fill","var(--text)");enTxt.setAttribute("font-size","14");enTxt.textContent=state.en;
+      svg.appendChild(enTxt);
+      for(let i=0;i<outs.length;i++){
+        const o=outs[i];const y=blockY+50+i*(rowH);
+        const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+        line.setAttribute("x1",blockX+blockW);line.setAttribute("y1",y);line.setAttribute("x2",blockX+blockW+80);line.setAttribute("y2",y);line.setAttribute("stroke","var(--brand)");line.setAttribute("stroke-width","3");svg.appendChild(line);
+        const pin=document.createElementNS("http://www.w3.org/2000/svg","circle");
+        pin.setAttribute("cx",blockX+blockW+84);pin.setAttribute("cy",y);pin.setAttribute("r","4");pin.setAttribute("fill","var(--brand)");svg.appendChild(pin);
+        const name=document.createElementNS("http://www.w3.org/2000/svg","text");
+        name.setAttribute("x",blockX+blockW+92);name.setAttribute("y",y+5);name.setAttribute("fill","var(--text)");name.setAttribute("font-size","14");name.textContent=o.name;svg.appendChild(name);
+        const T=periodSeconds(o);const base=tuMap[state.tu]||"ns";
+        const info=document.createElementNS("http://www.w3.org/2000/svg","text");
+        info.setAttribute("x",blockX+14);info.setAttribute("y",y+5);info.setAttribute("fill","var(--muted)");info.setAttribute("font-size","13");
+        if(T){const f=1/T;info.textContent=fmt(f)+"Hz • "+asTimeLiteral(T,base)+" • duty "+clamp(o.duty,1,99)+"%"} else {info.textContent="configure values"}
+        svg.appendChild(info);
+      }
+    }
+
+    function generateSVAndInst(){
+      const base=tuMap[state.tu]||"ns";
+      const mod=(state.mod||"clk_gen").replace(/[^\w$]/g,"_");
+      const en=(state.en||"clk_en").replace(/[^\w$]/g,"_");
+      const outs=state.outs.slice(0,state.count).map((o,i)=>({name:(o.name||`clk_out_${i+1}`).replace(/[^\w$]/g,"_"),T:periodSeconds(o)||1e-8,duty:clamp(o.duty||50,1,99)}));
+      const portList=["input logic "+en].concat(outs.map(o=>"output logic "+o.name)).join(",\n  ");
+      let params=[];
+      outs.forEach((o,i)=>{const idx=i+1;params.push(`localparam realtime T_${idx}   = ${asTimeLiteral(o.T,base)};`);params.push(`localparam realtime T_${idx}_H = T_${idx}*${fmt(o.duty/100)};`);params.push(`localparam realtime T_${idx}_L = T_${idx}-T_${idx}_H;`);});
+      let procs=[];
+      outs.forEach((o,i)=>{const idx=i+1;procs.push(`initial begin\n  ${o.name} = 0;\n  forever begin\n    wait(${en});\n    while (${en}) begin\n      #(T_${idx}_H) ${o.name} = 1;\n      #(T_${idx}_L) ${o.name} = 0;\n    end\n  end\nend`);});
+      const sv=
+`module ${mod} (
+  ${portList}
+);
+  timeunit ${state.tu};
+
+  ${params.join("\n  ")}
+
+  ${procs.join("\n\n  ")}
+endmodule`;
+      document.getElementById("svOut").textContent=sv;
+      const decls=[`logic ${en};`].concat(outs.map(o=>`logic ${o.name};`)).join("\n  ");
+      const conns=[`.${en}(${en})`].concat(outs.map(o=>`.${o.name}(${o.name})`)).join(",\n    ");
+      const inst=
+`module tb;
+  timeunit ${state.tu};
+
+  ${decls}
+
+  ${mod} u_${mod} (
+    ${conns}
+  );
+
+  initial begin
+    ${en} = 1;
+    #1ms;
+    $finish;
+  end
+endmodule`;
+      document.getElementById("instOut").textContent=inst;
+    }
+
+    function copyCode(){const el=document.createElement("textarea");el.value=document.getElementById("svOut").textContent;document.body.appendChild(el);el.select();document.execCommand("copy");el.remove()}
+    function downloadFile(){const blob=new Blob([document.getElementById("svOut").textContent],{type:"text/plain"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=((state.mod||"clk_gen").replace(/[^\w$]/g,"_"))+".sv";a.click();URL.revokeObjectURL(a.href)}
+
+    readBasics();
+  </script>
+</body>
+</html>

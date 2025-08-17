@@ -1,363 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phasor Converter and Calculator with 2D Visualization</title>
-
-	<meta name="description" content="Plot phasors with complex numbers or magnitude and phase as sinusoids. General phasor calculator for circuits.">
-    <meta name="keywords" content="plot phasors, phasor sinusoid calculator, circuit calculator, circuit analysis, circuit phasors, phasors in circuits, Easytrig, circuit analysis calculator, phasor plotter">
-
-	<meta name="author" content="Perry Newlin">
-	<meta name="language" content="English">
-
-	<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
-	
-	<!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Phasor Converter and Calculator with 2D Visualization">
-    <meta property="og:description" content="Plot phasors with complex numbers or magnitude and phase as sinusoids. General phasor calculator for circuits.">
-    <meta property="og:image" content="https://www.easytrig.com/images/plot_phasor_as_sinusoid_perry_newlin.png">
-    <meta property="og:url" content="https://www.easytrig.com/calculators/phasorsinusoidfunctionplotter.html">
-    <meta property="og:type" content="website">
-	<meta property="og:locale" content="en_US">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Phasor Converter and Calculator with 2D Visualization">
-    <meta name="twitter:description" content="Plot phasors with complex numbers or magnitude and phase as sinusoids. General phasor calculator for circuits.">
-    <meta name="twitter:image" content="https://www.easytrig.com/images/plot_phasor_as_sinusoid_perry_newlin.png">
-
-	<link rel="canonical" href="https://www.easytrig.com/calculators/phasorsinusoidfunctionplotter.html">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- Stylesheet -->
-	<link rel="stylesheet" href="../style.css">
-
-    <!-- JavaScript -->
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-        }
-
-        function changeTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            document.getElementById('themeSelect').value = theme;
-            document.getElementById('themeSelectSidebar').value = theme;
-        }
-
-        // Load saved theme and initialize page
-        window.onload = function() {
-            // Initialize Theme
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.getElementById('themeSelect').value = savedTheme;
-            document.getElementById('themeSelectSidebar').value = savedTheme;
-
-            // Adjust scales on load
-            adjustZoom();
-            adjustXScale();
-            adjustYScale();
-        }
-    </script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phasor Sinusoid Plotter · EasyTrig</title>
+  <meta name="description" content="Plot phasors as sinusoids from complex or magnitude/phase input.">
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);}})();
+    function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('active')}
+    function changeTheme(v){if(v==='default'){document.documentElement.removeAttribute('data-theme');localStorage.removeItem('theme')}else{document.documentElement.setAttribute('data-theme',v);localStorage.setItem('theme',v)}var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=v}if(s2){s2.value=v}}
+    window.addEventListener('DOMContentLoaded',function(){var t=localStorage.getItem('theme')||'default';var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=t}if(s2){s2.value=t}});
+  </script>
 </head>
-
 <body>
-
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="../index.html" class="logo">Easytrig</a>
-        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
-        <ul class="nav-links">
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html">Online Calculators</a></li>
-        </ul>
-        <div class="theme-selector">
-            <select id="themeSelect" onchange="changeTheme(this.value)">
-                <option value="legacy">Legacy Theme</option>
-                <option value="light">Light Theme</option>
-                <option value="ocean">Ocean Theme</option>
-                <option value="dark">Dark Theme</option>
-            </select>
-        </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleSidebar()">×</div>
-        <ul>
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html">Online Calculators</a></li>
-            <li class="theme-selector">
-                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
-                    <option value="legacy">Legacy Theme</option>
-                    <option value="light">Light Theme</option>
-                    <option value="ocean">Ocean Theme</option>
-                    <option value="dark">Dark Theme</option>
-                </select>
-            </li>
-        </ul>
+  <nav class="navbar">
+    <a class="logo" href="index.html">Easy<span>trig</span></a>
+    <div class="nav-links">
+      <!--<a href="software/index.html">Software</a>-->
+      <!--<a href="purchase_easytrig_hardware.html">Hardware</a>-->
+      <a href="calculators/index.html">Calculators</a>
     </div>
+    <div class="nav-spacer"></div>
+    <div class="theme-selector">
+      <select id="themeSelect" onchange="changeTheme(this.value)">
+        <option value="default">Black+Orange</option>
+        <option value="legacy">Legacy</option>
+        <option value="light">Light</option>
+        <option value="ocean">Ocean</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+  </nav>
 
-    <!-- Main Content -->
-    <div style="max-width:650px" class="container section">
-
-
-        <h2>Phasor Converter with 2D Visualization</h2>
-		
-				<!-- Description Box -->
-		<div class="description">
-				<p>Plot and calculate phasors as sinusoids with complex (a+bi) or magnitude and phase input.</p>
-		</div>
-		
-        <aa>Auto Zoom Added!</aa>
-        <p>Select input type:</p>
-		
-		<div class="theme-selector">
-        <select id="inputType">
-            <option value="complex">Complex (a+bi)</option>
-            <option value="magPhase">Magnitude and Phase</option>
+  <div class="sidebar">
+    <div class="close-btn" onclick="toggleSidebar()">×</div>
+    <ul>
+      <!--<li><a href="software/index.html">Software</a></li>-->
+      <!--<li><a href="purchase_easytrig_hardware.html">Hardware</a></li>-->
+      <li><a href="calculators/index.html">Calculators</a></li>
+      <li class="theme-selector">
+        <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+          <option value="default">Black+Orange</option>
+          <option value="legacy">Legacy</option>
+          <option value="light">Light</option>
+          <option value="ocean">Ocean</option>
+          <option value="dark">Dark</option>
         </select>
-		</div>
-		
-        <div id="inputFields" style="display: flex; justify-content: center; gap: 20px;">
-            <div class="sinusoid-group">
-                <h4>Sinusoid 1:</h4>
-                <input type="number" id="input1_1" placeholder="a or magnitude">
-                <input type="number" id="input2_1" placeholder="b or phase (in degrees)">
-                <input type="color" id="color_1" value="#FF0000">
-            </div>
-        
-            <div class="sinusoid-group">
-                <h4>Sinusoid 2:</h4>
-                <input type="number" id="input1_2" placeholder="a or magnitude">
-                <input type="number" id="input2_2" placeholder="b or phase (in degrees)">
-                <input type="color" id="color_2" value="#00FF00">
-            </div>
-        
-            <div class="sinusoid-group">
-                <h4>Sinusoid 3:</h4>
-                <input type="number" id="input1_3" placeholder="a or magnitude">
-                <input type="number" id="input2_3" placeholder="b or phase (in degrees)">
-                <input type="color" id="color_3" value="#0000FF">
-            </div>
+      </li>
+    </ul>
+  </div>
+
+  <main class="container section">
+    <h1>Phasor Converter with 2D Visualization</h1>
+    <div class="card">
+      <div class="controls">
+        <label>Input type</label>
+        <select id="inputType">
+          <option value="complex">Complex (a+bi)</option>
+          <option value="magPhase">Magnitude and Phase</option>
+        </select>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="controls">
+          <h3>Sinusoid 1</h3>
+          <input type="number" id="input1_1" placeholder="a or magnitude">
+          <input type="number" id="input2_1" placeholder="b or phase (deg)">
+          <input type="color" id="color_1" value="#FF0000">
         </div>
-        
-        <h4>View Settings:</h4>
-		<center>
+        <div class="controls">
+          <h3>Sinusoid 2</h3>
+          <input type="number" id="input1_2" placeholder="a or magnitude">
+          <input type="number" id="input2_2" placeholder="b or phase (deg)">
+          <input type="color" id="color_2" value="#00FF00">
+        </div>
+        <div class="controls">
+          <h3>Sinusoid 3</h3>
+          <input type="number" id="input1_3" placeholder="a or magnitude">
+          <input type="number" id="input2_3" placeholder="b or phase (deg)">
+          <input type="color" id="color_3" value="#0000FF">
+        </div>
+      </div>
 
-        <label for="zoomSlider">Zoom: </label>
-        <input type="range" id="zoomSlider" min="1" max="10" value="1" onchange="adjustZoom()">
-        <span id="zoomDisplay">1.0x</span>
-        <br>
-        <label for="xScaleSlider">X Scale: </label>
-        <input type="range" id="xScaleSlider" min="1" max="1000" value="500" onchange="adjustXScale()">
-        <span id="xScaleDisplay">1.0x</span>
-        <br>
-        <label for="yScaleSlider">Y Scale: </label>
-        <input type="range" id="yScaleSlider" min="1" max="1000" value="500" onchange="adjustYScale()">
-        <span id="yScaleDisplay">1.0x</span>
-        <br>
+      <div class="controls">
+        <button class="btn primary" onclick="convertPhasor()">Plot</button>
+        <button class="btn" onclick="fitView()">Fit</button>
+        <button class="btn" onclick="zoomView(0.8)">Zoom In</button>
+        <button class="btn" onclick="zoomView(1.25)">Zoom Out</button>
+        <button class="btn" onclick="resetView()">Reset</button>
+        <span class="notice">Scroll to zoom, drag to pan, double-click to reset</span>
+      </div>
 
-        <button onclick="convertPhasor()">Plot</button>
-		<button onclick="autoZoom()">Auto Zoom</button>
-        <canvas id="phasorCanvas"></canvas>
-        <center><p id="output"></p></center></center>
-		
-	<div class="description">  <p>A phasor is a mathematical representation that simplifies AC circuit analysis by expressing sinusoidal signals as complex numbers.</p> 
-	<p>This tool allows you to input phasors either as complex numbers (a + bi) or in magnitude and phase form.<p> 
-	<p>For each phasor, this tool will plot the resulting signal in the time domain, the corresponding amplitude and phase, or the equivalent complex number representation of the 
-	perspective phasor.</p>
-	<p>This tool was the first offering provided by <a href="https://www.easytrig.com">Easytrig</a>, originally made to help me understand the relationship between complex numbers, phasors and their sinusoidal representations.
-	</p>
-	
-	<p>Our phasor converter and <a href="https://www.easytrig.com/calculators/phasorCalculator.html">phasor calculator</a> pair extremely well together in college AC circuit problems, <a href="https://www.youtube.com/watch?app=desktop&v=R9ku-4wu5qU">take a look!</a></p>
-		
-		
-    </div></div>
-
-    <!-- Footer -->
-    <div class="footer">
-        <p>easytrig © 2025, Perry Newlin</p>
-        <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/" style="color: var(--accent-color); text-decoration: none;">My LinkedIn</a></p>
+      <div class="canvas-wrap"><canvas id="phasorCanvas"></canvas></div>
+      <p id="output" class="notice"></p>
     </div>
+  </main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-		function autoZoom() {
-			let allDataX = [];
-			let allDataY = [];
+  <div class="footer">
+    <p>easytrig © 2025, Perry Newlin</p>
+    <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/">LinkedIn</a></p>
+  </div>
 
-			data.datasets.forEach(dataset => {
-				dataset.data.forEach(point => {
-					allDataX.push(point.x);
-					allDataY.push(point.y);
-				});
-			});
+  <script>
+    function generateSinusoid(A,phi){const pts=[];const steps=1000;for(let i=0;i<=steps;i++){const th=(i/steps)*(40*Math.PI)-(20*Math.PI);pts.push({x:th,y:A*Math.sin(th+phi)})}return pts}
+    const ctx=document.getElementById('phasorCanvas').getContext('2d');
+    const data={datasets:[]};
+    const options={animation:false,scales:{x:{type:'linear',min:-10,max:10},y:{min:-10,max:10}}};
+    const chart=new Chart(ctx,{type:'scatter',data,options});
+    const defaultView={xMin:-10,xMax:10,yMin:-10,yMax:10};
 
-			let minX = Math.min(...allDataX);
-			let maxX = Math.max(...allDataX);
-			let minY = Math.min(...allDataY);
-			let maxY = Math.max(...allDataY);
+    function setView(xMin,xMax,yMin,yMax){chart.options.scales.x.min=xMin;chart.options.scales.x.max=xMax;chart.options.scales.y.min=yMin;chart.options.scales.y.max=yMax;chart.update('none')}
+    function getView(){const sx=chart.scales.x,sy=chart.scales.y;return {xMin:sx.min,xMax:sx.max,yMin:sy.min,yMax:sy.max}}
+    function zoomAt(factor,ax,ay){const v=getView();const nxMin=ax-(ax-v.xMin)*factor;const nxMax=ax+(v.xMax-ax)*factor;const nyMin=ay-(ay-v.yMin)*factor;const nyMax=ay+(v.yMax-ay)*factor;setView(nxMin,nxMax,nyMin,nyMax)}
+    function fitView(){let xs=[],ys=[];chart.data.datasets.forEach(d=>d.data.forEach(p=>{if(isFinite(p.x)&&isFinite(p.y)){xs.push(p.x);ys.push(p.y)}}));if(!xs.length){resetView();return}const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);const px=(maxX-minX)||1,py=(maxY-minY)||1;setView(minX-0.1*px,maxX+0.1*px,minY-0.1*py,maxY+0.1*py)}
+    function resetView(){setView(defaultView.xMin,defaultView.xMax,defaultView.yMin,defaultView.yMax)}
+    function zoomView(f){const sx=chart.scales.x,sy=chart.scales.y;const ax=(sx.min+sx.max)/2,ay=(sy.min+sy.max)/2;zoomAt(f,ax,ay)}
+    function dataFromInputs(mode,a,b){if(mode==='complex'){const real=a,imag=b;const A=Math.hypot(real,imag);const phi=Math.atan2(imag,real);return {A,phi,real,imag} }else{const A=a;const phi=b*(Math.PI/180);const real=A*Math.cos(phi),imag=A*Math.sin(phi);return {A,phi,real,imag}}}
+    function convertPhasor(){
+      const mode=document.getElementById('inputType').value;chart.data.datasets=[];
+      let out=[];
+      for(let i=1;i<=3;i++){
+        const a=parseFloat(document.getElementById(`input1_${i}`).value);
+        const b=parseFloat(document.getElementById(`input2_${i}`).value);
+        const c=document.getElementById(`color_${i}`).value;
+        if(isNaN(a)||isNaN(b))continue;
+        const r=dataFromInputs(mode,a,b);
+        chart.data.datasets.push({label:`${i}`,data:generateSinusoid(r.A,r.phi),borderColor:c,pointRadius:0,showLine:true});
+        out.push(`S${i}: A=${r.A.toFixed(3)}, phase=${(r.phi*180/Math.PI).toFixed(2)}° (real=${r.real.toFixed(3)}, imag=${r.imag.toFixed(3)})`);
+      }
+      chart.update('none');document.getElementById('output').textContent=out.join(' • ');fitView();
+    }
 
-			let xPadding = (maxX - minX) * 0.1;
-			let yPadding = (maxY - minY) * 0.1;
-
-			chart.options.scales.x.min = minX - xPadding;
-			chart.options.scales.x.max = maxX + xPadding;
-			chart.options.scales.y.min = minY - yPadding;
-			chart.options.scales.y.max = maxY + yPadding;
-
-			chart.update();
-		}
-
-        function toggleMenu() {
-            const sidebar = document.querySelector('.sidebar');
-            const menuToggle = document.getElementById('menuToggle');
-            const closeBtn = document.getElementById('closeBtn');
-
-            // Check if sidebar is open
-            if (sidebar.style.width == '350px') {
-                // Close the sidebar
-                sidebar.style.width = '0';
-                console.log("DEBUG: CLOSING NAV");
-                menuToggle.style.display = 'block';
-                closeBtn.style.display = 'none';
-            } else {
-                // Open the sidebar
-                sidebar.style.width = '350px';
-                menuToggle.style.display = 'none';
-                closeBtn.style.display = 'block';
-            }
-        }
-
-        let ctx = document.getElementById('phasorCanvas').getContext('2d');
-        let data = {
-            datasets: []
-        };
-
-        let options = {
-            scales: {
-                x: {
-                    min: -10,
-                    max: 10
-                },
-                y: {
-                    min: -10,
-                    max: 10
-                }
-            }
-        };
-        let chart = new Chart(ctx, {
-            type: 'scatter',
-            data: data,
-            options: options
-        });
-
-        function generateSinusoid(amplitude, phase) {
-            const dataPoints = [];
-            const steps = 1000; //more steps for increased granularity
-            for (let i = 0; i <= steps; i++) {
-                const theta = (i/steps) * (40 * Math.PI) - (20 * Math.PI);
-                const x = theta;
-                const y = amplitude * Math.sin(theta + phase);
-                dataPoints.push({x, y});
-            }
-            return dataPoints;
-        }
-
-        function convertPhasor() {
-            const inputType = document.getElementById('inputType').value;
-            let outputs = [];
-            data.datasets = [];
-
-            for (let i = 1; i <= 3; i++) {
-                const input1 = parseFloat(document.getElementById(`input1_${i}`).value);
-                const input2 = parseFloat(document.getElementById(`input2_${i}`).value);
-                const color = document.getElementById(`color_${i}`).value;
-                let real, imag, amplitude, phase;
-
-                if (inputType === 'complex') {
-                    real = input1;
-                    imag = input2;
-                    amplitude = Math.sqrt(real*real + imag*imag);
-                    phase = Math.atan2(imag, real);
-                    output = `Sinusoid ${i}: ${amplitude.toFixed(2)}, ${(phase * (180 / Math.PI)).toFixed(2)} degrees`;
-                } else {
-                    amplitude = input1;
-                    phase = input2 * (Math.PI / 180);
-                    real = amplitude * Math.cos(phase);
-                    imag = amplitude * Math.sin(phase);
-                    output = `Sinusoid ${i}: ${real.toFixed(2)} + ${imag.toFixed(2)}i`;
-                }
-
-                const sinusoidData = generateSinusoid(amplitude, phase);
-                data.datasets.push({
-                    label: `Sinusoid ${i}`,
-                    data: sinusoidData,
-                    borderColor: color,
-                    fill: false,
-                    showLine: true,    // Show the line
-                    pointRadius: 0     // Hide individual points
-                });
-
-                outputs.push(output);
-            }
-
-            document.getElementById('output').innerText = outputs.join('\n');
-            chart.update();
-        }
-
-        function updateView() {
-            const xmin = parseFloat(document.getElementById('xmin').value) || -7;
-            const xmax = parseFloat(document.getElementById('xmax').value) || 7;
-            chart.options.scales.x.min = xmin;
-            chart.options.scales.x.max = xmax;
-            chart.update();
-        }
-
-        function adjustZoom() {
-            let zoomFactor = parseFloat(document.getElementById('zoomSlider').value) / 10;
-            chart.options.scales.x.min = -20 * Math.PI * zoomFactor;
-            chart.options.scales.x.max = 20 * Math.PI * zoomFactor;
-            chart.options.scales.y.min = -10 * zoomFactor;
-            chart.options.scales.y.max = 10 * zoomFactor;
-            document.getElementById('zoomDisplay').textContent = zoomFactor.toFixed(1) + "x";
-            chart.update();
-        }
-
-        function adjustXScale() {
-            let xScaleFactor = parseFloat(document.getElementById('xScaleSlider').value) / 10;
-            const zoomFactor = parseFloat(document.getElementById('zoomSlider').value) / 10; //get current zoom
-            
-            chart.options.scales.x.min = -20 * Math.PI * zoomFactor / xScaleFactor;
-            chart.options.scales.x.max = 20 * Math.PI * zoomFactor / xScaleFactor;
-            
-            document.getElementById('xScaleDisplay').textContent = xScaleFactor.toFixed(1) + "x";
-            chart.update();
-        }
-        function adjustYScale() {
-            let yScaleFactor = parseFloat(document.getElementById('yScaleSlider').value) / 10;
-            const zoomFactor = parseFloat(document.getElementById('zoomSlider').value) / 10; //get current zoom
-            
-            chart.options.scales.y.min = -10 * zoomFactor / yScaleFactor;
-            chart.options.scales.y.max = 10 * zoomFactor / yScaleFactor;
-            
-            document.getElementById('yScaleDisplay').textContent = yScaleFactor.toFixed(1) + "x";
-            chart.update();
-        }
-        
-    </script>
-
+    function attachZoomPan(c){
+      const el=c.canvas,sx=()=>c.scales.x,sy=()=>c.scales.y;
+      el.addEventListener('wheel',e=>{e.preventDefault();const r=el.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;const ax=sx().getValueForPixel(mx),ay=sy().getValueForPixel(my);const f=(e.deltaY<0)?0.85:1.15;zoomAt(f,ax,ay)},{passive:false});
+      let dragging=false,last=null;
+      el.addEventListener('mousedown',e=>{dragging=true;last={x:e.clientX,y:e.clientY}});
+      window.addEventListener('mouseup',()=>dragging=false);
+      window.addEventListener('mousemove',e=>{
+        if(!dragging)return;
+        const dx=e.clientX-last.x,dy=e.clientY-last.y;last={x:e.clientX,y:e.clientY};
+        const x0=sx().getValueForPixel(0),x1=sx().getValueForPixel(dx),y0=sy().getValueForPixel(0),y1=sy().getValueForPixel(dy);
+        const v=getView();setView(v.xMin-(x1-x0),v.xMax-(x1-x0),v.yMin-(y1-y0),v.yMax-(y1-y0));
+      });
+      el.addEventListener('dblclick',()=>resetView());
+      el.addEventListener('touchstart',e=>{if(e.touches.length===1){dragging=true;last={x:e.touches[0].clientX,y:e.touches[0].clientY}}},{passive:true});
+      el.addEventListener('touchmove',e=>{
+        if(!dragging||e.touches.length!==1)return;
+        const dx=e.touches[0].clientX-last.x,dy=e.touches[0].clientY-last.y;last={x:e.touches[0].clientX,y:e.touches[0].clientY};
+        const x0=sx().getValueForPixel(0),x1=sx().getValueForPixel(dx),y0=sy().getValueForPixel(0),y1=sy().getValueForPixel(dy);
+        const v=getView();setView(v.xMin-(x1-x0),v.xMax-(x1-x0),v.yMin-(y1-y0),v.yMax-(y1-y0));
+      },{passive:true});
+      el.addEventListener('touchend',()=>dragging=false,{passive:true});
+    }
+    attachZoomPan(chart);
+  </script>
 </body>
 </html>

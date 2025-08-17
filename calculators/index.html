@@ -1,314 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Calculators & Tools</title>
-    <meta name="description" content="Discover Easytrig's intuitive calculators and coding tools. Plot functions, generate VHDL testbenches, add phasors, convert ChatGPT replies to PDFs. Making complex concepts easy.">
-    <meta name="keywords" content="EasyTrig, online calculators, phasor plotting, phasor calc, complex number plotting, signal plotting, discrete signal plotting, mathematical tools, electrical engineering calculators, signal processing tools, phasor calculator, add phasors, subtract phasors, multiply phasors, divide phasors, AC phasor plotting, continuous to discrete function plotter, discrete time function calculator, best fit line calculator, chatgpt response printer, markdown to pdf converter, mathjax to pdf converter">
-
-    <meta name="author" content="Perry Newlin">
-    <meta name="language" content="English">
-
-    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Online Calculators & Tools">
-    <meta property="og:description" content="Discover Easytrig's intuitive calculators and coding tools. Plot functions, generate VHDL testbenches, add phasors, convert ChatGPT replies to PDFs. Making complex concepts easy.">
-    <meta property="og:image" content="https://www.easytrig.com/images/og-image.jpg">
-    <meta property="og:url" content="https://www.easytrig.com/easytrig_online_calculators.html">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="en_US">
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Online Calculators & Tools">
-    <meta name="twitter:description" content="Discover Easytrig's intuitive calculators and coding tools. Plot functions, generate VHDL testbenches, add phasors, convert ChatGPT replies to PDFs. Making complex concepts easy.">
-    <meta name="twitter:image" content="https://www.easytrig.com/images/og-image.jpg">
-
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://www.easytrig.com/calculators">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="../style.css">
-<style>
-    /* Additional styles for dropdowns */
-    details {
-        margin-bottom: 20px;
-        border: 1px solid var(--accent-color);
-        border-radius: 5px;
-        padding: 10px;
-        background-color: var(--secondary-bg-color);
-    }
-    summary {
-        font-size: 1.5em;
-        font-weight: bold;
-        outline: none;
-        /* Typing effect styles */
-        overflow: hidden;
-        white-space: nowrap;
-        position: relative;
-    }
-    summary::after {
-        content: '';
-        position: absolute;
-        width: 2px;
-        height: 1em;
-        background-color: black;
-        animation: blink-caret 0.75s step-end infinite;
-        left: calc(100% + 2px);
-    }
-    @keyframes blink-caret {
-        0%, 50%, 100% { opacity: 1; }
-        25%, 75% { opacity: 0; }
-    }
-    summary.no-cursor::after {
-        display: none;
-    }
-    summary::-webkit-details-marker {
-        display: none;
-    }
-    summary::before {
-        content: '';
-        display: inline-block;
-        margin-right: 10px;
-        transform: rotate(0deg);
-        transition: transform 0.2s;
-    }
-    details[open] summary::before {
-        transform: rotate(90deg);
-    }
-    .calculator-entry {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    .calculator-entry img {
-        max-width: 400px;
-        margin-right: 20px;
-    }
-    .calculator-info h2 {
-        margin-top: 0;
-    }
-    .calculator-info p {
-        margin: 5px 0;
-    }
-</style>
-
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
-
- <script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-        }
-
-        function changeTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            document.getElementById('themeSelect').value = theme;
-            document.getElementById('themeSelectSidebar').value = theme;
-        }
-
-        // Typing effect function
-		function typeEffect(element, text, speed, callback) {
-			element.textContent = '';
-			let index = 0;
-			function type() {
-				element.textContent = text.substring(0, index);
-				index++;
-				if (index <= text.length) {
-					setTimeout(type, speed);
-				} else {
-					// Remove cursor after typing is complete
-					element.classList.add('no-cursor');
-					if (callback) callback();
-				}
-			}
-			type();
-		}
-
-        window.onload = function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.getElementById('themeSelect').value = savedTheme;
-            document.getElementById('themeSelectSidebar').value = savedTheme;
-
-            //typing effect
-            const summaries = document.querySelectorAll('details summary');
-            const typingSpeeds = [85, 70, 95]; // Different typing speeds
-            summaries.forEach((summary, index) => {
-                const text = summary.textContent;
-                summary.textContent = '';
-                typeEffect(summary, text, typingSpeeds[index % typingSpeeds.length]);
-            });
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculators · EasyTrig</title>
+  <meta name="description" content="Fast, free calculators for phasors, complex plots, discrete signals, VHDL, and Markdown to PDF.">
+  <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);}})();
+    function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('active')}
+    function changeTheme(v){if(v==='default'){document.documentElement.removeAttribute('data-theme');localStorage.removeItem('theme')}else{document.documentElement.setAttribute('data-theme',v);localStorage.setItem('theme',v)}var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=v}if(s2){s2.value=v}}
+    window.addEventListener('DOMContentLoaded',function(){var t=localStorage.getItem('theme')||'default';var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=t}if(s2){s2.value=t}});
+  </script>
 </head>
 <body>
-
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="../index.html" class="logo">Easytrig</a>
-        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
-        <ul class="nav-links">
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html"><b>Online Calculators</b></a></li>
-        </ul>
-        <div class="theme-selector">
-            <select id="themeSelect" onchange="changeTheme(this.value)">
-                <option value="legacy">Legacy Theme</option>
-                <option value="light">Light Theme</option>
-                <option value="ocean">Ocean Theme</option>
-                <option value="dark">Dark Theme</option>
-            </select>
-        </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleSidebar()">×</div>
-        <ul>
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html"><b>Online Calculators</b></a></li>
-            <li class="theme-selector">
-                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
-                    <option value="legacy">Legacy Theme</option>
-                    <option value="light">Light Theme</option>
-                    <option value="ocean">Ocean Theme</option>
-                    <option value="dark">Dark Theme</option>
-                </select>
-            </li>
-        </ul>
+  <nav class="navbar">
+    <a class="logo" href="../index.html">Easy<span>trig</span></a>
+    <div class="nav-links">
+      <!--<a href="../software/index.html">Software</a>-->
+      <!--<a href="../purchase_easytrig_hardware.html">Hardware</a>-->
+      <a href="./index.html"><b>Calculators</b></a>
     </div>
-	
+    <div class="nav-spacer"></div>
+    <div class="theme-selector">
+      <select id="themeSelect" onchange="changeTheme(this.value)">
+        <option value="default">Black+Orange</option>
+        <option value="legacy">Legacy</option>
+        <option value="light">Light</option>
+        <option value="ocean">Ocean</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+  </nav>
 
-    <!-- Main Content -->
+  <div class="sidebar">
+    <div class="close-btn" onclick="toggleSidebar()">×</div>
+    <ul>
+      <li><a href="../software/index.html">Software</a></li>
+      <li><a href="../purchase_easytrig_hardware.html">Hardware</a></li>
+      <li><a href="./index.html"><b>Calculators</b></a></li>
+      <li class="theme-selector">
+        <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+          <option value="default">Black+Orange</option>
+          <option value="legacy">Legacy</option>
+          <option value="light">Light</option>
+          <option value="ocean">Ocean</option>
+          <option value="dark">Dark</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+
+  <header class="hero">
     <div class="container">
-        <div class="section">
-            <h1>Easytrig Online Calculators</h1>
-				
-			<!-- Description Box -->
-			<div class="description">
-				 <p>Easy and free to use online calculators and tools - phasor calculator, markdown/mathjax renderer, VHDL generator, and more!</p>
-			</div>
-
-
-            <!-- Math Calculators Dropdown -->
-            <details><!-- <details open> -->
-                <summary>Math Calculators</summary>
-
-                <div class="calculator-entry">
-                    <a href="phasorsinusoidfunctionplotter.html">
-                        <img src="../images/plot_phasor_as_sinusoid_perry_newlin.png" alt="Phasor Sinusoid Plotter">
-                    </a>
-                    <div class="calculator-info">
-                        <h2><a href="phasorsinusoidfunctionplotter.html">Phasor Sinusoid Plotter</a></h2>
-                        <p>Plot phasors as sine waves with complex (a+bi) or by magnitude and phase angle.</p>
-                        <p>Phasor diagrams are commonplace to show the relationship between voltage and current in sinusoidal signals, particularly in AC circuits.</p>
-                    </div>
-                </div>
-
-                <div class="calculator-entry">
-                    <a href="phasorCalculator.html">
-                        <img src="../images/phasor_calculator_with_steps_perry_newlin.png" alt="Phasor Calculator">
-                    </a>
-                    <div class="calculator-info">
-                        <h2><a href="phasorCalculator.html">Phasor Calculator</a></h2>
-                        <p>Phasor calculator with step-by-step output.</p>
-                        <ul>
-                            <li>Add phasors</li>
-                            <li>Subtract phasors</li>
-                            <li>Multiply phasors</li>
-                            <li>Divide phasors</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="calculator-entry">
-                    <a href="complexPlot.html">
-                        <img src="../images/complex_number_plotter_easytrig_perry_newlin.png" alt="Complex Number Plotter">
-                    </a>
-                    <div class="calculator-info">
-                        <h2><a href="complexPlot.html">Complex Number Plotter</a></h2>
-                        <p>Graph complex (a+bi) numbers as vectors. <b>Also calculates vector length!</b></p>
-                    </div>
-                </div>
-
-                <div class="calculator-entry">
-                    <a href="discreteTimeSignalGraphingTool.html">
-                        <img src="../images/discrete_time_function_plotter_manual_perry_newlin_easytrig.png" alt="Discrete Time Signal Graphing">
-                    </a>
-                    <div class="calculator-info">
-                        <h2><a href="discreteTimeSignalGraphingTool.html">Discrete Time Signal Graphing</a></h2>
-                        <p>Visualize discrete time signals and DSP concepts.</p>
-                    </div>
-                </div>
-
-            </details>
-
-            <!-- Coding Tools Dropdown -->
-            <details>
-                <summary>Coding Tools</summary>
-
-                <div class="calculator-entry">
-                    <a href="vhdlTemplateGen.html">
-                        <img src="../images/vhdl_generator_example.png" alt="VHDL Generated Code Example">
-                    </a>
-                    <div class="calculator-info">
-                        <h2><a href="vhdlTemplateGen.html">VHDL Entity & Testbench Generator</a></h2>
-                        <p>Generate VHDL entities and testbenches with generics, Ports, and Signals.</p>
-                    </div>
-                </div>
-				
-            </details>
-
-            <!-- Misc Tools Dropdown -->
-            <details>
-                <summary>Misc Tools</summary>
-				
-                <div class="calculator-entry">
-                    <a href="MarkdowntoPDF.html">
-                        <img src="../images/easytrig_livemarkdown_rendering_tool_live_mathjax_rendering_tool.png" alt="Live markdown and mathjax rendering tool example picture.">
-                    </a>
-                    <div class="calculator-info">
-                        <h2><a href="MarkdowntoPDF.html">Live Markdown and Mathjax Renderer</a></h2>
-                        <p>Render mathjax and markdown together in live time. Designed to take copied respones from chatGPT and convert it into a downloadable PDF.</p>
-                    </div>
-                </div>
-				
-            </details>
-			
-			<!-- Description Box -->
-			<div class="description">
-				<p>Ready to use the most intuitive and visually interactive math calculators and coding utilities? 
-				<p>Whether you're <a href="discreteTimeSignalGraphingTool.html">plotting discrete math functions</a>, <a href="vhdlTemplateGen.html">generating VHDL testbenches</a>, <a href="vhdlTemplateGen.html">generating VHDL hardware entities </a>, <a href="phasorCalculator.html">adding/subtracting phasors</a>, or <a href="phasorsinusoidfunctionplotter.html">plotting phasors</a>, Easytrig has got you covered! 
-				
-				<p>Want to beautify and print chatGPT responses as clean PDFs? Head to our <a href="MarkdowntoPDF.html"> markdown editor </a> and paste chatGPT's response!
-				<p>Easytrig is all about making complex concepts accessible, interactive, and fun. We are here for the average computer user or for the engineer in college! Software doesn't need to be hard, lets make it <b>easy.</b></p>
-			</div>
-
-
-        </div>
+      <h1>Calculators</h1>
+      <p class="lead">Somewhat decent search bar.</p>
+      <div class="controls" id="toolbar">
+        <input id="search" type="search" placeholder="Search calculators">
+        <select id="category">
+          <option value="all">All</option>
+          <option value="signals">Signals</option>
+          <option value="complex">Complex</option>
+          <option value="hdl">HDL</option>
+          <option value="docs">Docs</option>
+          <option value="phasor">Phasor Math</option>
+        </select>
+        <select id="sort">
+          <option value="featured">Featured</option>
+          <option value="az">A → Z</option>
+          <option value="za">Z → A</option>
+        </select>
+      </div>
     </div>
-	
-	<br><br><br><br><br><br><br><br>
+  </header>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>easytrig © 2025, Perry Newlin</p>
-        <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/" style="color: var(--accent-color); text-decoration: none;">My LinkedIn</a></p>
+  <main class="container section">
+    <div class="grid cols-3" id="cards">
+      <a class="card" href="phasorsinusoidfunctionplotter.html" data-title="Phasor Sinusoid Plotter" data-tags="signals phasor plot chart" data-cat="signals" data-featured="1">
+        <img src="../images/plot_phasor_as_sinusoid_perry_newlin.png" alt="Phasor Sinusoid Plotter">
+        <h3>Phasor Sinusoid Plotter</h3>
+        <p>Plot phasors as sinusoids from complex or mag/phase input.</p>
+        <div class="controls"><span class="badge">Signals</span><span class="badge">Phasor</span></div>
+      </a>
+      <a class="card" href="complexPlot.html" data-title="Complex Number Plotter" data-tags="complex vectors math" data-cat="complex" data-featured="2">
+        <img src="../images/complex_number_plotter_easytrig_perry_newlin.png" alt="Complex Number Plotter">
+        <h3>Complex Number Plotter</h3>
+        <p>Visualize complex numbers as vectors and read magnitudes.</p>
+        <div class="controls"><span class="badge">Complex</span><span class="badge">Vectors</span></div>
+      </a>
+      <a class="card" href="vhdlTemplateGen.html" data-title="VHDL Entity/Testbench Generator" data-tags="hdl vhdl code hardware" data-cat="hdl" data-featured="3">
+        <img src="../images/fifo.png" alt="VHDL Entity/Testbench Generator">
+        <h3>VHDL Entity/Testbench Generator</h3>
+        <p>Create entities and testbenches with configurable ports and libs.</p>
+        <div class="controls"><span class="badge">HDL</span><span class="badge">VHDL</span></div>
+      </a>
+      <a class="card" href="phasorCalculator.html" data-title="Phasor Calculator With Steps" data-tags="phasor math addition subtraction multiply divide steps" data-cat="phasor" data-featured="4">
+        <img src="../images/phasor_calculator_with_steps_perry_newlin.png" alt="Phasor Calculator">
+        <h3>Phasor Calculator With Steps</h3>
+        <p>Add, subtract, multiply, or divide phasors with step-by-step output.</p>
+        <div class="controls"><span class="badge">Phasor</span><span class="badge">Steps</span></div>
+      </a>
+      <a class="card" href="discreteTimeSignalGraphingTool.html" data-title="Discrete Function Plotter" data-tags="signals discrete plot regression best-fit" data-cat="signals" data-featured="5">
+        <img src="../images/discrete_time_function_plotter_manual_perry_newlin_easytrig.png" alt="Discrete Function Plotter">
+        <h3>Discrete Function Plotter</h3>
+        <p>Plot discrete functions and manual points with optional best-fit.</p>
+        <div class="controls"><span class="badge">Signals</span><span class="badge">Discrete</span></div>
+      </a>
+	  
+      <a class="card" href="MarkdowntoPDF.html" data-title="Markdown to PDF" data-tags="markdown pdf mathjax docs" data-cat="docs" data-featured="6">
+        <img src="../images/og-image.jpg" alt="Markdown to PDF">
+        <h3>Markdown to PDF</h3>
+        <p>Live Markdown + MathJax preview with one-click PDF export.</p>
+        <div class="controls"><span class="badge">Docs</span><span class="badge">PDF</span></div>
+      </a>
+	  
+      <a class="card" href="clock_generator_systemverilog.html" data-title="Testbench Clock Generator" data-tags="markdown pdf mathjax docs" data-cat="docs" data-featured="6">
+        <img src="../images/clockgen.png" alt="Testbench Clock Generator">
+        <h3>Testbench Clock Generator</h3>
+        <p>Generate clocks for your FPGA testbench with customizable frequency and duty cycle.</p>
+        <div class="controls"><span class="badge">HDL</span></div>
+      </a>
+	  
     </div>
+  </main>
 
+  <div class="footer">
+    <p>easytrig © 2025, Perry Newlin</p>
+    <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/">LinkedIn</a></p>
+  </div>
+
+  <script>
+    const search=document.getElementById('search');
+    const category=document.getElementById('category');
+    const sort=document.getElementById('sort');
+    const cards=[...document.querySelectorAll('#cards .card')];
+    function apply(){
+      const q=search.value.trim().toLowerCase();
+      const c=category.value;
+      let list=cards.slice();
+      list.forEach(el=>{
+        const title=(el.dataset.title||'').toLowerCase();
+        const tags=(el.dataset.tags||'').toLowerCase();
+        const cat=el.dataset.cat||'';
+        const matchesText=!q||title.includes(q)||tags.includes(q);
+        const matchesCat=c==='all'||cat===c;
+        el.style.display=(matchesText&&matchesCat)?'block':'none';
+      });
+      list=list.filter(el=>el.style.display!=='none');
+      list.sort((a,b)=>{
+        if(sort.value==='featured'){return (+a.dataset.featured)-(+b.dataset.featured)}
+        if(sort.value==='az'){return (a.dataset.title||'').localeCompare(b.dataset.title||'')}
+        if(sort.value==='za'){return (b.dataset.title||'').localeCompare(a.dataset.title||'')}
+        return 0;
+      });
+      const parent=document.getElementById('cards');
+      list.forEach(el=>parent.appendChild(el));
+    }
+    search.addEventListener('input',apply);
+    category.addEventListener('change',apply);
+    sort.addEventListener('change',apply);
+    window.addEventListener('keydown',e=>{if(e.key==='Escape'){search.value='';apply()}});
+    apply();
+  </script>
 </body>
 </html>

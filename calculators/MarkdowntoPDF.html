@@ -1,226 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown Editor & PDF Generator | Free Online Tool | EasyTrig</title>
-    <meta name="description" content="Discover our free live Markdown and MathJax editor that lets you see your beautifully rendered content in real-time and download it as a clean, print-ready PDF. Perfect for transforming ChatGPT responses, math equations, code snippets, and more into professional documents. Elevate your content effortlessly with our user-friendly tool.">
-    <meta name="keywords" content="Markdown Editor, PDF Generator, Markdown to PDF, MathJax rendering, online markdown editor, code syntax highlighting, ChatGPT content enhancement, free online tool, EasyTrig, download PDF, math equations in PDF, text to PDF, enhance ChatGPT outputs, Perry Newlin">
-    <meta name="author" content="Perry Newlin">
-    <meta name="language" content="English">
-
-    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Markdown Editor & PDF Generator | Free Online Tool | EasyTrig">
-    <meta property="og:description" content="Discover our free live Markdown and MathJax editor that lets you see your beautifully rendered content in real-time and download it as a clean, print-ready PDF. Perfect for transforming ChatGPT responses, math equations, code snippets, and more into professional documents. Elevate your content effortlessly with our user-friendly tool.">
-    <meta property="og:image" content="https://www.easytrig.com/images/og-image.jpg">
-    <meta property="og:url" content="https://www.easytrig.com/calculators/MarkdowntoPDF.html">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="en_US">
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Markdown Editor & PDF Generator | Free Online Tool | EasyTrig">
-    <meta name="twitter:description" content="Discover our free live Markdown and MathJax editor that lets you see your beautifully rendered content in real-time and download it as a clean, print-ready PDF. Perfect for transforming ChatGPT responses, math equations, code snippets, and more into professional documents. Elevate your content effortlessly with our user-friendly tool.">
-    <meta name="twitter:image" content="https://www.easytrig.com/images/og-image.jpg">
-
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://www.easytrig.com/calculators/MarkdowntoPDF.html">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="../style.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-        
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-    <!-- MathJax -->
-    <!--PREVENTS IT FROM RENDERING TWICE-->
-    <script type="text/javascript"
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-
-
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-        }
-
-        function changeTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            document.getElementById('themeSelect').value = theme;
-            document.getElementById('themeSelectSidebar').value = theme;
-        }
-
-        // Load saved theme
-        window.onload = function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.getElementById('themeSelect').value = savedTheme;
-            document.getElementById('themeSelectSidebar').value = savedTheme;
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Markdown to PDF · EasyTrig</title>
+  <meta name="description" content="Live Markdown + MathJax preview with one-click PDF export.">
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);}})();
+    function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('active')}
+    function changeTheme(v){if(v==='default'){document.documentElement.removeAttribute('data-theme');localStorage.removeItem('theme')}else{document.documentElement.setAttribute('data-theme',v);localStorage.setItem('theme',v)}var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=v}if(s2){s2.value=v}}
+    window.addEventListener('DOMContentLoaded',function(){var t=localStorage.getItem('theme')||'default';var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=t}if(s2){s2.value=t}});
+  </script>
 </head>
 <body>
+  <nav class="navbar">
+    <a class="logo" href="index.html">Easy<span>trig</span></a>
+    <div class="nav-links">
+      <!--<a href="software/index.html">Software</a>-->
+      <!--<a href="purchase_easytrig_hardware.html">Hardware</a>-->
+      <a href="calculators/index.html">Calculators</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="theme-selector">
+      <select id="themeSelect" onchange="changeTheme(this.value)">
+        <option value="default">Black+Orange</option>
+        <option value="legacy">Legacy</option>
+        <option value="light">Light</option>
+        <option value="ocean">Ocean</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+  </nav>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="../index.html" class="logo">Easytrig</a>
-        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
-        <ul class="nav-links">
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html"><b>Online Calculators</b></a></li>
-        </ul>
-        <div class="theme-selector">
-            <select id="themeSelect" onchange="changeTheme(this.value)">
-                <option value="legacy">Legacy Theme</option>
-                <option value="light">Light Theme</option>
-                <option value="ocean">Ocean Theme</option>
-                <option value="dark">Dark Theme</option>
-            </select>
+  <div class="sidebar">
+    <div class="close-btn" onclick="toggleSidebar()">×</div>
+    <ul>
+      <!--<li><a href="software/index.html">Software</a></li>-->
+      <!--<li><a href="purchase_easytrig_hardware.html">Hardware</a></li>-->
+      <li><a href="calculators/index.html">Calculators</a></li>
+      <li class="theme-selector">
+        <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+          <option value="default">Black+Orange</option>
+          <option value="legacy">Legacy</option>
+          <option value="light">Light</option>
+          <option value="ocean">Ocean</option>
+          <option value="dark">Dark</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+
+  <main class="container section">
+    <h1>Markdown Editor & PDF Generator</h1>
+    <div class="grid cols-2">
+      <div class="card">
+        <div class="controls">
+          <textarea id="markdown-input" rows="16" placeholder="Enter your markdown..."></textarea>
+          <button class="btn primary" onclick="downloadPDF()">Download PDF</button>
         </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleSidebar()">×</div>
-        <ul>
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html"><b>Online Calculators</b></a></li>
-            <li class="theme-selector">
-                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
-                    <option value="legacy">Legacy Theme</option>
-                    <option value="light">Light Theme</option>
-                    <option value="ocean">Ocean Theme</option>
-                    <option value="dark">Dark Theme</option>
-                </select>
-            </li>
-        </ul>
+      </div>
+      <div class="card">
+        <div id="markdown-preview" class="process-mathjax"></div>
+      </div>
     </div>
+  </main>
 
-	<!-- Hidden PDF Content -->
-	<div id="pdf-content" style="position: absolute; top: -9999px; width: 794px;"></div>
+  <div class="footer">
+    <p>easytrig © 2025, Perry Newlin</p>
+    <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/">LinkedIn</a></p>
+  </div>
 
-	<!-- Main Content -->
-    <div class="container" style="width:75%">
-        <div class="section">
-            <h1>Markdown Editor and PDF Generator</h1>
+  <div id="pdf-content" style="position:absolute;top:-9999px;width:794px;"></div>
 
-			<!-- Description Box -->
-			<div class="description" style="font-size:14px">
-				<p>Welcome to our comprehensive Markdown Editor and PDF Generator—the ultimate solution for transforming your ChatGPT outputs into beautifully formatted documents!</p>
-			</div>
-
-            <div class="markdown-editor">
-                <textarea id="markdown-input" placeholder="Enter your markdown here..."></textarea>
-                <button onclick="downloadPDF()">Download PDF</button>
-            </div>
-            <div id="markdown-preview" class="process-mathjax"></div>
-					
-		<div class="description" style="font-size:14px">
-		<p> Designed mainly for enhancing and prettifying ChatGPT-generated content, this tool offers live markdown previews and seamless MathJax rendering for all your math equations. Customize your code snippets with syntax highlighting that adapts to your favorite themes. <p>Perfect for writers, developers, and professionals seeking to polish their ChatGPT responses, our editor lets you effortlessly download your enhanced content as a professional-looking PDF. Turn your AI conversations into stunning documents with ease!</p>
-		</div>
-        </div>
-    </div>
-
-
-
-    <!-- Footer -->
-    <div class="footer">
-        <p>easytrig © 2025, Perry Newlin</p>
-        <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/" style="color: var(--accent-color); text-decoration: none;">My LinkedIn</a></p>
-    </div>
-	<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {      
-			inlineMath: [['$','$'], ['\( ',' \)'], ['\[ ', ' \]']],
-			displayMath: [['$$','$$'], ['\[\n','\n\]']], //YOU CAN USEE THE \n IN HERE FOR A NEW LINE LOOOL
-            processEscapes: true,
-            ignoreClass: "no-mathjax",
-            processClass: "process-mathjax"
-  
-  }
-});
-</script>
-<script>
-// Function to update the preview
-        function updatePreview() {
-            const markdownText = document.getElementById('markdown-input').value;
-            const htmlContent = marked.parse(markdownText);
-            document.getElementById('markdown-preview').innerHTML = htmlContent;
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "markdown-preview"]);
-        }
-
-document.getElementById('markdown-input').addEventListener('input', updatePreview);
-
-updatePreview();
-
-        function downloadPDF() {
-            const originalContent = document.getElementById('markdown-preview');
-            const clonedContent = originalContent.cloneNode(true);
-
-            const pdfContainer = document.createElement('div');
-            pdfContainer.id = 'pdf-container';
-            pdfContainer.style.position = 'absolute';
-            pdfContainer.style.top = '-9999px';
-            pdfContainer.style.left = '-9999px';
-            pdfContainer.style.width = '794px'; //A4 width at 96 DPI
-            pdfContainer.style.maxWidth = 'none';
-
-            pdfContainer.setAttribute('data-theme', document.documentElement.getAttribute('data-theme'));
-            pdfContainer.appendChild(clonedContent);
-            document.body.appendChild(pdfContainer);
-
-            MathJax.Hub.Queue(function() {
-                html2canvas(pdfContainer, {
-                    scale: 2,
-                    width: pdfContainer.offsetWidth,
-                    height: pdfContainer.offsetHeight,
-                    windowWidth: pdfContainer.offsetWidth,
-                    windowHeight: pdfContainer.offsetHeight,
-                }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-
-                    const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
-
-                    const imgWidth = 210; //A4 page width in mm
-                    const pageHeight = 297; //A4 page height in mm
-                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-                    let heightLeft = imgHeight;
-                    let position = 0;
-
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, '', 'FAST');
-                    heightLeft -= pageHeight;
-
-                    while (heightLeft > 0) {
-                        position = heightLeft - imgHeight;
-                        pdf.addPage();
-                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight, '', 'FAST');
-                        heightLeft -= pageHeight;
-                    }
-
-                    pdf.save('document.pdf');
-					
-                    document.body.removeChild(pdfContainer);
-                });
-            });
-        }
-    </script>
-
-</script>
-	
-
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,ignoreClass:"no-mathjax",processClass:"process-mathjax"}});
+  </script>
+  <script>
+    function updatePreview(){
+      const md=document.getElementById('markdown-input').value;
+      const html=marked.parse(md);
+      document.getElementById('markdown-preview').innerHTML=html;
+      MathJax.Hub.Queue(["Typeset",MathJax.Hub,"markdown-preview"]);
+    }
+    document.getElementById('markdown-input').addEventListener('input',updatePreview);
+    updatePreview();
+    async function downloadPDF(){
+      const src=document.getElementById('markdown-preview');
+      const clone=src.cloneNode(true);
+      const pdfContainer=document.createElement('div');
+      pdfContainer.style.position='absolute';pdfContainer.style.top='-9999px';pdfContainer.style.left='-9999px';pdfContainer.style.width='794px';
+      pdfContainer.setAttribute('data-theme',document.documentElement.getAttribute('data-theme'));
+      pdfContainer.appendChild(clone);document.body.appendChild(pdfContainer);
+      await new Promise(r=>MathJax.Hub.Queue(r));
+      const canvas=await html2canvas(pdfContainer,{scale:2});
+      const imgData=canvas.toDataURL('image/png');
+      const {jsPDF}=window.jspdf;const pdf=new jsPDF('p','pt','a4');
+      const pageWidth=pdf.internal.pageSize.getWidth();const pageHeight=pdf.internal.pageSize.getHeight();
+      const ratio=Math.min(pageWidth/canvas.width,pageHeight/canvas.height);
+      const w=canvas.width*ratio,h=canvas.height*ratio;
+      pdf.addImage(imgData,'PNG',(pageWidth-w)/2,20,w,h);pdf.save('markdown.pdf');
+      pdfContainer.remove();
+    }
+  </script>
 </body>
 </html>

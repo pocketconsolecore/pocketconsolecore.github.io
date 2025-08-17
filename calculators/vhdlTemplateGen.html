@@ -1,507 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-    <title>VHDL Entity and Testbench Template Generator</title>
-    <meta name="description" content="Generate VHDL entity templates and testbenches with customizable generics, ports, signals, and standard libraries.">
-	<meta name="keywords" content="VHDL, entity template, generator, generics, ports, signals, std_logic, std_logic_vector, hardware description, vhdl entity generator, vhdl testbench generator">
-
-	<meta name="author" content="Perry Newlin">
-	<meta name="language" content="English">
-
-    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="VHDL Entity and Testbench Template Generator">
-    <meta property="og:description" content="Generate VHDL entity templates and testbenches with customizable generics, ports, signals, and standard libraries.">
-    <meta property="og:image" content="https://www.easytrig.com/images/vhdl_entity_template_generator.png">
-    <meta property="og:url" content="https://www.easytrig.com/calculators/vhdlEntityGenerator.html">
-    <meta property="og:type" content="website">
-	<meta property="og:locale" content="en_US">
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="VHDL Entity and Testbench Template Generator">
-    <meta name="twitter:description" content="Generate VHDL entity templates and testbenches with customizable generics, ports, signals, and standard libraries.">
-    <meta name="twitter:image" content="https://www.easytrig.com/images/vhdl_entity_template_generator.png">
-
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://www.easytrig.com/calculators/vhdlEntityGenerator.html">
-	
-    <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VHDL Entity/Testbench Generator · EasyTrig</title>
+  <meta name="description" content="Generate VHDL entities, architectures, instantiation, and testbenches with generics, ports, and signals.">
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="../style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t)}})();
+    function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('active')}
+    function changeTheme(v){if(v==='default'){document.documentElement.removeAttribute('data-theme');localStorage.removeItem('theme')}else{document.documentElement.setAttribute('data-theme',v);localStorage.setItem('theme',v)}var a=document.getElementById('themeSelect'),b=document.getElementById('themeSelectSidebar');if(a){a.value=v}if(b){b.value=v}}
+    window.addEventListener('DOMContentLoaded',function(){var t=localStorage.getItem('theme')||'default';var a=document.getElementById('themeSelect'),b=document.getElementById('themeSelectSidebar');if(a){a.value=t}if(b){b.value=t}})
+  </script>
 </head>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <body>
+  <nav class="navbar">
+    <a class="logo" href="index.html">Easy<span>trig</span></a>
+    <div class="nav-links">
+      <!--<a href="purchase_easytrig_hardware.html">Hardware</a>-->
+      <a href="index.html">Calculators</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="theme-selector">
+      <select id="themeSelect" onchange="changeTheme(this.value)">
+        <option value="default">Black+Orange</option>
+        <option value="legacy">Legacy</option>
+        <option value="light">Light</option>
+        <option value="ocean">Ocean</option>
+        <option value="dark">Dark</option>
+      </select>
+    </div>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+  </nav>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="../index.html" class="logo">Easytrig</a>
-        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
-        <ul class="nav-links">
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html">Online Calculators</a></li>
-        </ul>
-        <div class="theme-selector">
-            <select id="themeSelect" onchange="changeTheme(this.value)">
-                <option value="legacy">Legacy Theme</option>
-                <option value="light">Light Theme</option>
-                <option value="ocean">Ocean Theme</option>
-                <option value="dark">Dark Theme</option>
-            </select>
+  <div class="sidebar">
+    <div class="close-btn" onclick="toggleSidebar()">×</div>
+    <ul>
+      <!--<li><a href="purchase_easytrig_hardware.html">Hardware</a></li>-->
+      <li><a href="calculators/index.html">Calculators</a></li>
+      <li class="theme-selector">
+        <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+          <option value="default">Black+Orange</option>
+          <option value="legacy">Legacy</option>
+          <option value="light">Light</option>
+          <option value="ocean">Ocean</option>
+          <option value="dark">Dark</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+
+  <main class="container section">
+    <h1>VHDL Entity/Testbench Generator</h1>
+
+    <div class="card">
+      <div class="grid cols-3">
+        <div class="controls">
+          <label>Entity name</label>
+          <input id="entityName" value="my_entity">
+          <label>Architecture name</label>
+          <input id="archName" value="rtl">
         </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleSidebar()">×</div>
-        <ul>
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html">Online Calculators</a></li>
-            <li class="theme-selector">
-                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
-                    <option value="legacy">Legacy Theme</option>
-                    <option value="light">Light Theme</option>
-                    <option value="ocean">Ocean Theme</option>
-                    <option value="dark">Dark Theme</option>
-                </select>
-            </li>
-        </ul>
+        <div class="controls">
+          <label>Libraries</label>
+          <label><input type="checkbox" id="lib1164" checked> ieee.std_logic_1164.all</label>
+          <label><input type="checkbox" id="libNumeric" checked> ieee.numeric_std.all</label>
+          <label><input type="checkbox" id="libMath"> ieee.math_real.all</label>
+          <label><input type="checkbox" id="libTextio"> std.textio.all</label>
+        </div>
+        <div class="controls">
+          <label>Actions</label>
+          <button class="btn primary" onclick="generateAll()">Generate</button>
+          <button class="btn" onclick="copyText('entityOut')">Copy Entity</button>
+          <button class="btn" onclick="copyText('archOut')">Copy Architecture</button>
+          <button class="btn" onclick="copyText('fileOut')">Copy Full File</button>
+          <button class="btn" onclick="copyText('instOut')">Copy Instantiation</button>
+          <button class="btn" onclick="copyText('tbOut')">Copy Testbench</button>
+        </div>
+      </div>
     </div>
 
-    <div class="container section" style="max-width:800px">
-        <h2>VHDL Entity Template Generator</h2>
-		
-			<div class="description">
-				 <p>Generates a VHDL Entity with a testbench.</p>
-			</div><br>
-        
-        <div id="generator">
-            <h3>Include Libraries</h3>
-            <div id="librariesSection">
-                <label><input type="checkbox" id="lib_std_logic_1164" checked> ieee.std_logic_1164.all</label>
-                <label><input type="checkbox" id="lib_numeric_std" checked> ieee.numeric_std.all</label>
-                <label><input type="checkbox" id="lib_math_real"> ieee.math_real.all</label><br>
-            </div>
+    <div class="card">
+      <h3>Generics</h3>
+      <div class="controls">
+        <button class="btn" onclick="addGeneric()">Add Generic</button>
+        <button class="btn" onclick="clearGenerics()">Clear</button>
+      </div>
+      <table class="table" id="genericsTable" style="display:none;">
+        <tr><th>Name</th><th>Type</th><th>Default</th><th>Action</th></tr>
+      </table>
 
-            <h3>Generics</h3>
-            <div id="genericsSection">
-                <button onclick="addGeneric()">Add Generic</button>
-                <table id="genericsTable" style="display:none;">
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Default Value</th>
-                        <th>Action</th>
-                    </tr>
-                </table>
-            </div>
-            
-            <h3>Ports</h3>
-            <div id="portsSection">
-                <button onclick="addPort()">Add Port</button>
-                <table id="portsTable" style="display:none;">
-                    <tr>
-                        <th>Name</th>
-                        <th>Mode</th>
-                        <th>Type</th>
-                        <th>Size</th>
-                        <th>Action</th>
-                    </tr>
-                </table>
-            </div>
-            
-            <h3>Signals</h3>
-            <div id="signalsSection">
-                <button onclick="addSignal()">Add Signal</button>
-                <table id="signalsTable"style="display:none;">
-                    <tr>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Size</th>
-                        <th>Default Value</th>
-                        <th>Action</th>
-                    </tr>
-                </table>
-            </div>
-            
-            <button onclick="generateVHDL()">Generate VHDL Entity</button>
-            
-            <h3>Generated VHDL Code</h3>
-            <pre class="code-view"><code id="vhdlCode"></code></pre>
+      <h3>Ports</h3>
+      <div class="controls">
+        <button class="btn" onclick="addPort()">Add Port</button>
+        <button class="btn" onclick="clearPorts()">Clear</button>
+      </div>
+      <table class="table" id="portsTable" style="display:none;">
+        <tr><th>Name</th><th>Mode</th><th>Type</th><th>Width</th><th>Range</th><th>Action</th></tr>
+      </table>
 
-            <h3>Generated Testbench Code</h3>
-            <pre class="code-view"><code id="testbenchCode"></code></pre>
-			
-			<div class="description">
-				<p>This tool automates the creation of VHDL boilerplate code for setting up a hardware entity and its corresponding testbench.<p> Customize your generics, ports, and signals effortlessly while ensuring adherence to VHDL standards. Save time and reduce errors by letting the generator handle the repetitive tasks, allowing you to focus on the core functionality of your hardware description. Ideal for both beginners and seasoned VHDL developers looking to expedite their design process.</p>
-			</div>
-        </div>
+      <h3>Internal Signals</h3>
+      <div class="controls">
+        <button class="btn" onclick="addSignal()">Add Signal</button>
+        <button class="btn" onclick="clearSignals()">Clear</button>
+      </div>
+      <table class="table" id="signalsTable" style="display:none;">
+        <tr><th>Name</th><th>Type</th><th>Width</th><th>Default</th><th>Range</th><th>Action</th></tr>
+      </table>
     </div>
 
-<script>
-    function toggleSidebar() {
-        const sidebar = document.querySelector('.sidebar');
-        sidebar.classList.toggle('active');
+    <div class="card">
+      <h3>Entity</h3>
+      <pre class="code-view"><code id="entityOut"></code></pre>
+    </div>
+    <div class="card">
+      <h3>Architecture</h3>
+      <pre class="code-view"><code id="archOut"></code></pre>
+    </div>
+    <div class="card">
+      <h3>Full File</h3>
+      <pre class="code-view"><code id="fileOut"></code></pre>
+    </div>
+    <div class="card">
+      <h3>Instantiation Preview</h3>
+      <pre class="code-view"><code id="instOut"></code></pre>
+    </div>
+    <div class="card">
+      <h3>Generated Testbench</h3>
+      <pre class="code-view"><code id="tbOut"></code></pre>
+    </div>
+  </main>
+
+  <div class="footer">
+    <p>easytrig © 2025, Perry Newlin</p>
+    <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/">LinkedIn</a></p>
+  </div>
+
+  <script>
+    let genericCount=0,portCount=0,signalCount=0;
+
+    function sanitize(n){return (n||'').replace(/[^\w]/g,'_')}
+    function ensureShown(t){t.style.display='table'}
+    function maybeHide(t){if(t.rows.length<=1)t.style.display='none'}
+    function onChangeRegen(){generateAll()}
+
+    function addGeneric(){
+      genericCount++;
+      const t=document.getElementById('genericsTable');
+      const r=t.insertRow();r.id='g'+genericCount;
+      r.innerHTML=`<td><input id="gname${genericCount}" oninput="onChangeRegen()"></td>
+                   <td><select id="gtype${genericCount}" onchange="onChangeRegen()">
+                         <option>integer</option><option>natural</option><option>positive</option>
+                         <option>boolean</option><option>std_logic</option><option>std_logic_vector</option>
+                       </select></td>
+                   <td><input id="gdef${genericCount}" oninput="onChangeRegen()"></td>
+                   <td><button onclick="this.parentNode.parentNode.remove();maybeHide(document.getElementById('genericsTable'));generateAll()">Remove</button></td>`;
+      ensureShown(t);generateAll();
+    }
+    function clearGenerics(){const t=document.getElementById('genericsTable');while(t.rows.length>1)t.deleteRow(1);maybeHide(t);generateAll()}
+
+    function addPort(){
+      portCount++;
+      const t=document.getElementById('portsTable');
+      const r=t.insertRow();r.id='p'+portCount;
+      r.innerHTML=`<td><input id="pname${portCount}" oninput="onChangeRegen()"></td>
+                   <td><select id="pmode${portCount}" onchange="onChangeRegen()">
+                         <option>in</option><option>out</option><option>inout</option><option>buffer</option>
+                       </select></td>
+                   <td><select id="ptype${portCount}" onchange="toggleWidth(${portCount});onChangeRegen()">
+                         <option>std_logic</option><option>std_logic_vector</option><option>signed</option><option>unsigned</option>
+                         <option>integer</option><option>natural</option><option>boolean</option>
+                       </select></td>
+                   <td><input id="pwidth${portCount}" type="number" min="1" value="8" disabled oninput="onChangeRegen()"></td>
+                   <td><select id="prange${portCount}" onchange="onChangeRegen()"><option>downto</option><option>to</option></select></td>
+                   <td><button onclick="this.parentNode.parentNode.remove();maybeHide(document.getElementById('portsTable'));generateAll()">Remove</button></td>`;
+      ensureShown(t);generateAll();
+    }
+    function clearPorts(){const t=document.getElementById('portsTable');while(t.rows.length>1)t.deleteRow(1);maybeHide(t);generateAll()}
+    function toggleWidth(i){
+      const tp=document.getElementById('ptype'+i).value
+      const w=document.getElementById('pwidth'+i)
+      w.disabled=!(tp==='std_logic_vector'||tp==='signed'||tp==='unsigned')
     }
 
-    function changeTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        document.getElementById('themeSelect').value = theme;
-        document.getElementById('themeSelectSidebar').value = theme;
+    function addSignal(){
+      signalCount++;
+      const t=document.getElementById('signalsTable');
+      const r=t.insertRow();r.id='s'+signalCount;
+      r.innerHTML=`<td><input id="sname${signalCount}" oninput="onChangeRegen()"></td>
+                   <td><select id="stype${signalCount}" onchange="toggleSWidth(${signalCount});onChangeRegen()">
+                         <option>std_logic</option><option>std_logic_vector</option><option>signed</option><option>unsigned</option>
+                         <option>integer</option><option>natural</option><option>boolean</option>
+                       </select></td>
+                   <td><input id="swidth${signalCount}" type="number" min="1" value="8" disabled oninput="onChangeRegen()"></td>
+                   <td><input id="sdef${signalCount}" oninput="onChangeRegen()"></td>
+                   <td><select id="srange${signalCount}" onchange="onChangeRegen()"><option>downto</option><option>to</option></select></td>
+                   <td><button onclick="this.parentNode.parentNode.remove();maybeHide(document.getElementById('signalsTable'));generateAll()">Remove</button></td>`;
+      ensureShown(t);generateAll();
+    }
+    function clearSignals(){const t=document.getElementById('signalsTable');while(t.rows.length>1)t.deleteRow(1);maybeHide(t);generateAll()}
+    function toggleSWidth(i){
+      const tp=document.getElementById('stype'+i).value
+      const w=document.getElementById('swidth'+i)
+      w.disabled=!(tp==='std_logic_vector'||tp==='signed'||tp==='unsigned')
     }
 
-    // Load saved theme
-    window.onload = function() {
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        document.getElementById('themeSelect').value = savedTheme;
-        document.getElementById('themeSelectSidebar').value = savedTheme;
+    function gatherGenerics(){
+      const t=document.getElementById('genericsTable');const out=[]
+      for(let i=1;i<t.rows.length;i++){
+        const row=t.rows[i]
+        const name=row.querySelector('[id^=gname]').value.trim()
+        const type=row.querySelector('[id^=gtype]').value
+        const def=row.querySelector('[id^=gdef]').value.trim()
+        if(name){out.push({name:sanitize(name),type,def})}
+      }
+      return out
+    }
+    function typeWithWidth(base,width,range){
+      if(base==='std_logic_vector'||base==='signed'||base==='unsigned'){
+        const w=Math.max(1,parseInt(width||1))
+        if(w===1) return 'std_logic'
+        if(range==='to') return base+'(0 to '+(w-1)+')'
+        return base+'('+(w-1)+' downto 0)'
+      }
+      return base
+    }
+    function gatherPorts(){
+      const t=document.getElementById('portsTable');const out=[]
+      for(let i=1;i<t.rows.length;i++){
+        const row=t.rows[i]
+        const name=row.querySelector('[id^=pname]').value.trim()
+        const mode=row.querySelector('[id^=pmode]').value
+        const type=row.querySelector('[id^=ptype]').value
+        const width=row.querySelector('[id^=pwidth]').value
+        const range=row.querySelector('[id^=prange]').value
+        if(name){out.push({name:sanitize(name),mode,type:typeWithWidth(type,width,range)})}
+      }
+      return out
+    }
+    function gatherSignals(){
+      const t=document.getElementById('signalsTable');const out=[]
+      for(let i=1;i<t.rows.length;i++){
+        const row=t.rows[i]
+        const name=row.querySelector('[id^=sname]').value.trim()
+        const type=row.querySelector('[id^=stype]').value
+        const width=row.querySelector('[id^=swidth]').value
+        const range=row.querySelector('[id^=srange]').value
+        const def=row.querySelector('[id^=sdef]').value.trim()
+        if(name){out.push({name:sanitize(name),type:typeWithWidth(type,width,range),def})}
+      }
+      return out
     }
 
-    let genericCount = 0;
-    let portCount = 0;
-    let signalCount = 0;
-
-    function addGeneric() {
-        console.log("hey!");
-        genericCount++;
-        let table = document.getElementById('genericsTable');
-        console.log(genericCount);
-
-        // If the table is hidden, show it
-        if (table.style.display === 'none') {
-            table.style.display = 'table';
-        }
-
-        let row = table.insertRow();
-        row.id = 'genericRow' + genericCount;
-        row.innerHTML = `
-            <td><input type="text" id="genericName${genericCount}" placeholder="Name"></td>
-            <td>
-                <select id="genericType${genericCount}">
-                    <option value="integer">integer</option>
-                    <option value="natural">natural</option>
-                    <option value="positive">positive</option>
-                    <option value="boolean">boolean</option>
-                    <option value="std_logic">std_logic</option>
-                    <option value="std_logic_vector">std_logic_vector</option>
-                </select>
-            </td>
-            <td><input type="text" id="genericDefault${genericCount}" placeholder="Default Value"></td>
-            <td><button onclick="removeGeneric(${genericCount})">Remove</button></td>
-        `;
+    function libsHeader(){
+      const L=[]
+      if(document.getElementById('lib1164').checked){L.push('library ieee;');L.push('use ieee.std_logic_1164.all;')}
+      if(document.getElementById('libNumeric').checked){L.push('use ieee.numeric_std.all;')}
+      if(document.getElementById('libMath').checked){L.push('use ieee.math_real.all;')}
+      if(document.getElementById('libTextio').checked){L.push('library std;');L.push('use std.textio.all;')}
+      return L.join('\n')
     }
 
-    function removeGeneric(id) {
-        let row = document.getElementById('genericRow' + id);
-        row.parentNode.removeChild(row);
-
-        let table = document.getElementById('genericsTable');
-        // If only the header row remains, hide the table
-        if (table.rows.length === 1) {
-            table.style.display = 'none';
-        }
+    function emitGenerics(gen){
+      if(!gen.length) return ''
+      const lines=gen.map(g=>{let s='  '+g.name+' : '+g.type; if(g.def) s+=' := '+g.def; return s})
+      return '  generic (\n'+lines.join(';\n')+'\n  );\n'
+    }
+    function emitPorts(pts){
+      if(!pts.length) return ''
+      const lines=pts.map(p=>'  '+p.name+' : '+p.mode+' '+p.type)
+      return '  port (\n'+lines.join(';\n')+'\n  );\n'
+    }
+    function emitSignals(sigs){
+      if(!sigs.length) return ''
+      const lines=sigs.map(s=>{let x='  signal '+s.name+' : '+s.type; if(s.def) x+=' := '+s.def; return x+';'})
+      return lines.join('\n')
     }
 
-	function addPort() {
-		portCount++;
-		let table = document.getElementById('portsTable');
+    function generateEntityText(name,gen,pts){
+      let s=[]
+      const L=libsHeader(); if(L) s.push(L)
+      if(L) s.push('')
+      s.push('entity '+name+' is')
+      const gtxt=emitGenerics(gen); if(gtxt) s.push(gtxt.trimEnd())
+      const ptxt=emitPorts(pts); if(ptxt) s.push(ptxt.trimEnd())
+      s.push('end '+name+';')
+      return s.join('\n')
+    }
 
-		// If the table is hidden, show it
-		if (table.style.display === 'none') {
-			table.style.display = 'table';
-		}
+    function generateArchText(name,arch,sigs){
+      let s=[]
+      s.push('architecture '+arch+' of '+name+' is')
+      const st=emitSignals(sigs); if(st) s.push(st)
+      s.push('begin')
+      s.push('end '+arch+';')
+      return s.join('\n')
+    }
 
-		let row = table.insertRow();
-		row.id = 'portRow' + portCount;
-		row.innerHTML = `
-			<td><input type="text" id="portName${portCount}" placeholder="Name"></td>
-			<td>
-				<select id="portMode${portCount}">
-					<option value="in">in</option>
-					<option value="out">out</option>
-					<option value="inout">inout</option>
-					<option value="buffer">buffer</option>
-				</select>
-			</td>
-			<td>
-				<select id="portType${portCount}" onchange="togglePortSize(${portCount})">
-					<option value="std_logic">std_logic</option>
-					<option value="std_logic_vector">std_logic_vector</option>
-				</select>
-			</td>
-			<td><input type="text" id="portSize${portCount}" placeholder="Size" disabled></td>
-			<td><button onclick="removePort(${portCount})">Remove</button></td>
-		`;
-	}
+    function generateInstantiation(name,pts,gen){
+      const gmap=gen.filter(g=>g.def&&g.def.trim().length).map(g=>g.name+' => '+g.def)
+      const gtxt=gmap.length?('generic map (\n  '+gmap.join(',\n  ')+'\n)\n'):''
+      const conns=pts.map(p=>'  '+p.name+' => '+p.name)
+      const ptxt=pts.length?('port map (\n'+conns.join(',\n')+'\n);'):('port map();')
+      return 'uut: entity work.'+name+(gtxt?('\n'+gtxt):'')+ptxt
+    }
 
-
-    function togglePortSize(id) {
-        let type = document.getElementById('portType' + id).value;
-        let sizeField = document.getElementById('portSize' + id);
-        if (type === 'std_logic_vector') {
-            sizeField.disabled = false;
+    function testbenchText(tbName,entName,pts,gen){
+      const decls=pts.map(p=>{
+        let t=p.type
+        if(/\bstd_logic_vector\b/.test(t)||/\bsigned\b/.test(t)||/\bunsigned\b/.test(t)){
+          return 'signal '+p.name+' : '+t+' := (others => \'0\');'
+        } else if(/\bstd_logic\b/.test(t)){
+          if(/\bin\b/.test(p.mode)) return 'signal '+p.name+' : '+t+' := \'0\';'
+          return 'signal '+p.name+' : '+t+';'
+        } else if(/\bboolean\b/.test(t)){
+          return 'signal '+p.name+' : boolean := false;'
         } else {
-            sizeField.disabled = true;
-            sizeField.value = '';
+          return 'signal '+p.name+' : '+t+' := 0;'
         }
+      }).join('\n')
+      const L='library ieee;\nuse ieee.std_logic_1164.all;\nuse ieee.numeric_std.all;'
+      const inst=generateInstantiation(entName,pts,gen)
+      return L+'\n\nentity '+sanitize(tbName)+' is\nend '+sanitize(tbName)+';\n\narchitecture sim of '+sanitize(tbName)+' is\n'+decls+'\nbegin\n'+inst+'\n\nend sim;'
     }
 
-	function removePort(id) {
-		let row = document.getElementById('portRow' + id);
-		row.parentNode.removeChild(row);
-
-		let table = document.getElementById('portsTable');
-		// If only the header row remains, hide the table
-		if (table.rows.length === 1) {
-			table.style.display = 'none';
-		}
-	}
-
-	function addSignal() {
-		signalCount++;
-		let table = document.getElementById('signalsTable');
-
-		// If the table is hidden, show it
-		if (table.style.display === 'none') {
-			table.style.display = 'table';
-		}
-
-		let row = table.insertRow();
-		row.id = 'signalRow' + signalCount;
-		row.innerHTML = `
-			<td><input type="text" id="signalName${signalCount}" placeholder="Name"></td>
-			<td>
-				<select id="signalType${signalCount}" onchange="toggleSignalSize(${signalCount})">
-					<option value="std_logic">std_logic</option>
-					<option value="std_logic_vector">std_logic_vector</option>
-				</select>
-			</td>
-			<td><input type="text" id="signalSize${signalCount}" placeholder="Size" disabled></td>
-			<td><input type="text" id="signalDefault${signalCount}" placeholder="Default Value (optional)"></td>
-			<td><button onclick="removeSignal(${signalCount})">Remove</button></td>
-		`;
-	}
-
-    function toggleSignalSize(id) {
-        let type = document.getElementById('signalType' + id).value;
-        let sizeField = document.getElementById('signalSize' + id);
-        if (type === 'std_logic_vector') {
-            sizeField.disabled = false;
-        } else {
-            sizeField.disabled = true;
-            sizeField.value = '';
-        }
+    function generateAll(){
+      const name=sanitize(document.getElementById('entityName').value)||'my_entity'
+      const arch=sanitize(document.getElementById('archName').value)||'rtl'
+      const gen=gatherGenerics()
+      const pts=gatherPorts()
+      const sigs=gatherSignals()
+      const entity=generateEntityText(name,gen,pts)
+      const archTxt=generateArchText(name,arch,sigs)
+      const full=entity+'\n\n'+archTxt
+      const inst=generateInstantiation(name,pts,gen)
+      const tb=testbenchText('tb_'+name,name,pts,gen)
+      document.getElementById('entityOut').textContent=entity
+      document.getElementById('archOut').textContent=archTxt
+      document.getElementById('fileOut').textContent=full
+      document.getElementById('instOut').textContent=inst
+      document.getElementById('tbOut').textContent=tb
     }
 
-	function removeSignal(id) {
-		let row = document.getElementById('signalRow' + id);
-		row.parentNode.removeChild(row);
+    function copyText(id){const el=document.createElement('textarea');el.value=document.getElementById(id).textContent;document.body.appendChild(el);el.select();document.execCommand('copy');el.remove()}
 
-		let table = document.getElementById('signalsTable');
-		// If only the header row remains, hide the table
-		if (table.rows.length === 1) {
-			table.style.display = 'none';
-		}
-	}
+    document.getElementById('entityName').addEventListener('input',generateAll)
+    document.getElementById('archName').addEventListener('input',generateAll)
+    document.getElementById('lib1164').addEventListener('change',generateAll)
+    document.getElementById('libNumeric').addEventListener('change',generateAll)
+    document.getElementById('libMath').addEventListener('change',generateAll)
+    document.getElementById('libTextio').addEventListener('change',generateAll)
 
-
-    function generateVHDL() {
-        let vhdl = "";
-
-        // Include Libraries
-        let libraries = [];
-        if (document.getElementById('lib_std_logic_1164').checked) {
-            libraries.push('library ieee;\nuse ieee.std_logic_1164.all;');
-        }
-        if (document.getElementById('lib_numeric_std').checked) {
-            libraries.push('use ieee.numeric_std.all;');
-        }
-        if (document.getElementById('lib_math_real').checked) {
-            libraries.push('use ieee.math_real.all;');
-        }
-        if (libraries.length > 0) {
-            vhdl += libraries.join('\n') + '\n\n';
-        }
-
-        vhdl += `entity MyEntity is\n`;
-
-        // Generics
-        let generics = [];
-        for (let i = 1; i <= genericCount; i++) {
-            if (document.getElementById('genericName' + i)) {
-                let name = document.getElementById('genericName' + i).value;
-                let type = document.getElementById('genericType' + i).value;
-                let defaultValue = document.getElementById('genericDefault' + i).value;
-                if (name && type) {
-                    let genericLine = `    ${name} : ${type}`;
-                    if (defaultValue) {
-                        genericLine += ` := ${defaultValue}`;
-                    }
-                    generics.push(genericLine);
-                }
-            }
-        }
-
-        if (generics.length > 0) {
-            vhdl += `    generic (\n${generics.join(';\n')}\n    );\n`;
-        }
-
-        // Ports
-        let ports = [];
-        for (let i = 1; i <= portCount; i++) {
-            if (document.getElementById('portName' + i)) {
-                let name = document.getElementById('portName' + i).value;
-                let mode = document.getElementById('portMode' + i).value;
-                let type = document.getElementById('portType' + i).value;
-                let size = document.getElementById('portSize' + i).value;
-                if (name && mode && type) {
-                    if (type === 'std_logic_vector' && size) {
-                        type += `(${parseInt(size) - 1} downto 0)`;
-                    }
-                    ports.push(`    ${name} : ${mode} ${type}`);
-                }
-            }
-        }
-
-        if (ports.length > 0) {
-            vhdl += `    port (\n${ports.join(';\n')}\n    );\n`;
-        }
-
-        vhdl += `end MyEntity;\n\narchitecture Behavioral of MyEntity is\n`;
-
-        // Signals
-        for (let i = 1; i <= signalCount; i++) {
-            if (document.getElementById('signalName' + i)) {
-                let name = document.getElementById('signalName' + i).value;
-                let type = document.getElementById('signalType' + i).value;
-                let size = document.getElementById('signalSize' + i).value;
-                let defaultValue = document.getElementById('signalDefault' + i).value;
-                if (name && type) {
-                    if (type === 'std_logic_vector' && size) {
-                        type += `(${parseInt(size) - 1} downto 0)`;
-                    }
-                    let signalLine = `    signal ${name} : ${type}`;
-                    if (defaultValue) {
-                        signalLine += ` := ${defaultValue}`;
-                    }
-                    signalLine += `;`;
-                    vhdl += signalLine + '\n';
-                }
-            }
-        }
-
-        vhdl += `\nbegin\n\nend Behavioral;`;
-
-        // Syntax highlighting
-        document.getElementById('vhdlCode').innerHTML = syntaxHighlight(vhdl);
-
-        // Generate Testbench
-        generateTestbench(vhdl);
-    }
-
-    function syntaxHighlight(code) {
-        const keywords = ['library', 'use', 'entity', 'is', 'port', 'generic', 'in', 'out', 'inout', 'buffer', 'signal', 'architecture', 'of', 'begin', 'end', 'Behavioral', 'downto', 'to', 'process', 'variable', 'constant', 'wait', 'for', 'if', 'then', 'elsif', 'else', 'loop', 'assert', 'report'];
-        const types = ['std_logic', 'std_logic_vector', 'integer', 'natural', 'positive', 'boolean', 'signed', 'unsigned', 'real'];
-        const commentPattern = /--.*$/gm;
-        const stringPattern = /'[^']*'/g;
-
-        code = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-        code = code.replace(commentPattern, '<span class="comment">$&</span>');
-        code = code.replace(stringPattern, '<span class="string">$&</span>');
-        code = code.replace(new RegExp('\\b(' + keywords.join('|') + ')\\b', 'gi'), '<span class="keyword">$1</span>');
-        code = code.replace(new RegExp('\\b(' + types.join('|') + ')\\b', 'gi'), '<span class="type">$1</span>');
-        return code;
-    }
-
-    function generateTestbench(entityCode) {
-        let tb = "";
-        let entityName = "MyEntity_tb";
-
-        // Extract entity name from the generated VHDL code
-        // Here, we assume the entity name is "MyEntity"
-        let dutEntityName = "MyEntity";
-
-        // Include the same libraries as the main entity
-        let libraries = [];
-        if (document.getElementById('lib_std_logic_1164').checked) {
-            libraries.push('library ieee;\nuse ieee.std_logic_1164.all;');
-        }
-        if (document.getElementById('lib_numeric_std').checked) {
-            libraries.push('use ieee.numeric_std.all;');
-        }
-        if (document.getElementById('lib_math_real').checked) {
-            libraries.push('use ieee.math_real.all;');
-        }
-        if (libraries.length > 0) {
-            tb += libraries.join('\n') + '\n\n';
-        }
-
-        tb += `-- Testbench for ${dutEntityName}\n`;
-        tb += `entity ${entityName} is\n`;
-        tb += `end ${entityName};\n\n`;
-        tb += `architecture Behavioral of ${entityName} is\n\n`;
-
-        // Signals for DUT ports
-        tb += `    -- Signals for DUT ports\n`;
-        for (let i = 1; i <= portCount; i++) {
-            if (document.getElementById('portName' + i)) {
-                let name = document.getElementById('portName' + i).value;
-                let type = document.getElementById('portType' + i).value;
-                let size = document.getElementById('portSize' + i).value;
-                if (name && type) {
-                    if (type === 'std_logic_vector' && size) {
-                        type += `(${parseInt(size) - 1} downto 0)`;
-                    }
-                    tb += `    signal ${name} : ${type} := (others => '0');\n`;
-                }
-            }
-        }
-
-        tb += `\nbegin\n\n`;
-
-        // Instantiate DUT
-        tb += `    -- Instantiate the Unit Under Test (UUT)\n`;
-        tb += `    uut: entity work.${dutEntityName}\n`;
-        tb += `    port map (\n`;
-
-        // Map signals to DUT ports
-        let portMappings = [];
-        for (let i = 1; i <= portCount; i++) {
-            if (document.getElementById('portName' + i)) {
-                let name = document.getElementById('portName' + i).value;
-                if (name) {
-                    portMappings.push(`        ${name} => ${name}`);
-                }
-            }
-        }
-        tb += portMappings.join(',\n') + '\n';
-        tb += `    );\n\n`;
-
-        // Test process
-        tb += `    -- Test process\n`;
-        tb += `    test_proc: process\n`;
-        tb += `    begin\n`;
-        tb += `        -- Initialize Inputs\n`;
-        tb += `        -- Add stimulus here\n\n`;
-        tb += `        wait;\n`;
-        tb += `    end process;\n`;
-
-        tb += `\nend Behavioral;`;
-
-        // Syntax highlighting
-        document.getElementById('testbenchCode').innerHTML = syntaxHighlight(tb);
-    }
-</script>
+    generateAll()
+  </script>
 </body>
-
 </html>

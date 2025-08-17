@@ -1,255 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-    <title>Complex Number Plotter</title>
-    <meta name="description" content="Plot complex numbers as vectors. Calculates vector length.">
-	<meta name="keywords" content="complex numbers, plot vectors, plot complex numbers, how to find length of a vector, plot complex numbers as vectors, vector, vector length, interactive, Perry Newlin">
-
-	<meta name="author" content="Perry Newlin">
-	<meta name="language" content="English">
-
-    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Complex number plotter">
-    <meta property="og:description" content="Plot complex numbers as vectors. Calculates vector length.">
-    <meta property="og:image" content="https://www.easytrig.com/images/complex_number_plotter_easytrig_perry_newlin.png">
-    <meta property="og:url" content="https://www.easytrig.com/calculators/complexPlot.html">
-    <meta property="og:type" content="website">
-	<meta property="og:locale" content="en_US">
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Complex number plotter">
-    <meta name="twitter:description" content="Plot complex numbers as vectors. Calculates vector length.">
-    <meta name="twitter:image" content="https://www.easytrig.com/images/complex_number_plotter_easytrig_perry_newlin.png">
-
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://www.easytrig.com/calculators/complexPlot.html">
-	
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
-	<link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Complex Number Plotter · EasyTrig</title>
+  <meta name="description" content="Plot complex numbers as vectors and compute magnitudes.">
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);}})();
+    function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('active')}
+    function changeTheme(v){if(v==='default'){document.documentElement.removeAttribute('data-theme');localStorage.removeItem('theme')}else{document.documentElement.setAttribute('data-theme',v);localStorage.setItem('theme',v)}var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=v}if(s2){s2.value=v}}
+    window.addEventListener('DOMContentLoaded',function(){var t=localStorage.getItem('theme')||'default';var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=t}if(s2){s2.value=t}});
+  </script>
 </head>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <body>
-
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="../index.html" class="logo">Easytrig</a>
-        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
-        <ul class="nav-links">
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html">Online Calculators</a></li>
-        </ul>
-        <div class="theme-selector">
-            <select id="themeSelect" onchange="changeTheme(this.value)">
-                <option value="legacy">Legacy Theme</option>
-                <option value="light">Light Theme</option>
-                <option value="ocean">Ocean Theme</option>
-                <option value="dark">Dark Theme</option>
-            </select>
-        </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleSidebar()">×</div>
-        <ul>
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="../purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html">Online Calculators</a></li>
-            <li class="theme-selector">
-                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
-                    <option value="legacy">Legacy Theme</option>
-                    <option value="light">Light Theme</option>
-                    <option value="ocean">Ocean Theme</option>
-                    <option value="dark">Dark Theme</option>
-                </select>
-            </li>
-        </ul>
+  <nav class="navbar">
+    <a class="logo" href="index.html">Easy<span>trig</span></a>
+    <div class="nav-links">
+      <!--<a href="software/index.html">Software</a>-->
+      <!--<a href="purchase_easytrig_hardware.html">Hardware</a>-->
+      <a href="calculators/index.html">Calculators</a>
     </div>
-
-    <div class="container section" style="max-width:650px">
-        <h2>Complex Number Plotter</h2>
-        
-        <canvas id="complexCanvas"></canvas>
-        
-        <div id="inputFields">
-            <div class="inputRow">
-                <div>
-                    <label for="realInput">a: </label>
-                    <input type="number" id="realInput" name="realInput" value="0">
-                </div>
-                
-                <div>
-                    <label for="imaginaryInput">bi: </label>
-                    <input type="number" id="imaginaryInput" name="imaginaryInput" value="0">
-                </div>
-				
-				<div class="inputRow">
-                <button onclick="addComplexNumber()">Add</button>
-                <button onclick="clearChart()">Clear Chart</button>
-				</div>
-            </div>
-
-            <div>
-                <center>
-                <label for="colorPicker">Choose a color:</label>
-                <input type="color" id="colorPicker" name="colorPicker" value="#ff0000">
-                </center>
-            </div>
-
-            <div>
-                <label for="zoomSlider">Zoom: </label>
-                <input type="range" id="zoomSlider" min="1" max="50" value="10" onchange="adjustZoom()">
-                <span id="zoomDisplay">1.0x</span>
-            </div>
-        </div>
-
-        <div id="output">
-            <ul id="vectorLengths"></ul>
-        </div>
+    <div class="nav-spacer"></div>
+    <div class="theme-selector">
+      <select id="themeSelect" onchange="changeTheme(this.value)">
+        <option value="default">Black+Orange</option>
+        <option value="legacy">Legacy</option>
+        <option value="light">Light</option>
+        <option value="ocean">Ocean</option>
+        <option value="dark">Dark</option>
+      </select>
     </div>
-	
-	    <!-- Footer -->
-    <div class="footer">
-        <p>easytrig © 2025, Perry Newlin</p>
-        <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/" style="color: var(--accent-color); text-decoration: none;">My LinkedIn</a></p>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+  </nav>
+
+  <div class="sidebar">
+    <div class="close-btn" onclick="toggleSidebar()">×</div>
+    <ul>
+      <!--<li><a href="software/index.html">Software</a></li>-->
+      <!--<li><a href="purchase_easytrig_hardware.html">Hardware</a></li>-->
+      <li><a href="calculators/index.html">Calculators</a></li>
+      <li class="theme-selector">
+        <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+          <option value="default">Black+Orange</option>
+          <option value="legacy">Legacy</option>
+          <option value="light">Light</option>
+          <option value="ocean">Ocean</option>
+          <option value="dark">Dark</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+
+  <main class="container section">
+    <h1>Complex Number Plotter</h1>
+    <div class="card">
+      <div class="controls">
+        <button class="btn" onclick="fitView()">Fit</button>
+        <button class="btn" onclick="zoomView(0.85)">Zoom In</button>
+        <button class="btn" onclick="zoomView(1.15)">Zoom Out</button>
+        <button class="btn" onclick="resetView()">Reset</button>
+        <span class="notice">Scroll to zoom, drag to pan, double-click to reset</span>
+      </div>
+      <div class="canvas-wrap"><canvas id="complexCanvas"></canvas></div>
+      <div class="grid cols-3">
+        <div class="controls">
+          <label>a</label><input type="number" id="realInput" value="0">
+          <label>bi</label><input type="number" id="imaginaryInput" value="0">
+        </div>
+        <div class="controls">
+          <label>Color</label><input type="color" id="colorPicker" value="#ff0000">
+          <div class="controls"><button onclick="addComplexNumber()">Add</button><button onclick="clearChart()">Clear Chart</button></div>
+        </div>
+        <div class="controls">
+          <label>Zoom</label><input type="range" id="zoomSlider" min="1" max="50" value="10" oninput="sliderZoom(this.value)"><span id="zoomDisplay">1.0x</span>
+        </div>
+      </div>
+      <div id="output" class="details"><ul id="vectorLengths"></ul></div>
     </div>
+  </main>
 
-<script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-        }
+  <div class="footer">
+    <p>easytrig © 2025, Perry Newlin</p>
+    <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/">LinkedIn</a></p>
+  </div>
 
-        function changeTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            document.getElementById('themeSelect').value = theme;
-            document.getElementById('themeSelectSidebar').value = theme;
-        }
-
-        //load save theme, change default later?
-        window.onload = function() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.getElementById('themeSelect').value = savedTheme;
-            document.getElementById('themeSelectSidebar').value = savedTheme;
-        }
-
-
-    let ctx = document.getElementById('complexCanvas').getContext('2d');
-    let data = {
-        datasets: []
-    };
-
-    let options = {
-        scales: {
-            x: {
-                min: -10,
-                max: 10
-            },
-            y: {
-                min: -10,
-                max: 10
-            }
-        }
-    };
-
-    let arrowPlugin = {
-        id: 'arrowPlugin',
-        afterDatasetsDraw: function(chart, _, options) {
-            let ctx = chart.ctx;
-            ctx.save();
-            data.datasets.forEach(dataset => {
-                dataset.data.forEach(dataPoint => {
-                    let pixel = chart.scales.x.getPixelForValue(dataPoint.x);
-                    let pixelY = chart.scales.y.getPixelForValue(dataPoint.y);
-                    let originPixel = chart.scales.x.getPixelForValue(0);
-                    let originPixelY = chart.scales.y.getPixelForValue(0);
-                    drawArrow(ctx, originPixel, originPixelY, pixel, pixelY, dataset.borderColor);
-                });
-            });
-            ctx.restore();
-        }
-    };
-
-    function drawArrow(ctx, fromX, fromY, toX, toY, color) {
-        let headLength = 10; 
-        let dx = toX - fromX;
-        let dy = toY - fromY;
-        let angle = Math.atan2(dy, dx);
-        ctx.strokeStyle = color;
-        ctx.fillStyle = color;
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(fromX, fromY);
-        ctx.lineTo(toX, toY);
-        ctx.lineTo(toX - headLength * Math.cos(angle - Math.PI/6), toY - headLength * Math.sin(angle - Math.PI/6));
-        ctx.moveTo(toX, toY);
-        ctx.lineTo(toX - headLength * Math.cos(angle + Math.PI/6), toY - headLength * Math.sin(angle + Math.PI/6));
-        ctx.stroke();
+  <script>
+    const ctx=document.getElementById('complexCanvas').getContext('2d');
+    const data={datasets:[]};
+    const options={animation:false,scales:{x:{min:-10,max:10},y:{min:-10,max:10}}};
+    const arrowPlugin={id:'arrowPlugin',afterDatasetsDraw:function(c){let g=c.ctx;g.save();data.datasets.forEach(ds=>{ds.data.forEach(p=>{let x=c.scales.x.getPixelForValue(p.x);let y=c.scales.y.getPixelForValue(p.y);let ox=c.scales.x.getPixelForValue(0);let oy=c.scales.y.getPixelForValue(0);drawArrow(g,ox,oy,x,y,ds.borderColor);});});g.restore();}};
+    function drawArrow(g,fx,fy,tx,ty,color){let h=10,dx=tx-fx,dy=ty-fy,a=Math.atan2(dy,dx);g.strokeStyle=color;g.fillStyle=color;g.lineWidth=1.5;g.beginPath();g.moveTo(fx,fy);g.lineTo(tx,ty);g.lineTo(tx-h*Math.cos(a-Math.PI/6),ty-h*Math.sin(a-Math.PI/6));g.moveTo(tx,ty);g.lineTo(tx-h*Math.cos(a+Math.PI/6),ty-h*Math.sin(a+Math.PI/6));g.stroke();}
+    const chart=new Chart(ctx,{type:'scatter',data,options,plugins:[arrowPlugin]});
+    const defaultView={xMin:-10,xMax:10,yMin:-10,yMax:10};
+    function setView(xMin,xMax,yMin,yMax){chart.options.scales.x.min=xMin;chart.options.scales.x.max=xMax;chart.options.scales.y.min=yMin;chart.options.scales.y.max=yMax;chart.update('none')}
+    function getView(){const sx=chart.scales.x,sy=chart.scales.y;return {xMin:sx.min,xMax:sx.max,yMin:sy.min,yMax:sy.max}}
+    function zoomAt(f,ax,ay){const v=getView();const nxMin=ax-(ax-v.xMin)*f;const nxMax=ax+(v.xMax-ax)*f;const nyMin=ay-(ay-v.yMin)*f;const nyMax=ay+(v.yMax-ay)*f;setView(nxMin,nxMax,nyMin,nyMax)}
+    function zoomView(f){const v=getView();zoomAt(f,(v.xMin+v.xMax)/2,(v.yMin+v.yMax)/2)}
+    function resetView(){setView(defaultView.xMin,defaultView.xMax,defaultView.yMin,defaultView.yMax)}
+    function fitView(){let xs=[],ys=[];chart.data.datasets.forEach(d=>d.data.forEach(p=>{if(isFinite(p.x)&&isFinite(p.y)){xs.push(p.x);ys.push(p.y)}}));if(!xs.length){resetView();return}const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);const px=(maxX-minX)||1,py=(maxY-minY)||1;setView(minX-0.1*px,maxX+0.1*px,minY-0.1*py,maxY+0.1*py)}
+    function sliderZoom(v){document.getElementById('zoomDisplay').textContent=(+v).toFixed(1)+'x'}
+    function addComplexNumber(){let r=parseFloat(document.getElementById('realInput').value);let i=parseFloat(document.getElementById('imaginaryInput').value);let c=document.getElementById('colorPicker').value;let ds={label:`${r},${i}`,data:[{x:r,y:i}],borderColor:c,showLine:true,pointRadius:0};data.datasets.push(ds);chart.update('none');let L=Math.hypot(r,i);let li=document.createElement('li');li.textContent=`|${r}+${i}i|=${L.toFixed(4)}`;document.getElementById('vectorLengths').appendChild(li);fitView()}
+    function clearChart(){data.datasets=[];chart.update('none');document.getElementById('vectorLengths').innerHTML='';resetView()}
+    function attachZoomPan(c){
+      const el=c.canvas,sx=()=>c.scales.x,sy=()=>c.scales.y;
+      el.addEventListener('wheel',e=>{e.preventDefault();const r=el.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;const ax=sx().getValueForPixel(mx),ay=sy().getValueForPixel(my);const f=(e.deltaY<0)?0.85:1.15;zoomAt(f,ax,ay)},{passive:false});
+      let dragging=false,last=null;
+      el.addEventListener('mousedown',e=>{dragging=true;last={x:e.clientX,y:e.clientY}});
+      window.addEventListener('mouseup',()=>dragging=false);
+      window.addEventListener('mousemove',e=>{
+        if(!dragging)return;
+        const dx=e.clientX-last.x,dy=e.clientY-last.y;last={x:e.clientX,y:e.clientY};
+        const x0=sx().getValueForPixel(0),x1=sx().getValueForPixel(dx),y0=sy().getValueForPixel(0),y1=sy().getValueForPixel(dy);
+        const v=getView();setView(v.xMin-(x1-x0),v.xMax-(x1-x0),v.yMin-(y1-y0),v.yMax-(y1-y0));
+      });
+      el.addEventListener('dblclick',()=>resetView());
+      el.addEventListener('touchstart',e=>{if(e.touches.length===1){dragging=true;last={x:e.touches[0].clientX,y:e.touches[0].clientY}}},{passive:true});
+      el.addEventListener('touchmove',e=>{
+        if(!dragging||e.touches.length!==1)return;
+        const dx=e.touches[0].clientX-last.x,dy=e.touches[0].clientY-last.y;last={x:e.touches[0].clientX,y:e.touches[0].clientY};
+        const x0=sx().getValueForPixel(0),x1=sx().getValueForPixel(dx),y0=sy().getValueForPixel(0),y1=sy().getValueForPixel(dy);
+        const v=getView();setView(v.xMin-(x1-x0),v.xMax-(x1-x0),v.yMin-(y1-y0),v.yMax-(y1-y0));
+      },{passive:true});
+      el.addEventListener('touchend',()=>dragging=false,{passive:true});
     }
-
-    let chart = new Chart(ctx, {
-        type: 'scatter',
-        data: data,
-        options: options,
-        plugins: [arrowPlugin] 
-    });
-
-    function addComplexNumber() {
-        let real = parseFloat(document.getElementById('realInput').value);
-        let imaginary = parseFloat(document.getElementById('imaginaryInput').value);
-        let color = document.getElementById('colorPicker').value;
-        let datasetLabel = `${real}, ${imaginary}`;
-
-        let newDataset = {
-            label: datasetLabel,
-            data: [{
-                x: real,
-                y: imaginary
-            }],
-            borderColor: color,
-            backgroundColor: color
-        };
-
-        data.datasets.push(newDataset);
-        
-        let length = Math.sqrt(real * real + imaginary * imaginary);
-        document.getElementById('vectorLengths').innerHTML += `<li>${real} + ${imaginary}i : ${length.toFixed(2)}</li>`;
-
-        chart.update();
-    }
-
-    function adjustZoom() {
-        let zoomFactor = parseFloat(document.getElementById('zoomSlider').value) / 10;
-        chart.options.scales.x.min = -10 * zoomFactor;
-        chart.options.scales.x.max = 10 * zoomFactor;
-        chart.options.scales.y.min = -10 * zoomFactor;
-        chart.options.scales.y.max = 10 * zoomFactor;
-        document.getElementById('zoomDisplay').textContent = zoomFactor.toFixed(1) + "x";
-        chart.update();
-    }
-
-    function clearChart() {
-        data.datasets = [];
-        document.getElementById('vectorLengths').innerHTML = "";
-        chart.resetZoom(); 
-        chart.update();
-    }
-
-    adjustZoom();
-</script>
+    attachZoomPan(chart);
+  </script>
 </body>
-
 </html>

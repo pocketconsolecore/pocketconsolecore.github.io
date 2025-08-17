@@ -1,225 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phasor Calculator With Steps</title>
-    <meta name="description" content="Add, Subtract, Multiply, or Divide Phasors with step by step instructions.">
-	<meta name="keywords" content="Phasor addition, phasor subtraction, phasor multiplication, phasor division, phasor math operations, how to add phasors, how to multiply phasors">
-	
-	<meta name="author" content="Perry Newlin">
-	<meta name="language" content="English">
-
-	
-	<!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Phasor Calculator With Steps">
-    <meta property="og:description" content="Add, Subtract, Multiply, or Divide Phasors with step by step instructions.">
-    <meta property="og:image" content="https://www.easytrig.com/images/phasor_calculator_with_steps_perry_newlin.png">
-    <meta property="og:url" content="https://www.easytrig.com/calculators/phasorCalculator.html">
-    <meta property="og:type" content="website">
-	<meta property="og:locale" content="en_US">
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Phasor Calculator With Steps">
-    <meta name="twitter:description" content="Add, Subtract, Multiply, or Divide Phasors with step by step instructions.">
-    <meta name="twitter:image" content="https://www.easytrig.com/images/phasor_calculator_with_steps_perry_newlin.png">
-
-    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
-
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://www.easytrig.com/calculators/phasorCalculator.html">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
-    <!-- Stylesheet -->
-	<link rel="stylesheet" href="../style.css">
-
-    <!-- JavaScript -->
-    <script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('active');
-        }
-
-        function changeTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            document.getElementById('themeSelect').value = theme;
-            document.getElementById('themeSelectSidebar').value = theme;
-        }
-
-        // Load saved theme
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light'; // Set light theme as default
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.getElementById('themeSelect').value = savedTheme;
-            document.getElementById('themeSelectSidebar').value = savedTheme;
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phasor Calculator With Steps · EasyTrig</title>
+  <meta name="description" content="Add, subtract, multiply, or divide phasors with step-by-step explanation.">
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+  <link rel="stylesheet" href="../style.css">
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);}})();
+    function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('active')}
+    function changeTheme(v){if(v==='default'){document.documentElement.removeAttribute('data-theme');localStorage.removeItem('theme')}else{document.documentElement.setAttribute('data-theme',v);localStorage.setItem('theme',v)}var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=v}if(s2){s2.value=v}}
+    window.addEventListener('DOMContentLoaded',function(){var t=localStorage.getItem('theme')||'default';var s1=document.getElementById('themeSelect'),s2=document.getElementById('themeSelectSidebar');if(s1){s1.value=t}if(s2){s2.value=t}});
+  </script>
 </head>
-
-<body onload="initTheme();">
-
-    <!-- Navbar -->
-    <nav class="navbar">
-        <a href="../index.html" class="logo">Easytrig</a>
-        <div class="menu-toggle" onclick="toggleSidebar()">&#9776;</div>
-        <ul class="nav-links">
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html">Online Calculators</a></li>
-        </ul>
-        <div class="theme-selector">
-            <select id="themeSelect" onchange="changeTheme(this.value)">
-                <option value="legacy">Legacy Theme</option>
-                <option value="light">Light Theme</option>
-                <option value="ocean">Ocean Theme</option>
-                <option value="dark">Dark Theme</option>
-            </select>
-        </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="close-btn" onclick="toggleSidebar()">×</div>
-        <ul>
-            <li><a href="../software/index.html">Software Downloads</a></li>
-            <li><a href="purchase_easytrig_hardware.html">Purchase Hardware</a></li>
-            <li><a href="index.html">Online Calculators</a></li>
-            <li class="theme-selector">
-                <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
-                    <option value="legacy">Legacy Theme</option>
-                    <option value="light">Light Theme</option>
-                    <option value="ocean">Ocean Theme</option>
-                    <option value="dark">Dark Theme</option>
-                </select>
-            </li>
-        </ul>
+<body>
+  <nav class="navbar">
+    <a class="logo" href="index.html">Easy<span>trig</span></a>
+    <div class="nav-links">
+      <!--<a href="software/index.html">Software</a>-->
+      <!--<a href="purchase_easytrig_hardware.html">Hardware</a>-->
+      <a href="calculators/index.html">Calculators</a>
     </div>
-
-    <!-- Main Content -->
-    <div style="max-width:650px" class="container section">
-        <h2>Phasor Calculator</h2>
-
-        <p>Select Operation:</p>
-		<div class="theme-selector">
-			<select id="operationType">
-				<option value="add">Add</option>
-				<option value="subtract">Subtract</option>
-				<option value="multiply">Multiply</option>
-				<option value="divide">Divide</option>
-			</select>
-		</div>
-
-        <div id="inputFields">
-            <div class="phasor-group">
-                <h4>Phasor 1:</h4>
-                <input type="number" id="amp1Phasor" placeholder="Amplitude 1">
-                <input type="number" id="phase1Phasor" placeholder="Phase 1 (degrees)">
-            </div>
-            <div class="phasor-group">
-                <h4>Phasor 2:</h4>
-                <input type="number" id="amp2Phasor" placeholder="Amplitude 2">
-                <input type="number" id="phase2Phasor" placeholder="Phase 2 (degrees)">
-            </div>
-        </div>
-
-        <button onclick="performPhasorOperation()">Calculate</button>
-
-        <h3>Result:</h3>
-        <p id="result"></p>
-
-        <div class="section">
-            <h3>Steps:</h3>
-            <div id="steps"></div>
-        </div>
+    <div class="nav-spacer"></div>
+    <div class="theme-selector">
+      <select id="themeSelect" onchange="changeTheme(this.value)">
+        <option value="default">Black+Orange</option>
+        <option value="legacy">Legacy</option>
+        <option value="light">Light</option>
+        <option value="ocean">Ocean</option>
+        <option value="dark">Dark</option>
+      </select>
     </div>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+  </nav>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>easytrig © 2025, Perry Newlin</p>
-        <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/" style="color: var(--accent-color); text-decoration: none;">My LinkedIn</a></p>
+  <div class="sidebar">
+    <div class="close-btn" onclick="toggleSidebar()">×</div>
+    <ul>
+      <!--<li><a href="software/index.html">Software</a></li>-->
+      <!--<li><a href="purchase_easytrig_hardware.html">Hardware</a></li>-->
+      <li><a href="calculators/index.html">Calculators</a></li>
+      <li class="theme-selector">
+        <select id="themeSelectSidebar" onchange="changeTheme(this.value)">
+          <option value="default">Black+Orange</option>
+          <option value="legacy">Legacy</option>
+          <option value="light">Light</option>
+          <option value="ocean">Ocean</option>
+          <option value="dark">Dark</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+
+  <main class="container section">
+    <h1>Phasor Calculator</h1>
+    <div class="card">
+      <div class="controls">
+        <label>Operation</label>
+        <select id="operationType">
+          <option value="add">Add</option>
+          <option value="subtract">Subtract</option>
+          <option value="multiply">Multiply</option>
+          <option value="divide">Divide</option>
+        </select>
+      </div>
+      <div class="grid cols-2">
+        <div class="controls">
+          <h3>Phasor 1</h3>
+          <input type="number" id="amp1Phasor" placeholder="Amplitude 1">
+          <input type="number" id="phase1Phasor" placeholder="Phase 1 (deg)">
+        </div>
+        <div class="controls">
+          <h3>Phasor 2</h3>
+          <input type="number" id="amp2Phasor" placeholder="Amplitude 2">
+          <input type="number" id="phase2Phasor" placeholder="Phase 2 (deg)">
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn primary" onclick="performPhasorOperation()">Calculate</button>
+      </div>
+      <h3>Result</h3>
+      <p id="result"></p>
+      <h3>Steps</h3>
+      <div id="steps" class="details"></div>
     </div>
+  </main>
 
-    <script>
-        function performPhasorOperation() {
-            let steps = "";
-            let amp1, phase1, amp2, phase2;
+  <div class="footer">
+    <p>easytrig © 2025, Perry Newlin</p>
+    <p><a href="https://www.linkedin.com/in/perry-newlin-440619198/">LinkedIn</a></p>
+  </div>
 
-            amp1 = parseFloat(document.getElementById("amp1Phasor").value);
-            phase1 = parseFloat(document.getElementById("phase1Phasor").value);
-            amp2 = parseFloat(document.getElementById("amp2Phasor").value);
-            phase2 = parseFloat(document.getElementById("phase2Phasor").value);
-
-            const x1 = amp1 * Math.cos(phase1 * Math.PI / 180);
-            const y1 = amp1 * Math.sin(phase1 * Math.PI / 180);
-            const x2 = amp2 * Math.cos(phase2 * Math.PI / 180);
-            const y2 = amp2 * Math.sin(phase2 * Math.PI / 180);
-
-            steps += `\\[ \\text{Convert to Rectangular Form:} \\]`;
-            steps += `\\[ x_1 = ${amp1.toFixed(2)} \\times \\cos(${phase1.toFixed(2)}^\\circ) = ${x1.toFixed(4)}, \\quad y_1 = ${amp1.toFixed(2)} \\times \\sin(${phase1.toFixed(2)}^\\circ) = ${y1.toFixed(4)} \\]`;
-            steps += `\\[ x_2 = ${amp2.toFixed(2)} \\times \\cos(${phase2.toFixed(2)}^\\circ) = ${x2.toFixed(4)}, \\quad y_2 = ${amp2.toFixed(2)} \\times \\sin(${phase2.toFixed(2)}^\\circ) = ${y2.toFixed(4)} \\]`;
-
-            const operation = document.getElementById("operationType").value;
-            let xTotal, yTotal;
-
-            switch (operation) {
-                case "add":
-                    xTotal = x1 + x2;
-                    yTotal = y1 + y2;
-                    steps += `\\[ \\text{Addition:} \\]`;
-                    steps += `\\[ x_{\\text{Total}} = x_1 + x_2 = ${x1.toFixed(4)} + ${x2.toFixed(4)} = ${xTotal.toFixed(4)} \\]`;
-                    steps += `\\[ y_{\\text{Total}} = y_1 + y_2 = ${y1.toFixed(4)} + ${y2.toFixed(4)} = ${yTotal.toFixed(4)} \\]`;
-                    break;
-                case "subtract":
-                    xTotal = x1 - x2;
-                    yTotal = y1 - y2;
-                    steps += `\\[ \\text{Subtraction:} \\]`;
-                    steps += `\\[ x_{\\text{Total}} = x_1 - x_2 = ${x1.toFixed(4)} - ${x2.toFixed(4)} = ${xTotal.toFixed(4)} \\]`;
-                    steps += `\\[ y_{\\text{Total}} = y_1 - y_2 = ${y1.toFixed(4)} - ${y2.toFixed(4)} = ${yTotal.toFixed(4)} \\]`;
-                    break;
-                case "multiply":
-                    xTotal = x1 * x2 - y1 * y2;
-                    yTotal = x1 * y2 + y1 * x2;
-                    steps += `\\[ \\text{Multiplication:} \\]`;
-                    steps += `\\[ x_{\\text{Total}} = x_1 \\times x_2 - y_1 \\times y_2 = ${x1.toFixed(4)} \\times ${x2.toFixed(4)} - ${y1.toFixed(4)} \\times ${y2.toFixed(4)} = ${xTotal.toFixed(4)} \\]`;
-                    steps += `\\[ y_{\\text{Total}} = x_1 \\times y_2 + y_1 \\times x_2 = ${x1.toFixed(4)} \\times ${y2.toFixed(4)} + ${y1.toFixed(4)} \\times ${x2.toFixed(4)} = ${yTotal.toFixed(4)} \\]`;
-                    break;
-                case "divide":
-                    if (x2 === 0 && y2 === 0) {
-                        document.getElementById("result").innerText = "Division by zero!";
-                        document.getElementById("steps").innerHTML = "";
-                        return;
-                    }
-                    const denom = x2 * x2 + y2 * y2;
-                    xTotal = (x1 * x2 + y1 * y2) / denom;
-                    yTotal = (y1 * x2 - x1 * y2) / denom;
-                    steps += `\\[ \\text{Division:} \\]`;
-                    steps += `\\[ x_{\\text{Total}} = \\frac{x_1 \\times x_2 + y_1 \\times y_2}{x_2^2 + y_2^2} = \\frac{${x1.toFixed(4)} \\times ${x2.toFixed(4)} + ${y1.toFixed(4)} \\times ${y2.toFixed(4)}}{${x2.toFixed(4)}^2 + ${y2.toFixed(4)}^2} = ${xTotal.toFixed(4)} \\]`;
-                    steps += `\\[ y_{\\text{Total}} = \\frac{y_1 \\times x_2 - x_1 \\times y_2}{x_2^2 + y_2^2} = \\frac{${y1.toFixed(4)} \\times ${x2.toFixed(4)} - ${x1.toFixed(4)} \\times ${y2.toFixed(4)}}{${x2.toFixed(4)}^2 + ${y2.toFixed(4)}^2} = ${yTotal.toFixed(4)} \\]`;
-                    break;
-            }
-
-            const amplitude = Math.sqrt(xTotal * xTotal + yTotal * yTotal);
-            const phase = Math.atan2(yTotal, xTotal) * 180 / Math.PI;
-            steps += `\\[ \\text{Convert back to Polar Form:} \\]`;
-            steps += `\\[ \\text{Amplitude} = \\sqrt{x_{\\text{Total}}^2 + y_{\\text{Total}}^2} = \\sqrt{${xTotal.toFixed(4)}^2 + ${yTotal.toFixed(4)}^2} = ${amplitude.toFixed(4)} \\]`;
-            steps += `\\[ \\text{Phase} = \\arctan2(y_{\\text{Total}}, x_{\\text{Total}}) = \\arctan2(${yTotal.toFixed(4)}, ${xTotal.toFixed(4)}) = ${phase.toFixed(2)}^\\circ \\]`;
-
-            document.getElementById("steps").innerHTML = steps;
-
-            //render MathJax equations
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "steps"]);
-
-            document.getElementById("result").innerText = `Amplitude: ${amplitude.toFixed(4)} at Angle: ${phase.toFixed(2)} degrees`;
-        }
-    </script>
+  <script>
+    function performPhasorOperation(){
+      let amp1=parseFloat(document.getElementById("amp1Phasor").value);
+      let phase1=parseFloat(document.getElementById("phase1Phasor").value);
+      let amp2=parseFloat(document.getElementById("amp2Phasor").value);
+      let phase2=parseFloat(document.getElementById("phase2Phasor").value);
+      if([amp1,phase1,amp2,phase2].some(v=>isNaN(v))){document.getElementById("result").innerText="Enter all values.";document.getElementById("steps").innerHTML="";return;}
+      const x1=amp1*Math.cos(phase1*Math.PI/180), y1=amp1*Math.sin(phase1*Math.PI/180);
+      const x2=amp2*Math.cos(phase2*Math.PI/180), y2=amp2*Math.sin(phase2*Math.PI/180);
+      let steps=`\\[\\text{Convert to Rectangular Form}\\]`;
+      steps+=`\\[x_1=${amp1.toFixed(2)}\\cos(${phase1.toFixed(2)}^\\circ)=${x1.toFixed(4)},\\quad y_1=${amp1.toFixed(2)}\\sin(${phase1.toFixed(2)}^\\circ)=${y1.toFixed(4)}\\]`;
+      steps+=`\\[x_2=${amp2.toFixed(2)}\\cos(${phase2.toFixed(2)}^\\circ)=${x2.toFixed(4)},\\quad y_2=${amp2.toFixed(2)}\\sin(${phase2.toFixed(2)}^\\circ)=${y2.toFixed(4)}\\]`;
+      const op=document.getElementById("operationType").value; let xt,yt;
+      if(op==="add"){xt=x1+x2;yt=y1+y2;steps+=`\\[\\text{Addition}\\]\\[x_T=x_1+x_2=${x1.toFixed(4)}+${x2.toFixed(4)}=${xt.toFixed(4)}\\]\\[y_T=y_1+y_2=${y1.toFixed(4)}+${y2.toFixed(4)}=${yt.toFixed(4)}\\]`;}
+      else if(op==="subtract"){xt=x1-x2;yt=y1-y2;steps+=`\\[\\text{Subtraction}\\]\\[x_T=x_1-x_2=${x1.toFixed(4)}-${x2.toFixed(4)}=${xt.toFixed(4)}\\]\\[y_T=y_1-y_2=${y1.toFixed(4)}-${y2.toFixed(4)}=${yt.toFixed(4)}\\]`;}
+      else if(op==="multiply"){xt=x1*x2-y1*y2;yt=x1*y2+y1*x2;steps+=`\\[\\text{Multiplication}\\]\\[x_T=x_1x_2-y_1y_2=${x1.toFixed(4)}\\cdot${x2.toFixed(4)}-${y1.toFixed(4)}\\cdot${y2.toFixed(4)}=${xt.toFixed(4)}\\]\\[y_T=x_1y_2+y_1x_2=${x1.toFixed(4)}\\cdot${y2.toFixed(4)}+${y1.toFixed(4)}\\cdot${x2.toFixed(4)}=${yt.toFixed(4)}\\]`;}
+      else if(op==="divide"){if(x2===0&&y2===0){document.getElementById("result").innerText="Division by zero!";document.getElementById("steps").innerHTML="";return;}const d=x2*x2+y2*y2;xt=(x1*x2+y1*y2)/d;yt=(y1*x2-x1*y2)/d;steps+=`\\[\\text{Division}\\]\\[x_T=\\frac{x_1x_2+y_1y_2}{x_2^2+y_2^2}=\\frac{${x1.toFixed(4)}\\cdot${x2.toFixed(4)}+${y1.toFixed(4)}\\cdot${y2.toFixed(4)}}{${d.toFixed(4)}}=${xt.toFixed(4)}\\]\\[y_T=\\frac{y_1x_2-x_1y_2}{x_2^2+y_2^2}=\\frac{${y1.toFixed(4)}\\cdot${x2.toFixed(4)}-${x1.toFixed(4)}\\cdot${y2.toFixed(4)}}{${d.toFixed(4)}}=${yt.toFixed(4)}\\]`;}
+      const amp=Math.sqrt(xt*xt+yt*yt), phase=(Math.atan2(yt,xt)*180/Math.PI);
+      document.getElementById("result").innerText=`Amplitude ${amp.toFixed(4)}, Phase ${phase.toFixed(2)}°`;
+      document.getElementById("steps").innerHTML=steps;
+      if(window.MathJax&&MathJax.Hub){MathJax.Hub.Queue(["Typeset",MathJax.Hub,"steps"]);}
+    }
+  </script>
 </body>
-
 </html>
