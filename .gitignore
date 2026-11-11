@@ -1,0 +1,5 @@
+node_modules/
+work/
+package.json
+package-lock.json
+tests/

@@ -1,0 +1,14 @@
+Third-party libraries used by the Markdown editor
+
+Marked 18.2.0 — https://github.com/markedjs/marked
+MIT license. See marked-LICENSE.txt.
+
+DOMPurify 3.4.17 — https://github.com/cure53/DOMPurify
+Distributed under the Apache License 2.0. See DOMPurify-LICENSE.txt.
+
+KaTeX 0.19.1 — https://github.com/KaTeX/KaTeX
+MIT license. See katex/LICENSE. Includes the distributed KaTeX fonts.
+
+Browser distributions were obtained from the corresponding versioned npm packages.
+References to unbundled source maps were removed from Marked and DOMPurify.
+These licenses apply to the respective libraries independently of EasyTrig's license.
